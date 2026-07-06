@@ -72,13 +72,20 @@ label, .stCaption, [data-testid="stCaptionContainer"],
 [data-baseweb="select"] > div {{ border-radius: 0 !important; }}
 
 .stButton>button {{
-    border: 1px solid {LINE}; background: transparent; color: {INK};
+    border: 1px solid {LINE}; background: transparent; color: #FFFFFF !important;
     font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
     font-size: .72rem; padding: .5rem 1.1rem;
 }}
-.stButton>button:hover {{ background: {INK}; color: {BG}; border-color: {INK}; }}
-.stButton>button[kind="primary"] {{ background: {ACCENT}; color: #0B0B0D; border-color: {ACCENT}; }}
-.stButton>button[kind="primary"]:hover {{ background: #FFFFFF; border-color: #FFFFFF; }}
+.stButton>button * {{ color: #FFFFFF !important; }}
+.stButton>button:hover {{ background: {BG3}; color: #FFFFFF !important; border-color: {ACCENT}; }}
+.stButton>button[kind="primary"] {{ background: {ACCENT}; color: #FFFFFF !important; border-color: {ACCENT}; }}
+.stButton>button[kind="primary"]:hover {{ background: #C4302B; border-color: #C4302B; color: #FFFFFF !important; }}
+
+/* Larger homepage section titles — no letter-spacing, lighter red for legibility */
+.hp-title {{
+    text-transform: uppercase; letter-spacing: normal; font-size: 1.2rem;
+    font-weight: 800; color: #FF6A5F; margin: 0 0 .5rem 0;
+}}
 
 h1, h2, h3, h4 {{ letter-spacing: -0.02em; font-weight: 900; }}
 h1 {{ font-size: 2.4rem; line-height: 1.02; }}
@@ -713,7 +720,7 @@ def page_landing():
           <h1 style="font-size:4.2rem;line-height:.95;margin:.2rem 0 .4rem 0;color:{INK}">
             FACTOR<span style="color:{ACCENT}">.</span>
           </h1>
-          <p style="font-size:1.25rem;max-width:44ch;font-weight:500;margin:.2rem 0 0 0;color:{INK}">
+          <p style="font-size:1.7rem;line-height:1.25;max-width:34ch;font-weight:600;margin:.4rem 0 0 0;color:{INK}">
             A self-hosted, agentic pipeline that produces
             <b>hallucination-free</b> content — every claim grounded in a verified source.
           </p>
@@ -740,7 +747,7 @@ def page_landing():
 
     # --- Deployment profiles: hybrid vs FULL self-hosted ----------------- #
     st.markdown("<div style='height:1.6rem'></div>", unsafe_allow_html=True)
-    st.markdown('<div class="swiss-kicker">Runs on your own infrastructure — two profiles</div>',
+    st.markdown('<div class="hp-title">Runs on your own infrastructure — two profiles</div>',
                 unsafe_allow_html=True)
     d1, d2 = st.columns(2)
     d1.markdown(
@@ -773,7 +780,7 @@ def page_landing():
 
     # --- Why it won't hallucinate ---------------------------------------- #
     st.markdown("<div style='height:1.6rem'></div>", unsafe_allow_html=True)
-    st.markdown('<div class="swiss-kicker">Why the output won\'t hallucinate</div>',
+    st.markdown('<div class="hp-title">Why the output won\'t hallucinate</div>',
                 unsafe_allow_html=True)
     h1, h2, h3, h4 = st.columns(4)
     for col, t, d in [
@@ -792,7 +799,7 @@ def page_landing():
 
     # --- Pipeline flow strip --------------------------------------------- #
     st.markdown("<div style='height:1.6rem'></div>", unsafe_allow_html=True)
-    st.markdown('<div class="swiss-kicker">The pipeline — a state machine with 8 gates</div>',
+    st.markdown('<div class="hp-title">The pipeline — a state machine with 8 gates</div>',
                 unsafe_allow_html=True)
     flow = "".join(
         f'<span class="pill {"pill-active" if s in ("FACT_CHECKING","HUMAN_REVIEW") else "pill-todo"}">'
@@ -817,7 +824,7 @@ def page_landing():
     )
 
     st.markdown("<div style='height:1.4rem'></div>", unsafe_allow_html=True)
-    st.markdown('<div class="swiss-kicker">Three scenarios you can run</div>',
+    st.markdown('<div class="hp-title">Three scenarios you can run</div>',
                 unsafe_allow_html=True)
     s1, s2, s3 = st.columns(3)
     s1.markdown("**① Happy path**  \nA fully grounded draft clears every gate and publishes.")
