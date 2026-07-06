@@ -56,7 +56,7 @@ MOCK mode is fully functional and deterministic.
 | Mode | When | Behaviour |
 |------|------|-----------|
 | **MOCK** (default) | No `ANTHROPIC_API_KEY` | Canonical outputs from the JSON seed. Deterministic, free, offline. Artificial 0.5–1.3 s/step so the pipeline feels alive. |
-| **LIVE** (optional) | `ANTHROPIC_API_KEY` present | Only the **Writer** (`claude-sonnet-4-5`) and **Fact-checker** (`claude-opus-4-8`) call Claude, against the small seed corpus, `max_tokens ≤ 2000`. Every other step stays mock. Any API failure **falls back to mock with a warning** — it never crashes. |
+| **LIVE** (optional) | `ANTHROPIC_API_KEY` present | Only the **Writer** and **Fact-checker** call the hosted LLM API, against the small seed corpus, `max_tokens ≤ 2000`. Every other step stays mock. Any API failure **falls back to mock with a warning** — it never crashes. |
 
 Toggle **Force MOCK** in the sidebar to ignore a present key.
 
@@ -66,7 +66,7 @@ Toggle **Force MOCK** in the sidebar to ignore a present key.
 
 The flow is **push to GitHub → deploy on Streamlit Cloud**.
 
-1. Push this folder as the repo root (see `../CLAUDE.md` for the layout note).
+1. Push this folder to GitHub — it is the repo root (`app.py` sits at the top level).
 2. On <https://share.streamlit.io> → **New app** → pick the repo/branch.
 3. **Main file path:** `app.py`  *(this folder is the repo root)*.
 4. *(Optional, for LIVE mode)* **Advanced settings → Secrets:**
@@ -88,7 +88,7 @@ engine/
   models.py             # dataclasses: Workspace, Topic, Chunk, Run, Claim, RunEvent
   state_machine.py      # states, per-step agent/model/gate metadata, thresholds
   mock.py               # seed loader + deterministic pipeline generator
-  live.py               # optional Claude calls (Writer, Fact-checker) + fallback
+  live.py               # optional hosted-LLM calls (Writer, Fact-checker) + fallback
 data/
   workspaces.json       # 2 workspaces
   topics.json           # 7 topics (happy / revision / weak-corpus scenarios)

@@ -1,8 +1,8 @@
 """FACTOR — Factual Agentic Content Orchestrator · Streamlit demo.
 
 Entry point: sidebar + page routing. Simulates the 10-agent / 8-gate pipeline
-end-to-end. MOCK mode needs no API key; LIVE mode (optional) calls Claude for
-the Writer and Fact-checker steps and falls back to mock on any failure.
+end-to-end. MOCK mode needs no API key; LIVE mode (optional) calls the hosted
+LLM API for the Writer and Fact-checker steps and falls back to mock on any failure.
 
 Design: Minimalist Swiss / International Typographic Style — strict grid,
 black/white with a single red accent, Helvetica-style type, flush-left.
@@ -377,8 +377,8 @@ def sidebar():
             f'MODE · {mode}</span>', unsafe_allow_html=True)
         if live_key:
             st.checkbox("Force MOCK (ignore API key)", key="force_mock")
-            st.caption("API key detected. LIVE runs Writer + Fact-checker via Claude; "
-                       "other steps stay mock. Failures fall back to mock.")
+            st.caption("API key detected. LIVE runs Writer + Fact-checker via the hosted "
+                       "LLM API; other steps stay mock. Failures fall back to mock.")
         else:
             st.caption("No ANTHROPIC_API_KEY — MOCK only. Set it in st.secrets or env "
                        "to enable LIVE Writer + Fact-checker.")
@@ -643,7 +643,7 @@ def _render_step_expanders(run, ws):
             st.caption(f"alt (EN): {img.get('alt_en','')}")
 
     if a.get("live_used"):
-        st.info("LIVE mode used Claude for: " + ", ".join(sorted(set(a["live_used"]))))
+        st.info("LIVE mode used the hosted LLM for: " + ", ".join(sorted(set(a["live_used"]))))
     for w in a.get("live_warnings", []):
         st.warning(w)
 
@@ -847,9 +847,9 @@ def page_landing():
     d1.markdown(
         f"""<div style="border:1px solid {LINE};background:{BG2};padding:1rem 1.1rem;min-height:210px">
             <div class="swiss-kicker" style="color:{INK}">Profile A · Hybrid</div>
-            <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Claude API for cognition</div>
+            <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Hosted LLM API for cognition</div>
             <div style="font-size:.86rem;color:{MUTE};line-height:1.5">
-              Self-hosted app + corpus on your VPS (Dokploy / Traefik / Docker); Claude runs the
+              Self-hosted app + corpus on your VPS (Dokploy / Traefik / Docker); a hosted LLM API runs the
               10 agents. Fastest to launch.<br><br>
               <b>VPS:</b> 6 vCPU · 16 GB · 100 GB SSD<br>
               <b>Cost:</b> ≈ $0.85–1.00 per bilingual article<br>
@@ -939,7 +939,7 @@ def page_landing():
             st.session_state.entered = True
             st.rerun()
     with b2:
-        mode = ("LIVE (Claude-backed Writer + Fact-checker)" if mode_is_live()
+        mode = ("LIVE (LLM-backed Writer + Fact-checker)" if mode_is_live()
                 else "MOCK (deterministic & free — no API calls)")
         st.caption(f"Running in **{mode}**. This is a simulation — no database, no Redis, no Node. "
                    "Production stack is TypeScript / BullMQ / PostgreSQL.")

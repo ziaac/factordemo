@@ -1,12 +1,12 @@
-"""Optional LIVE mode — real Claude API calls for the Writer and Fact-checker.
+"""Optional LIVE mode — real hosted-LLM API calls for the Writer and Fact-checker.
 
-Everything here is best-effort: if the `anthropic` package is missing, no API
-key is present, or a call fails, the caller (mock engine) catches the exception
-and falls back to the canned output. Only two steps are ever "live" — the rest
-of the pipeline stays mock so the demo remains cheap and deterministic.
+Everything here is best-effort: if the SDK is missing, no API key is present, or
+a call fails, the caller (mock engine) catches the exception and falls back to the
+canned output. Only two steps are ever "live" — the rest of the pipeline stays
+mock so the demo remains cheap and deterministic.
 
-Model choices follow docs/demo-spec.md: Sonnet for the writer, Opus for the
-fact-checker, max_tokens capped at 2000/step.
+Model choices follow docs/demo-spec.md: a standard-tier writer and a
+frontier-tier fact-checker, max_tokens capped at 2000/step.
 """
 
 from __future__ import annotations
@@ -61,7 +61,7 @@ def _chunks_for_topic(seed: dict[str, Any], canned: dict[str, Any]) -> list[dict
 # Writer
 # --------------------------------------------------------------------------- #
 def live_writer(topic, workspace, seed, canned) -> str:
-    """Ask Claude to write a grounded draft from ONLY the research-pack chunks."""
+    """Ask the LLM to write a grounded draft from ONLY the research-pack chunks."""
     chunks = _chunks_for_topic(seed, canned)
     corpus = "\n".join(f"[[chunk:{c['chunk_id']}]] {c['content']}" for c in chunks)
     lang = "Bahasa Indonesia" if workspace.id == "parakita" else "English"
