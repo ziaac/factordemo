@@ -718,6 +718,84 @@ def page_landing():
             unsafe_allow_html=True,
         )
 
+    # --- Deployment profiles: hybrid vs FULL self-hosted ----------------- #
+    st.markdown("<div style='height:1.6rem'></div>", unsafe_allow_html=True)
+    st.markdown('<div class="swiss-kicker">Runs on your own infrastructure — two profiles</div>',
+                unsafe_allow_html=True)
+    d1, d2 = st.columns(2)
+    d1.markdown(
+        """<div style="border:1px solid #111;padding:1rem 1.1rem;min-height:210px">
+            <div class="swiss-kicker" style="color:#111">Profile A · Hybrid</div>
+            <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0">Claude API for cognition</div>
+            <div style="font-size:.86rem;color:#333;line-height:1.5">
+              Self-hosted app + corpus on your VPS (Dokploy / Traefik / Docker); Claude runs the
+              10 agents. Fastest to launch.<br><br>
+              <b>VPS:</b> 6 vCPU · 16 GB · 100 GB SSD<br>
+              <b>Cost:</b> ≈ $0.85–1.00 per bilingual article<br>
+              <b>At 5/day:</b> ≈ $130–160 / month
+            </div>
+        </div>""",
+        unsafe_allow_html=True,
+    )
+    d2.markdown(
+        f"""<div style="border:2px solid {ACCENT};padding:1rem 1.1rem;min-height:210px">
+            <div class="swiss-kicker">Profile B · Full self-hosted</div>
+            <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0">Zero API · data never leaves</div>
+            <div style="font-size:.86rem;color:#333;line-height:1.5">
+              Every model runs on your hardware — nothing is sent to a third party.<br><br>
+              <b>LLM:</b> vLLM · Qwen2.5-72B / Llama-3.3-70B<br>
+              <b>Embeddings:</b> bge-m3 (Ollama) &nbsp;·&nbsp; <b>Images:</b> SDXL / Flux (ComfyUI)<br>
+              <b>Hardware:</b> GPU 48 GB VRAM · no per-token cost
+            </div>
+        </div>""",
+        unsafe_allow_html=True,
+    )
+
+    # --- Why it won't hallucinate ---------------------------------------- #
+    st.markdown("<div style='height:1.6rem'></div>", unsafe_allow_html=True)
+    st.markdown('<div class="swiss-kicker">Why the output won\'t hallucinate</div>',
+                unsafe_allow_html=True)
+    h1, h2, h3, h4 = st.columns(4)
+    for col, t, d in [
+        (h1, "Grounded, RAG-first", "No claim is written from model memory. Every fact comes from a verified corpus chunk."),
+        (h2, "Citation-or-drop", "A claim without a valid source marker is rewritten or removed — never shipped."),
+        (h3, "Independent checker", "The Fact-checker is a separate model with a clean context, so it can't rubber-stamp itself."),
+        (h4, "Human-in-the-loop", "YMYL content gets editor approval at Gate 7; relax to sampling once quality proves out."),
+    ]:
+        col.markdown(
+            f"""<div style="border-top:1px solid #111;padding-top:.5rem;min-height:150px">
+                <div class="swiss-kicker" style="color:{ACCENT}">{t}</div>
+                <div style="font-size:.82rem;color:#444;line-height:1.45">{d}</div>
+            </div>""",
+            unsafe_allow_html=True,
+        )
+
+    # --- Pipeline flow strip --------------------------------------------- #
+    st.markdown("<div style='height:1.6rem'></div>", unsafe_allow_html=True)
+    st.markdown('<div class="swiss-kicker">The pipeline — a state machine with 8 gates</div>',
+                unsafe_allow_html=True)
+    flow = "".join(
+        f'<span class="pill {"pill-active" if s in ("FACT_CHECKING","HUMAN_REVIEW") else "pill-todo"}">'
+        f'{sm.step_label(s)}</span>'
+        for s in sm.PIPELINE_STATES
+    )
+    st.markdown(f'<div style="line-height:2.2">{flow}</div>', unsafe_allow_html=True)
+    st.caption("Grounded generation · independent fact-check · bias & ethics review · "
+               "cross-lingual QA · schema validation · human review · post-publish audit. "
+               "Revisions capped at 3× before a piece is escalated to a human.")
+
+    # --- Corpus / topic-agnostic ----------------------------------------- #
+    st.markdown("<div style='height:1.4rem'></div>", unsafe_allow_html=True)
+    st.markdown(
+        f'<div style="border-left:3px solid {ACCENT};padding-left:.9rem;font-size:.9rem;color:#333">'
+        '<b>Topic-agnostic, multi-workspace.</b> You define each Topic Workspace and its trusted '
+        'sources — official sites, scientific journals, curated books. Journals are harvested '
+        'automatically via OAI-PMH (≈200 open-access endpoints), chunked, embedded into '
+        'PostgreSQL + pgvector, and hybrid-searched (vector + full-text) at write time. '
+        'Output: 2–5 verified, bilingual articles per day, injected straight into your CMS.</div>',
+        unsafe_allow_html=True,
+    )
+
     st.markdown("<div style='height:1.4rem'></div>", unsafe_allow_html=True)
     st.markdown('<div class="swiss-kicker">Three scenarios you can run</div>',
                 unsafe_allow_html=True)
