@@ -7,8 +7,8 @@ a topic-agnostic, grounded content pipeline with **10 agents** and **8 anti-hall
 > BullMQ + PostgreSQL/pgvector (see `../docs/`). This app is pure Python/Streamlit and
 > **simulates** the pipeline — no database, no Redis, no Node, no network required in MOCK mode.
 
-Design: **Minimalist Swiss / International Typographic Style** — strict grid, black/white
-with a single red accent, Helvetica-style type.
+Design: **Professional dark, Minimalist Swiss / International Typographic Style** — strict grid,
+near-black canvas with light ink and a single refined red accent, Helvetica-style type.
 
 ---
 

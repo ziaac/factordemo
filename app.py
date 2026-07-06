@@ -26,14 +26,22 @@ from engine import state_machine as sm
 st.set_page_config(page_title="FACTOR — Demo", page_icon="▮", layout="wide",
                    initial_sidebar_state="collapsed")
 
-ACCENT = "#E30613"  # Swiss red
+# ---- Professional dark design system (Swiss/International Typographic) ---- #
+ACCENT = "#FF453A"   # refined red accent, tuned for dark backgrounds
+BG     = "#0B0B0D"   # app background (near-black)
+BG2    = "#141418"   # panels / cards / sidebar
+BG3    = "#1C1C22"   # hover / raised
+INK    = "#ECECEE"   # primary text
+MUTE   = "#9A9AA4"   # secondary text
+FAINT  = "#5A5A64"   # tertiary / disabled
+LINE   = "#2A2A31"   # hairline borders / rules
 
 VERDICT_COLORS = {
-    "supported": "#111111",
-    "partial": "#6B6B6B",
+    "supported": "#3FB950",   # green
+    "partial": "#D8A72B",     # amber
     "unsupported": ACCENT,
     "contradicted": ACCENT,
-    "pending": "#B0B0B0",
+    "pending": FAINT,
 }
 
 SWISS_CSS = f"""
@@ -42,53 +50,58 @@ SWISS_CSS = f"""
 
 html, body, [class*="css"], .stMarkdown, .stApp {{
     font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-    color: #111111;
+    color: {INK};
 }}
-.stApp {{ background: #FFFFFF; }}
+.stApp {{ background: {BG}; }}
 
-/* Belt-and-suspenders: force dark text on the elements Streamlit themes
-   separately, so nothing renders light-on-white if a visitor is in dark mode. */
-.stApp, .stMarkdown, .stMarkdown p, .stMarkdown li,
+/* Force readable text on every Streamlit-themed element. */
+.stApp, .stMarkdown, .stMarkdown p, .stMarkdown li, h1, h2, h3, h4, h5,
 label, .stCaption, [data-testid="stCaptionContainer"],
-[data-testid="stWidgetLabel"], [data-testid="stMetricLabel"],
+[data-testid="stWidgetLabel"], [data-testid="stMetricValue"],
 .stRadio, .stSelectbox, .stExpander, [data-testid="stExpander"] summary,
-[data-testid="stMetricValue"], .stDataFrame {{ color: #111111 !important; }}
-[data-testid="stMetricLabel"] {{ color: #6B6B6B !important; }}
+[data-testid="stExpander"] p, .stTabs [data-baseweb="tab"] {{ color: {INK} !important; }}
+.stCaption, [data-testid="stCaptionContainer"], [data-testid="stMetricLabel"] {{ color: {MUTE} !important; }}
 
-/* Kill rounded corners / shadows — Swiss is flat and orthogonal */
-.stButton>button, .stSelectbox div, .stExpander, div[data-testid="stExpander"] {{
-    border-radius: 0 !important;
+/* Inputs / selects */
+[data-baseweb="select"] > div, .stTextInput input, .stSelectbox div[role="button"] {{
+    background: {BG2} !important; border-color: {LINE} !important; color: {INK} !important;
 }}
+
+/* Flat, orthogonal — no rounded corners */
+.stButton>button, .stSelectbox div, .stExpander, div[data-testid="stExpander"],
+[data-baseweb="select"] > div {{ border-radius: 0 !important; }}
+
 .stButton>button {{
-    border: 1px solid #111111; background: #FFFFFF; color: #111111;
-    font-weight: 700; letter-spacing: .02em; text-transform: uppercase;
+    border: 1px solid {LINE}; background: transparent; color: {INK};
+    font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
     font-size: .72rem; padding: .5rem 1.1rem;
 }}
-.stButton>button:hover {{ background: #111111; color: #FFFFFF; border-color: #111111; }}
-.stButton>button[kind="primary"] {{ background: {ACCENT}; color: #FFFFFF; border-color: {ACCENT}; }}
-.stButton>button[kind="primary"]:hover {{ background: #111111; border-color: #111111; }}
+.stButton>button:hover {{ background: {INK}; color: {BG}; border-color: {INK}; }}
+.stButton>button[kind="primary"] {{ background: {ACCENT}; color: #0B0B0D; border-color: {ACCENT}; }}
+.stButton>button[kind="primary"]:hover {{ background: #FFFFFF; border-color: #FFFFFF; }}
 
 h1, h2, h3, h4 {{ letter-spacing: -0.02em; font-weight: 900; }}
 h1 {{ font-size: 2.4rem; line-height: 1.02; }}
 
-hr {{ border: none; border-top: 1px solid #111111; margin: 1.1rem 0; }}
+hr {{ border: none; border-top: 1px solid {LINE}; margin: 1.1rem 0; }}
 
 .swiss-kicker {{
     text-transform: uppercase; letter-spacing: .22em; font-size: .68rem;
     font-weight: 700; color: {ACCENT}; margin: 0 0 .2rem 0;
 }}
-.swiss-rule-top {{ border-top: 3px solid #111111; padding-top: .5rem; }}
+.swiss-rule-top {{ border-top: 3px solid {ACCENT}; padding-top: .5rem; }}
 
 .pill {{
     display: inline-block; padding: .18rem .5rem; margin: 2px 3px 2px 0;
     font-size: .64rem; font-weight: 700; letter-spacing: .04em;
-    text-transform: uppercase; border: 1px solid #111; white-space: nowrap;
+    text-transform: uppercase; border: 1px solid {LINE}; color: {MUTE};
+    white-space: nowrap;
 }}
-.pill-done {{ background: #111; color: #fff; border-color: #111; }}
-.pill-active {{ background: {ACCENT}; color: #fff; border-color: {ACCENT}; }}
-.pill-fail {{ background: #fff; color: {ACCENT}; border-color: {ACCENT}; border-width: 2px; }}
-.pill-skip {{ background: #fff; color: #BBB; border-color: #DDD; border-style: dashed; }}
-.pill-todo {{ background: #fff; color: #999; border-color: #DDD; }}
+.pill-done {{ background: {INK}; color: {BG}; border-color: {INK}; }}
+.pill-active {{ background: {ACCENT}; color: #0B0B0D; border-color: {ACCENT}; }}
+.pill-fail {{ background: transparent; color: {ACCENT}; border-color: {ACCENT}; border-width: 2px; }}
+.pill-skip {{ background: transparent; color: {FAINT}; border-color: {LINE}; border-style: dashed; }}
+.pill-todo {{ background: transparent; color: {FAINT}; border-color: {LINE}; }}
 
 .cite {{
     color: {ACCENT}; font-weight: 700; font-size: .74em; vertical-align: super;
@@ -99,12 +112,18 @@ hr {{ border: none; border-top: 1px solid #111111; margin: 1.1rem 0; }}
     font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
     border: 1px solid; margin-left: .4rem;
 }}
-.meta-mono {{ font-family: 'SF Mono','Consolas',monospace; font-size: .8rem; }}
-.aidisc {{ border-left: 3px solid {ACCENT}; padding: .3rem 0 .3rem .8rem; color:#444; }}
+.meta-mono {{ font-family: 'SF Mono','Consolas',monospace; font-size: .8rem; color: {MUTE}; }}
+.aidisc {{ border-left: 3px solid {ACCENT}; padding: .3rem 0 .3rem .8rem; color:{MUTE}; }}
+.card {{ border: 1px solid {LINE}; background: {BG2}; }}
 
-section[data-testid="stSidebar"] {{ background: #F4F4F4; border-right: 1px solid #111; }}
+section[data-testid="stSidebar"] {{ background: {BG2}; border-right: 1px solid {LINE}; }}
 [data-testid="stMetricValue"] {{ font-weight: 900; }}
-.stDataFrame {{ border: 1px solid #111; }}
+[data-testid="stExpander"] {{ border-color: {LINE} !important; background: {BG2}; }}
+.stDataFrame, [data-testid="stTable"] {{ border: 1px solid {LINE}; }}
+.stTabs [data-baseweb="tab-list"] {{ border-bottom: 1px solid {LINE}; }}
+.stTabs [aria-selected="true"] {{ color: {ACCENT} !important; }}
+[data-testid="stAlert"] {{ background: {BG2}; border: 1px solid {LINE}; color: {INK}; }}
+code {{ background: {BG3}; color: {INK}; }}
 </style>
 """
 
@@ -226,7 +245,7 @@ def render_stepper(run):
 
 
 def verdict_tag(v: str) -> str:
-    col = VERDICT_COLORS.get(v, "#111")
+    col = VERDICT_COLORS.get(v, INK)
     return (f'<span class="verdict-tag" style="color:{col};border-color:{col}">'
             f'{v}</span>')
 
@@ -260,9 +279,9 @@ def sidebar():
         st.markdown("---")
         live_key = live.live_available()
         mode = "LIVE" if mode_is_live() else "MOCK"
-        color = ACCENT if mode == "LIVE" else "#111"
+        color = ACCENT if mode == "LIVE" else INK
         st.markdown(
-            f'<span class="pill" style="background:{color};color:#fff;border-color:{color}">'
+            f'<span class="pill" style="background:{color};color:{BG};border-color:{color}">'
             f'MODE · {mode}</span>', unsafe_allow_html=True)
         if live_key:
             st.checkbox("Force MOCK (ignore API key)", key="force_mock")
@@ -484,7 +503,8 @@ def _render_step_expanders(run, ws):
             st.markdown(f"**Reason.** {d.get('reason','')}")
             st.markdown(f'<div style="border-left:3px solid {ACCENT};padding-left:.8rem">'
                         f'<s>{html.escape(d.get("v1_claim",""))}</s></div>', unsafe_allow_html=True)
-            st.markdown(f'<div style="border-left:3px solid #111;padding-left:.8rem">'
+            st.markdown(f'<div style="border-left:3px solid {VERDICT_COLORS["supported"]};'
+                        f'padding-left:.8rem">'
                         f'{html.escape(d.get("v2_claim",""))}</div>', unsafe_allow_html=True)
 
     if "claims" in a:
@@ -493,8 +513,8 @@ def _render_step_expanders(run, ws):
                 st.markdown(
                     f'<b>{c["id"]}</b> {verdict_tag(c["verdict"])} '
                     f'<sup class="cite">[{c["chunk_id"]}]</sup><br>'
-                    f'<span style="color:#333">{html.escape(c["text"])}</span><br>'
-                    f'<span style="color:#777;font-size:.85em">{html.escape(c.get("note",""))}</span>',
+                    f'<span style="color:{INK}">{html.escape(c["text"])}</span><br>'
+                    f'<span style="color:{MUTE};font-size:.85em">{html.escape(c.get("note",""))}</span>',
                     unsafe_allow_html=True)
                 st.markdown("")
 
@@ -523,8 +543,8 @@ def _render_step_expanders(run, ws):
             st.caption("Prompt")
             st.code(img.get("prompt", ""), language=None)
             st.markdown(
-                f'<div style="border:1px solid #111;height:120px;display:flex;'
-                f'align-items:center;justify-content:center;color:#999;'
+                f'<div style="border:1px solid {LINE};background:{BG2};height:120px;display:flex;'
+                f'align-items:center;justify-content:center;color:{MUTE};'
                 f'font-size:.7rem;letter-spacing:.2em;text-transform:uppercase">'
                 f'1200 × 630 · brand-safe illustration (placeholder)</div>',
                 unsafe_allow_html=True)
@@ -575,7 +595,7 @@ def page_article():
     a = run.artifacts
     genre = run.genre
 
-    label = (f'<span class="pill" style="background:{ACCENT};color:#fff;border-color:{ACCENT}">'
+    label = (f'<span class="pill" style="background:{ACCENT};color:{BG};border-color:{ACCENT}">'
              f'AI-ASSISTED</span> <span class="pill">{genre.upper()}</span>')
     if ws.id == "parakita":
         label += ' <span class="pill">TIM PARAKITA</span>'
@@ -688,12 +708,12 @@ def page_landing():
     live_on = live.live_available()
     st.markdown(
         f"""
-        <div style="border-top:6px solid #111;padding-top:.6rem;margin-top:1rem">
+        <div style="border-top:6px solid {ACCENT};padding-top:.6rem;margin-top:1rem">
           <div class="swiss-kicker">Factual Agentic Content Orchestrator</div>
-          <h1 style="font-size:4.2rem;line-height:.95;margin:.2rem 0 .4rem 0">
+          <h1 style="font-size:4.2rem;line-height:.95;margin:.2rem 0 .4rem 0;color:{INK}">
             FACTOR<span style="color:{ACCENT}">.</span>
           </h1>
-          <p style="font-size:1.25rem;max-width:44ch;font-weight:500;margin:.2rem 0 0 0">
+          <p style="font-size:1.25rem;max-width:44ch;font-weight:500;margin:.2rem 0 0 0;color:{INK}">
             A self-hosted, agentic pipeline that produces
             <b>hallucination-free</b> content — every claim grounded in a verified source.
           </p>
@@ -710,10 +730,10 @@ def page_landing():
         (c3, "2", "Languages", "Writes Indonesian, transcreates to English — facts validated once, inherited across locales."),
     ]:
         col.markdown(
-            f"""<div style="border-top:1px solid #111;padding-top:.5rem;min-height:150px">
+            f"""<div style="border-top:1px solid {LINE};padding-top:.5rem;min-height:150px">
                 <div style="font-size:3rem;font-weight:900;line-height:1;color:{ACCENT}">{num}</div>
-                <div class="swiss-kicker" style="color:#111">{label}</div>
-                <div style="font-size:.85rem;color:#444">{desc}</div>
+                <div class="swiss-kicker" style="color:{INK}">{label}</div>
+                <div style="font-size:.85rem;color:{MUTE}">{desc}</div>
             </div>""",
             unsafe_allow_html=True,
         )
@@ -724,10 +744,10 @@ def page_landing():
                 unsafe_allow_html=True)
     d1, d2 = st.columns(2)
     d1.markdown(
-        """<div style="border:1px solid #111;padding:1rem 1.1rem;min-height:210px">
-            <div class="swiss-kicker" style="color:#111">Profile A · Hybrid</div>
-            <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0">Claude API for cognition</div>
-            <div style="font-size:.86rem;color:#333;line-height:1.5">
+        f"""<div style="border:1px solid {LINE};background:{BG2};padding:1rem 1.1rem;min-height:210px">
+            <div class="swiss-kicker" style="color:{INK}">Profile A · Hybrid</div>
+            <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Claude API for cognition</div>
+            <div style="font-size:.86rem;color:{MUTE};line-height:1.5">
               Self-hosted app + corpus on your VPS (Dokploy / Traefik / Docker); Claude runs the
               10 agents. Fastest to launch.<br><br>
               <b>VPS:</b> 6 vCPU · 16 GB · 100 GB SSD<br>
@@ -738,10 +758,10 @@ def page_landing():
         unsafe_allow_html=True,
     )
     d2.markdown(
-        f"""<div style="border:2px solid {ACCENT};padding:1rem 1.1rem;min-height:210px">
+        f"""<div style="border:2px solid {ACCENT};background:{BG2};padding:1rem 1.1rem;min-height:210px">
             <div class="swiss-kicker">Profile B · Full self-hosted</div>
-            <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0">Zero API · data never leaves</div>
-            <div style="font-size:.86rem;color:#333;line-height:1.5">
+            <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Zero API · data never leaves</div>
+            <div style="font-size:.86rem;color:{MUTE};line-height:1.5">
               Every model runs on your hardware — nothing is sent to a third party.<br><br>
               <b>LLM:</b> vLLM · Qwen2.5-72B / Llama-3.3-70B<br>
               <b>Embeddings:</b> bge-m3 (Ollama) &nbsp;·&nbsp; <b>Images:</b> SDXL / Flux (ComfyUI)<br>
@@ -763,9 +783,9 @@ def page_landing():
         (h4, "Human-in-the-loop", "YMYL content gets editor approval at Gate 7; relax to sampling once quality proves out."),
     ]:
         col.markdown(
-            f"""<div style="border-top:1px solid #111;padding-top:.5rem;min-height:150px">
+            f"""<div style="border-top:1px solid {LINE};padding-top:.5rem;min-height:150px">
                 <div class="swiss-kicker" style="color:{ACCENT}">{t}</div>
-                <div style="font-size:.82rem;color:#444;line-height:1.45">{d}</div>
+                <div style="font-size:.82rem;color:{MUTE};line-height:1.45">{d}</div>
             </div>""",
             unsafe_allow_html=True,
         )
@@ -787,7 +807,7 @@ def page_landing():
     # --- Corpus / topic-agnostic ----------------------------------------- #
     st.markdown("<div style='height:1.4rem'></div>", unsafe_allow_html=True)
     st.markdown(
-        f'<div style="border-left:3px solid {ACCENT};padding-left:.9rem;font-size:.9rem;color:#333">'
+        f'<div style="border-left:3px solid {ACCENT};padding-left:.9rem;font-size:.9rem;color:{MUTE}">'
         '<b>Topic-agnostic, multi-workspace.</b> You define each Topic Workspace and its trusted '
         'sources — official sites, scientific journals, curated books. Journals are harvested '
         'automatically via OAI-PMH (≈200 open-access endpoints), chunked, embedded into '

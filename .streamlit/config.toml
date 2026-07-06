@@ -1,10 +1,10 @@
-# Pin the theme so text contrast is consistent for every visitor,
-# regardless of their system / browser dark-mode preference.
-# Minimalist Swiss palette: black text on white, single red accent.
+# Professional dark theme, pinned so every visitor sees the same contrast
+# regardless of their system preference. Swiss palette: light ink on near-black,
+# single refined red accent.
 [theme]
-base = "light"
-primaryColor = "#E30613"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F4F4F4"
-textColor = "#111111"
+base = "dark"
+primaryColor = "#FF453A"
+backgroundColor = "#0B0B0D"
+secondaryBackgroundColor = "#141418"
+textColor = "#ECECEE"
 font = "sans serif"
