@@ -45,6 +45,15 @@ html, body, [class*="css"], .stMarkdown, .stApp {{
 }}
 .stApp {{ background: #FFFFFF; }}
 
+/* Belt-and-suspenders: force dark text on the elements Streamlit themes
+   separately, so nothing renders light-on-white if a visitor is in dark mode. */
+.stApp, .stMarkdown, .stMarkdown p, .stMarkdown li,
+label, .stCaption, [data-testid="stCaptionContainer"],
+[data-testid="stWidgetLabel"], [data-testid="stMetricLabel"],
+.stRadio, .stSelectbox, .stExpander, [data-testid="stExpander"] summary,
+[data-testid="stMetricValue"], .stDataFrame {{ color: #111111 !important; }}
+[data-testid="stMetricLabel"] {{ color: #6B6B6B !important; }}
+
 /* Kill rounded corners / shadows — Swiss is flat and orthogonal */
 .stButton>button, .stSelectbox div, .stExpander, div[data-testid="stExpander"] {{
     border-radius: 0 !important;
