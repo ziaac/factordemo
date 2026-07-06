@@ -23,7 +23,8 @@ from engine import state_machine as sm
 # --------------------------------------------------------------------------- #
 # Page config + Swiss design system
 # --------------------------------------------------------------------------- #
-st.set_page_config(page_title="FACTOR — Demo", page_icon="▮", layout="wide")
+st.set_page_config(page_title="FACTOR — Demo", page_icon="▮", layout="wide",
+                   initial_sidebar_state="collapsed")
 
 ACCENT = "#E30613"  # Swiss red
 
@@ -119,6 +120,7 @@ def _seed():
 def init_state():
     if "seed" not in st.session_state:
         st.session_state.seed = _seed()
+    st.session_state.setdefault("entered", False)
     st.session_state.setdefault("workspace_id", st.session_state.seed["workspaces"][0].id)
     st.session_state.setdefault("current_run", None)
     st.session_state.setdefault("history", [])          # finished runs (dicts)
@@ -274,7 +276,11 @@ def sidebar():
         page = st.radio("View", ["Workspace", "Run pipeline", "Article", "Dashboard"],
                         label_visibility="collapsed")
         st.markdown("---")
-        if st.button("↺ Reset demo", use_container_width=True):
+        cta1, cta2 = st.columns(2)
+        if cta1.button("⌂ Home", use_container_width=True):
+            st.session_state.entered = False
+            st.rerun()
+        if cta2.button("↺ Reset", use_container_width=True):
             reset_demo()
             st.rerun()
         st.caption("Simulation only — no DB, no Redis, no Node. "
@@ -676,11 +682,75 @@ def page_dashboard():
 
 
 # --------------------------------------------------------------------------- #
+# Landing page
+# --------------------------------------------------------------------------- #
+def page_landing():
+    live_on = live.live_available()
+    st.markdown(
+        f"""
+        <div style="border-top:6px solid #111;padding-top:.6rem;margin-top:1rem">
+          <div class="swiss-kicker">Factual Agentic Content Orchestrator</div>
+          <h1 style="font-size:4.2rem;line-height:.95;margin:.2rem 0 .4rem 0">
+            FACTOR<span style="color:{ACCENT}">.</span>
+          </h1>
+          <p style="font-size:1.25rem;max-width:44ch;font-weight:500;margin:.2rem 0 0 0">
+            A self-hosted, agentic pipeline that produces
+            <b>hallucination-free</b> content — every claim grounded in a verified source.
+          </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown("<div style='height:1.4rem'></div>", unsafe_allow_html=True)
+    c1, c2, c3 = st.columns(3)
+    for col, num, label, desc in [
+        (c1, "10", "Agents", "Planner → Researcher → Outliner → Writer → Fact-checker → Bias → Translator → SEO → Image → Publisher."),
+        (c2, "8", "Gates", "From source-sufficiency to independent fact-check to post-publish audit — fail a gate, never ship half-baked."),
+        (c3, "2", "Languages", "Writes Indonesian, transcreates to English — facts validated once, inherited across locales."),
+    ]:
+        col.markdown(
+            f"""<div style="border-top:1px solid #111;padding-top:.5rem;min-height:150px">
+                <div style="font-size:3rem;font-weight:900;line-height:1;color:{ACCENT}">{num}</div>
+                <div class="swiss-kicker" style="color:#111">{label}</div>
+                <div style="font-size:.85rem;color:#444">{desc}</div>
+            </div>""",
+            unsafe_allow_html=True,
+        )
+
+    st.markdown("<div style='height:1.4rem'></div>", unsafe_allow_html=True)
+    st.markdown('<div class="swiss-kicker">Three scenarios you can run</div>',
+                unsafe_allow_html=True)
+    s1, s2, s3 = st.columns(3)
+    s1.markdown("**① Happy path**  \nA fully grounded draft clears every gate and publishes.")
+    s2.markdown(f'**② Revision**  \nAn overclaim is caught by <span style="color:{ACCENT}">Gate 3</span> '
+                "→ REVISING → v2 passes.", unsafe_allow_html=True)
+    s3.markdown(f'**③ Weak corpus**  \nToo few sources → <span style="color:{ACCENT}">Gate 1</span> '
+                "aborts before any draft.", unsafe_allow_html=True)
+
+    st.markdown("---")
+    b1, b2 = st.columns([1, 3])
+    with b1:
+        if st.button("Enter demo ▸", type="primary", use_container_width=True):
+            st.session_state.entered = True
+            st.rerun()
+    with b2:
+        mode = "LIVE (Claude-backed Writer + Fact-checker)" if live_on else "MOCK (no API key — deterministic & free)"
+        st.caption(f"Running in **{mode}**. This is a simulation — no database, no Redis, no Node. "
+                   "Production stack is TypeScript / BullMQ / PostgreSQL.")
+
+
+# --------------------------------------------------------------------------- #
 # Main
 # --------------------------------------------------------------------------- #
 def main():
     st.markdown(SWISS_CSS, unsafe_allow_html=True)
     init_state()
+
+    if not st.session_state.entered:
+        page_landing()
+        return
+
     page = sidebar()
     if page == "Workspace":
         page_workspace()
