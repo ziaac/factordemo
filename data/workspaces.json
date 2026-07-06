@@ -1,0 +1,18 @@
+[
+  {
+    "id": "parakita",
+    "name": "PARAKITA Dental Health",
+    "domain": "Dental & oral health (YMYL)",
+    "languages": ["id", "en"],
+    "credibility_policy": "Every medical claim must cite a chunk with credibility >= 3. Guidelines & systematic reviews (credibility 5) are preferred over primary studies. Average corpus credibility per run must be >= 3.",
+    "description": "Original FACTOR workspace, evolved from the KLINIK PARAKITA CMS article module. Writes in Indonesian, then transcreates to English. Content type: health articles for the public, strictly grounded in curated dental journals."
+  },
+  {
+    "id": "devops",
+    "name": "DevOps Tutorials",
+    "domain": "Software infrastructure & DevOps",
+    "languages": ["en"],
+    "credibility_policy": "Tutorial steps must be validated against official documentation with version pinning. Docs (credibility 5) and maintainer sources outrank blog posts. No step ships without a matching docs chunk.",
+    "description": "Demonstrates FACTOR's topic-agnostic, multi-workspace design. English-only tutorials grounded in official product documentation, showing the 'tutorial' genre where every step is version-pinned to a docs source."
+  }
+]

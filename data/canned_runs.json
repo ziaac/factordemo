@@ -1,0 +1,176 @@
+{
+  "t-fluoride": {
+    "research_pack": [
+      {"chunk_id": "c-fl-01", "score": 0.94, "reason": "Directly explains the remineralization / fluorapatite mechanism (core of the angle)."},
+      {"chunk_id": "c-fl-02", "score": 0.91, "reason": "Antibacterial mechanism: inhibits demineralization and acid production."},
+      {"chunk_id": "c-fl-04", "score": 0.88, "reason": "Concrete, citable dose-response evidence (1000-1500 ppm)."},
+      {"chunk_id": "c-fl-03", "score": 0.85, "reason": "Population-level effect size (25% caries reduction) for the evidence section."}
+    ],
+    "avg_credibility": 5.0,
+    "outline": [
+      {"level": "H2", "heading": "Apa itu fluoride dan bagaimana ia melindungi email", "claim": "Fluoride topikal mendorong remineralisasi email dini menjadi fluorapatit yang lebih tahan asam.", "chunk_id": "c-fl-01"},
+      {"level": "H2", "heading": "Cara fluoride melemahkan bakteri karies", "claim": "Fluoride menghambat demineralisasi dan menurunkan produksi asam bakteri.", "chunk_id": "c-fl-02"},
+      {"level": "H2", "heading": "Bukti manfaatnya", "claim": "Fluoridasi air dikaitkan dengan penurunan karies ~25%; pasta 1000-1500 ppm efektif.", "chunk_id": "c-fl-03"},
+      {"level": "H2", "heading": "Kesimpulan", "claim": "-", "chunk_id": ""}
+    ],
+    "draft_id": "# Cara Kerja Fluoride Mencegah Karies\n\n## Apa itu fluoride dan bagaimana ia melindungi email\n\nFluoride adalah mineral yang berperan penting dalam mencegah gigi berlubang. Fluoride topikal mendorong remineralisasi lesi email tahap awal dengan menarik kembali ion kalsium dan fosfat ke dalam email yang terdemineralisasi, membentuk fluorapatit yang lebih tahan terhadap asam dibanding email aslinya. [[chunk:c-fl-01]]\n\n## Cara fluoride melemahkan bakteri karies\n\nFluoride yang ada di plak dan air liur menghambat demineralisasi di permukaan kristal email sekaligus mengganggu kerja enzim bakteri, sehingga menurunkan produksi asam oleh bakteri kariogenik seperti Streptococcus mutans. [[chunk:c-fl-02]]\n\n## Bukti manfaatnya\n\nPada tingkat populasi, fluoridasi air minum komunitas dikaitkan dengan penurunan karies gigi sekitar 25% pada populasi yang diteliti dibanding komunitas tanpa fluoridasi. [[chunk:c-fl-03]] Untuk penggunaan sehari-hari, pasta gigi dengan kandungan 1000-1500 ppm fluoride memberikan efek pencegahan karies yang bermakna secara klinis, baik pada anak maupun dewasa. [[chunk:c-fl-04]]\n\n## Kesimpulan\n\nFluoride bekerja melalui dua jalur yang saling melengkapi: memperkuat email lewat remineralisasi dan menekan aktivitas bakteri penyebab asam. Menyikat gigi dua kali sehari dengan pasta berfluoride adalah cara paling praktis untuk memanfaatkannya.",
+    "claims": [
+      {"id": "cl1", "text": "Fluoride topikal mendorong remineralisasi email menjadi fluorapatit yang lebih tahan asam.", "chunk_id": "c-fl-01", "verdict": "supported", "note": "Claim matches the source statement closely."},
+      {"id": "cl2", "text": "Fluoride menghambat demineralisasi dan menurunkan produksi asam bakteri.", "chunk_id": "c-fl-02", "verdict": "supported", "note": "Mechanism and organism (S. mutans) both grounded."},
+      {"id": "cl3", "text": "Fluoridasi air dikaitkan dengan penurunan karies sekitar 25%.", "chunk_id": "c-fl-03", "verdict": "supported", "note": "Figure and framing ('populations studied') preserved."},
+      {"id": "cl4", "text": "Pasta gigi 1000-1500 ppm fluoride efektif secara klinis mencegah karies.", "chunk_id": "c-fl-04", "verdict": "supported", "note": "Concentration range and effect preserved."}
+    ],
+    "verdict": "pass",
+    "bias": {"score": 4.7, "notes": ["No commercial hard-sell of the clinic.", "No overclaiming ('pasti sembuh' absent).", "Risk/benefit balanced; recommends routine habit, not a product brand.", "Readability appropriate for general public."]},
+    "translation_en": "# How Fluoride Prevents Cavities\n\n## What fluoride is and how it protects enamel\n\nFluoride is a mineral that plays a key role in preventing tooth decay. Topical fluoride promotes remineralization of early enamel lesions by drawing calcium and phosphate ions back into demineralized enamel, forming fluorapatite, which is more acid-resistant than the original enamel. [[chunk:c-fl-01]]\n\n## How fluoride weakens cavity-causing bacteria\n\nFluoride present in plaque and saliva inhibits demineralization at the enamel crystal surface and interferes with bacterial enzyme activity, reducing acid production by cariogenic bacteria such as Streptococcus mutans. [[chunk:c-fl-02]]\n\n## The evidence\n\nAt the population level, community water fluoridation is associated with roughly a 25% reduction in dental caries in the populations studied compared with non-fluoridated communities. [[chunk:c-fl-03]] For everyday use, toothpaste containing 1000-1500 ppm fluoride provides a clinically meaningful caries-preventive effect in both children and adults. [[chunk:c-fl-04]]\n\n## Conclusion\n\nFluoride works through two complementary routes: strengthening enamel via remineralization and suppressing the activity of acid-producing bacteria. Brushing twice a day with a fluoride toothpaste is the most practical way to benefit from it.",
+    "qa": {"status": "pass", "notes": "No meaning drift between ID and EN; all four citation markers preserved; no facts added or dropped."},
+    "meta": {
+      "id": {"meta_title": "Cara Kerja Fluoride Mencegah Karies", "meta_description": "Fluoride mencegah gigi berlubang lewat remineralisasi email dan menekan bakteri asam. Simak buktinya.", "slug": "cara-kerja-fluoride-mencegah-karies", "keywords": ["fluoride", "karies", "remineralisasi", "kesehatan gigi"], "reading_time_min": 3},
+      "en": {"meta_title": "How Fluoride Prevents Cavities", "meta_description": "Fluoride prevents cavities by remineralizing enamel and suppressing acid-producing bacteria. See the evidence.", "slug": "how-fluoride-prevents-cavities", "keywords": ["fluoride", "cavities", "remineralization", "dental health"], "reading_time_min": 3}
+    },
+    "image": {"prompt": "Flat vector illustration, PARAKITA brand palette (teal & white), a stylized tooth with a protective mineral shield, calcium ions flowing into enamel; no text, no realistic patient photo.", "alt_id": "Ilustrasi gigi dengan lapisan pelindung mineral fluoride.", "alt_en": "Illustration of a tooth with a protective fluoride mineral layer."},
+    "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan konsultasi dengan dokter gigi. Konsultasikan kondisi Anda ke tenaga profesional.",
+    "disclaimer_en": "This article is informational and does not replace consultation with a dentist. Please consult a professional about your condition."
+  },
+
+  "t-rootcanal": {
+    "research_pack": [
+      {"chunk_id": "c-rc-01", "score": 0.93, "reason": "Guideline stating the clinical indication for root canal (irreversible pulpitis / necrosis)."},
+      {"chunk_id": "c-rc-02", "score": 0.90, "reason": "Systematic-review success-rate figures (83-93%) — key for the outcome claim."},
+      {"chunk_id": "c-rc-03", "score": 0.86, "reason": "Pain / anaesthesia evidence to counter the 'painless' myth accurately."},
+      {"chunk_id": "c-rc-04", "score": 0.82, "reason": "Alternatives (extraction + prosthetic) for a balanced decision section."}
+    ],
+    "avg_credibility": 4.5,
+    "outline": [
+      {"level": "H2", "heading": "Kapan perawatan saluran akar diperlukan", "claim": "Diindikasikan saat pulpa mengalami pulpitis ireversibel atau nekrosis.", "chunk_id": "c-rc-01"},
+      {"level": "H2", "heading": "Seberapa besar tingkat keberhasilannya", "claim": "Tingkat keberhasilan dilaporkan sekitar 83-93%.", "chunk_id": "c-rc-02"},
+      {"level": "H2", "heading": "Apakah menyakitkan?", "claim": "Dilakukan dengan bius lokal; nyeri saat prosedur setara tambalan rutin.", "chunk_id": "c-rc-03"},
+      {"level": "H2", "heading": "Alternatif bila gigi tidak bisa dipertahankan", "claim": "Pencabutan lalu penggantian prostetik adalah alternatif.", "chunk_id": "c-rc-04"}
+    ],
+    "draft_id_v1": "# Perawatan Saluran Akar: Kapan Diperlukan\n\n## Kapan perawatan saluran akar diperlukan\n\nPerawatan saluran akar diindikasikan ketika pulpa gigi mengalami peradangan yang tidak dapat pulih kembali (pulpitis ireversibel) atau telah mati (nekrosis), biasanya ditandai nyeri berkepanjangan terhadap rangsang panas/dingin atau nyeri spontan. [[chunk:c-rc-01]]\n\n## Seberapa besar tingkat keberhasilannya\n\nPerawatan saluran akar adalah prosedur yang sangat andal; tingkat keberhasilannya mencapai hampir 100% sehingga gigi praktis dijamin bertahan seumur hidup. [[chunk:c-rc-02]]\n\n## Apakah menyakitkan?\n\nProsedur ini dilakukan dengan bius lokal, dan sebagian besar pasien melaporkan tingkat nyeri saat perawatan setara dengan penambalan gigi rutin, meski rasa tidak nyaman selama beberapa hari sesudahnya sering terjadi. [[chunk:c-rc-03]]\n\n## Alternatif bila gigi tidak bisa dipertahankan\n\nBila gigi tidak dapat direstorasi atau prognosisnya buruk, pencabutan yang diikuti penggantian prostetik (implan atau jembatan) menjadi alternatif dari perawatan saluran akar. [[chunk:c-rc-04]]",
+    "claims_v1": [
+      {"id": "cl1", "text": "Diindikasikan saat pulpitis ireversibel atau nekrosis.", "chunk_id": "c-rc-01", "verdict": "supported", "note": "Indication matches the guideline."},
+      {"id": "cl2", "text": "Tingkat keberhasilan mencapai hampir 100% dan gigi dijamin bertahan seumur hidup.", "chunk_id": "c-rc-02", "verdict": "contradicted", "note": "Source reports 83-93% success, NOT ~100%, and makes no lifetime guarantee. Overclaim contradicts the cited chunk."},
+      {"id": "cl3", "text": "Dilakukan dengan bius lokal; nyeri setara tambalan rutin.", "chunk_id": "c-rc-03", "verdict": "supported", "note": "Accurately reflects the source, including post-op discomfort."},
+      {"id": "cl4", "text": "Pencabutan + prostetik adalah alternatif bila gigi tak bisa dipertahankan.", "chunk_id": "c-rc-04", "verdict": "supported", "note": "Alternative correctly grounded."}
+    ],
+    "verdict_v1": "revise",
+    "draft_id": "# Perawatan Saluran Akar: Kapan Diperlukan\n\n## Kapan perawatan saluran akar diperlukan\n\nPerawatan saluran akar diindikasikan ketika pulpa gigi mengalami peradangan yang tidak dapat pulih kembali (pulpitis ireversibel) atau telah mati (nekrosis), biasanya ditandai nyeri berkepanjangan terhadap rangsang panas/dingin atau nyeri spontan. [[chunk:c-rc-01]]\n\n## Seberapa besar tingkat keberhasilannya\n\nTinjauan sistematik melaporkan tingkat keberhasilan perawatan saluran akar primer berkisar sekitar 83-93%, bergantung pada kondisi awal gigi dan lama pemantauan. [[chunk:c-rc-02]]\n\n## Apakah menyakitkan?\n\nProsedur ini dilakukan dengan bius lokal, dan sebagian besar pasien melaporkan tingkat nyeri saat perawatan setara dengan penambalan gigi rutin, meski rasa tidak nyaman selama beberapa hari sesudahnya sering terjadi. [[chunk:c-rc-03]]\n\n## Alternatif bila gigi tidak bisa dipertahankan\n\nBila gigi tidak dapat direstorasi atau prognosisnya buruk, pencabutan yang diikuti penggantian prostetik (implan atau jembatan) menjadi alternatif dari perawatan saluran akar. [[chunk:c-rc-04]]",
+    "claims": [
+      {"id": "cl1", "text": "Diindikasikan saat pulpitis ireversibel atau nekrosis.", "chunk_id": "c-rc-01", "verdict": "supported", "note": "Indication matches the guideline."},
+      {"id": "cl2", "text": "Tingkat keberhasilan dilaporkan sekitar 83-93% tergantung kondisi awal.", "chunk_id": "c-rc-02", "verdict": "supported", "note": "Now matches the cited range; overclaim removed."},
+      {"id": "cl3", "text": "Dilakukan dengan bius lokal; nyeri setara tambalan rutin.", "chunk_id": "c-rc-03", "verdict": "supported", "note": "Accurately reflects the source."},
+      {"id": "cl4", "text": "Pencabutan + prostetik adalah alternatif bila gigi tak bisa dipertahankan.", "chunk_id": "c-rc-04", "verdict": "supported", "note": "Alternative correctly grounded."}
+    ],
+    "verdict": "pass",
+    "diff": {"reason": "Gate 3 flagged claim cl2 as CONTRADICTED: the draft said the success rate is 'nearly 100%' with a lifetime guarantee, but source c-rc-02 reports 83-93% and makes no such guarantee.", "v1_claim": "Tingkat keberhasilannya mencapai hampir 100% sehingga gigi praktis dijamin bertahan seumur hidup.", "v2_claim": "Tinjauan sistematik melaporkan tingkat keberhasilan berkisar sekitar 83-93%, bergantung pada kondisi awal gigi dan lama pemantauan."},
+    "bias": {"score": 4.5, "notes": ["Overclaiming removed in revision — now reports evidence-based range.", "No hard-sell; presents extraction as a legitimate alternative (risk/benefit balance).", "Encourages professional consultation."]},
+    "translation_en": "# Root Canal Treatment: When It Is Needed\n\n## When a root canal is needed\n\nRoot canal treatment is indicated when the dental pulp is irreversibly inflamed (irreversible pulpitis) or has died (necrosis), usually signalled by lingering pain to hot/cold stimuli or spontaneous pain. [[chunk:c-rc-01]]\n\n## How successful is it\n\nSystematic reviews report success rates for primary root canal treatment of roughly 83-93%, depending on the tooth's preoperative condition and the length of follow-up. [[chunk:c-rc-02]]\n\n## Does it hurt?\n\nThe procedure is performed under local anaesthesia, and most patients report pain during treatment comparable to a routine filling, although some discomfort for a few days afterwards is common. [[chunk:c-rc-03]]\n\n## Alternatives when a tooth cannot be saved\n\nWhen a tooth is unrestorable or has a poor prognosis, extraction followed by prosthetic replacement (an implant or bridge) is the alternative to root canal treatment. [[chunk:c-rc-04]]",
+    "qa": {"status": "pass", "notes": "Corrected success-rate figure carried over faithfully to EN; no drift; four markers preserved."},
+    "meta": {
+      "id": {"meta_title": "Perawatan Saluran Akar: Kapan Diperlukan", "meta_description": "Kenali indikasi, tingkat keberhasilan (83-93%), rasa sakit, dan alternatif perawatan saluran akar.", "slug": "perawatan-saluran-akar-kapan-diperlukan", "keywords": ["saluran akar", "endodontik", "pulpitis", "gigi"], "reading_time_min": 4},
+      "en": {"meta_title": "Root Canal Treatment: When It Is Needed", "meta_description": "Understand the indications, success rate (83-93%), pain, and alternatives to root canal treatment.", "slug": "root-canal-treatment-when-needed", "keywords": ["root canal", "endodontics", "pulpitis", "tooth"], "reading_time_min": 4}
+    },
+    "image": {"prompt": "Flat vector illustration, PARAKITA teal palette, cross-section of a molar showing a cleaned root canal, calm and clinical; no text, no realistic patient photo.", "alt_id": "Ilustrasi penampang gigi geraham dengan saluran akar yang telah dirawat.", "alt_en": "Illustration of a molar cross-section with a treated root canal."},
+    "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan konsultasi dengan dokter gigi. Konsultasikan kondisi Anda ke tenaga profesional.",
+    "disclaimer_en": "This article is informational and does not replace consultation with a dentist. Please consult a professional about your condition."
+  },
+
+  "t-sealant": {
+    "research_pack": [
+      {"chunk_id": "c-ds-01", "score": 0.92, "reason": "Cochrane-grade evidence that sealants reduce occlusal caries in children."},
+      {"chunk_id": "c-ds-03", "score": 0.87, "reason": "Non-invasive procedure description — supports the 'painless' section."},
+      {"chunk_id": "c-ds-02", "score": 0.84, "reason": "Retention & review guidance for the maintenance section."},
+      {"chunk_id": "c-ds-04", "score": 0.80, "reason": "Risk-based cost-effectiveness for the 'who benefits most' section."}
+    ],
+    "avg_credibility": 4.5,
+    "outline": [
+      {"level": "H2", "heading": "Apa itu dental sealant", "claim": "Sealant resin mengurangi karies oklusal pada molar permanen anak.", "chunk_id": "c-ds-01"},
+      {"level": "H2", "heading": "Apakah pemasangannya menyakitkan", "claim": "Pemasangan non-invasif tanpa mengurangi struktur gigi.", "chunk_id": "c-ds-03"},
+      {"level": "H2", "heading": "Perawatan setelah pemasangan", "claim": "Retensi menentukan efektivitas; pemeriksaan berkala dianjurkan.", "chunk_id": "c-ds-02"},
+      {"level": "H2", "heading": "Untuk siapa paling bermanfaat", "claim": "Paling bermanfaat untuk anak berisiko karies tinggi.", "chunk_id": "c-ds-04"}
+    ],
+    "draft_id": "# Manfaat Dental Sealant untuk Anak\n\n## Apa itu dental sealant\n\nDental sealant adalah lapisan pelindung tipis yang dioleskan pada permukaan kunyah gigi. Sealant resin pada pit dan fissure terbukti mengurangi kejadian karies oklusal pada gigi geraham permanen anak dan remaja dibandingkan tanpa sealant, dengan efek pencegahan bertahan beberapa tahun selama sealant masih utuh. [[chunk:c-ds-01]]\n\n## Apakah pemasangannya menyakitkan\n\nPemasangan sealant adalah prosedur non-invasif yang tidak memerlukan pengurangan struktur gigi; permukaan gigi cukup dibersihkan, di-etsa, lalu resin diaplikasikan dan disinari agar mengeras. [[chunk:c-ds-03]]\n\n## Perawatan setelah pemasangan\n\nRetensi sealant adalah penentu utama efektivitasnya; pemeriksaan klinis berkala dianjurkan untuk mendeteksi dan memperbaiki sealant yang lepas, terutama pada tahun pertama setelah pemasangan. [[chunk:c-ds-02]]\n\n## Untuk siapa paling bermanfaat\n\nAnalisis biaya-manfaat menunjukkan sealant paling bermanfaat untuk gigi dan kelompok anak dengan risiko karies tinggi. [[chunk:c-ds-04]]",
+    "claims": [
+      {"id": "cl1", "text": "Sealant resin mengurangi karies oklusal pada molar permanen anak.", "chunk_id": "c-ds-01", "verdict": "supported", "note": "Effect and population match the systematic review."},
+      {"id": "cl2", "text": "Pemasangan non-invasif tanpa mengurangi struktur gigi.", "chunk_id": "c-ds-03", "verdict": "supported", "note": "Technique correctly described."},
+      {"id": "cl3", "text": "Retensi menentukan efektivitas; pemeriksaan berkala dianjurkan.", "chunk_id": "c-ds-02", "verdict": "supported", "note": "Maintenance guidance grounded."},
+      {"id": "cl4", "text": "Sealant paling bermanfaat untuk anak berisiko karies tinggi.", "chunk_id": "c-ds-04", "verdict": "partial", "note": "Source supports risk-based benefit; 'anak' is a reasonable specialization of 'populations at elevated risk' but slightly narrows scope."}
+    ],
+    "verdict": "pass",
+    "bias": {"score": 4.6, "notes": ["No brand promotion.", "Presents benefit as risk-dependent, not universal — avoids overclaiming.", "Reassuring but accurate about the procedure."]},
+    "translation_en": "# The Benefits of Dental Sealants for Children\n\n## What a dental sealant is\n\nA dental sealant is a thin protective coating applied to the chewing surfaces of teeth. Resin pit-and-fissure sealants have been shown to reduce the occurrence of occlusal caries in the permanent molars of children and adolescents compared with no sealant, with the preventive effect lasting several years while the sealant stays intact. [[chunk:c-ds-01]]\n\n## Does placement hurt?\n\nSealant placement is a non-invasive procedure that does not require removing tooth structure; the surface is simply cleaned, etched, and the resin is applied and light-cured to harden. [[chunk:c-ds-03]]\n\n## Care after placement\n\nSealant retention is the main determinant of effectiveness; periodic clinical review is recommended to detect and repair lost sealant, especially in the first year after placement. [[chunk:c-ds-02]]\n\n## Who benefits most\n\nCost-effectiveness analyses show sealants are most beneficial for teeth and groups of children at elevated caries risk. [[chunk:c-ds-04]]",
+    "qa": {"status": "pass", "notes": "All four markers preserved; the 'partial' claim's nuance retained in EN."},
+    "meta": {
+      "id": {"meta_title": "Manfaat Dental Sealant untuk Anak", "meta_description": "Dental sealant melindungi geraham anak dari karies. Ketahui prosedur, perawatan, dan siapa yang paling terbantu.", "slug": "manfaat-dental-sealant-untuk-anak", "keywords": ["dental sealant", "karies anak", "geraham", "pencegahan"], "reading_time_min": 3},
+      "en": {"meta_title": "The Benefits of Dental Sealants for Children", "meta_description": "Dental sealants protect children's molars from cavities. Learn the procedure, care, and who benefits most.", "slug": "benefits-of-dental-sealants-for-children", "keywords": ["dental sealant", "child caries", "molars", "prevention"], "reading_time_min": 3}
+    },
+    "image": {"prompt": "Flat vector illustration, PARAKITA teal & white palette, a child's molar with a glossy protective sealant coating over the grooves; friendly, no text, no realistic patient photo.", "alt_id": "Ilustrasi gigi geraham anak dengan lapisan sealant pelindung.", "alt_en": "Illustration of a child's molar with a protective sealant coating."},
+    "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan konsultasi dengan dokter gigi. Konsultasikan kondisi Anda ke tenaga profesional.",
+    "disclaimer_en": "This article is informational and does not replace consultation with a dentist. Please consult a professional about your condition."
+  },
+
+  "t-traefik": {
+    "research_pack": [
+      {"chunk_id": "c-tf-01", "score": 0.93, "reason": "Docker-label routing — the core of exposing an app (version-pinned to v3)."},
+      {"chunk_id": "c-tf-03", "score": 0.88, "reason": "Entrypoints on :80/:443 with HTTP->HTTPS redirect."},
+      {"chunk_id": "c-tf-02", "score": 0.87, "reason": "Automatic HTTPS via ACME certificate resolver."},
+      {"chunk_id": "c-tf-04", "score": 0.83, "reason": "Docker socket access & security hardening."}
+    ],
+    "avg_credibility": 5.0,
+    "outline": [
+      {"level": "H2", "heading": "Step 1 — Expose a container with Docker labels", "claim": "Attach traefik.enable and a Host router rule label.", "chunk_id": "c-tf-01"},
+      {"level": "H2", "heading": "Step 2 — Define entrypoints and redirect to HTTPS", "claim": "Declare web:80 and websecure:443, redirect web to websecure.", "chunk_id": "c-tf-03"},
+      {"level": "H2", "heading": "Step 3 — Enable automatic HTTPS with ACME", "claim": "Configure a certificatesResolvers ACME block.", "chunk_id": "c-tf-02"},
+      {"level": "H2", "heading": "Step 4 — Give Traefik secure access to the Docker socket", "claim": "Mount the socket read-only; use a socket proxy when hardening.", "chunk_id": "c-tf-04"}
+    ],
+    "draft_id": "# Deploying Docker Apps with Traefik\n\n> Tutorial · validated against Traefik **v3.0** documentation (version-pinned).\n\n## Step 1 — Expose a container with Docker labels\n\nIn Traefik v3 you expose a container by attaching Docker labels: set `traefik.enable=true` and a router rule such as `traefik.http.routers.myapp.rule=Host(\\`app.example.com\\`)`. Traefik discovers these labels through its Docker provider. [[chunk:c-tf-01]]\n\n## Step 2 — Define entrypoints and redirect to HTTPS\n\nEntrypoints define the ports Traefik listens on. A common setup declares `web` on :80 and `websecure` on :443, then redirects `web` to `websecure` so all plain HTTP traffic is upgraded to HTTPS. [[chunk:c-tf-03]]\n\n## Step 3 — Enable automatic HTTPS with ACME\n\nAutomatic HTTPS is configured with a certificate resolver using the ACME protocol. Define `certificatesResolvers.myresolver.acme` with an email, a storage file, and a challenge type such as `tlsChallenge` or `httpChallenge`. [[chunk:c-tf-02]]\n\n## Step 4 — Give Traefik secure access to the Docker socket\n\nTraefik needs to reach the Docker socket to read labels. Mount `/var/run/docker.sock` read-only into the Traefik container, and for multi-host or hardened setups place a socket proxy in front to limit API exposure. [[chunk:c-tf-04]]",
+    "claims": [
+      {"id": "cl1", "text": "Expose a container with traefik.enable and a Host() router rule label.", "chunk_id": "c-tf-01", "verdict": "supported", "note": "Matches v3 docs; version pinned."},
+      {"id": "cl2", "text": "Declare web:80 and websecure:443 and redirect web to websecure.", "chunk_id": "c-tf-03", "verdict": "supported", "note": "Entrypoint setup grounded in docs."},
+      {"id": "cl3", "text": "Configure automatic HTTPS via a certificatesResolvers ACME block.", "chunk_id": "c-tf-02", "verdict": "supported", "note": "ACME fields match docs."},
+      {"id": "cl4", "text": "Mount the Docker socket read-only; use a socket proxy when hardening.", "chunk_id": "c-tf-04", "verdict": "supported", "note": "Security guidance grounded."}
+    ],
+    "verdict": "pass",
+    "bias": {"score": 4.8, "notes": ["Tutorial genre: every step version-pinned to v3 docs.", "No vendor bias; recommends security hardening (socket proxy).", "No unsupported version claims."]},
+    "translation_en": "SAME_AS_SOURCE",
+    "qa": {"status": "pass", "notes": "Workspace is English-only; translator is a no-op. Steps unchanged; all markers intact."},
+    "meta": {
+      "en": {"meta_title": "Deploying Docker Apps with Traefik (v3)", "meta_description": "A version-pinned Traefik v3 tutorial: expose containers with labels, set entrypoints, enable ACME HTTPS, secure the Docker socket.", "slug": "deploying-docker-apps-with-traefik-v3", "keywords": ["traefik", "docker", "reverse proxy", "https", "acme"], "reading_time_min": 4}
+    },
+    "image": {"prompt": "Flat vector diagram, blue/slate palette, a reverse proxy routing arrows from the internet into three Docker containers, a small lock icon for HTTPS; no text labels, clean and technical.", "alt_en": "Diagram of Traefik routing HTTPS traffic to Docker containers."},
+    "disclaimer_en": "Tutorial validated against Traefik v3.0 documentation at time of writing. Verify against the current docs and pin versions in production."
+  },
+
+  "t-pgbackup": {
+    "research_pack": [
+      {"chunk_id": "c-pg-01", "score": 0.92, "reason": "pg_dump logical backup — the everyday starting point."},
+      {"chunk_id": "c-pg-02", "score": 0.90, "reason": "WAL archiving / PITR — the durability core of the tutorial."},
+      {"chunk_id": "c-pg-03", "score": 0.85, "reason": "pg_basebackup physical backup, pairs with WAL."},
+      {"chunk_id": "c-pg-04", "score": 0.79, "reason": "3-2-1 retention and restore-testing discipline."}
+    ],
+    "avg_credibility": 4.75,
+    "outline": [
+      {"level": "H2", "heading": "Step 1 — Logical backups with pg_dump", "claim": "pg_dump makes a consistent logical backup of one database.", "chunk_id": "c-pg-01"},
+      {"level": "H2", "heading": "Step 2 — Enable point-in-time recovery with WAL archiving", "claim": "Set wal_level, archive_mode, and archive_command for PITR.", "chunk_id": "c-pg-02"},
+      {"level": "H2", "heading": "Step 3 — Take physical base backups with pg_basebackup", "claim": "pg_basebackup + archived WAL enables PITR and replicas.", "chunk_id": "c-pg-03"},
+      {"level": "H2", "heading": "Step 4 — Retention and restore testing (3-2-1)", "claim": "Keep 3 copies, 2 media, 1 off-site; test restores.", "chunk_id": "c-pg-04"}
+    ],
+    "draft_id": "# PostgreSQL Backup Strategies\n\n> Tutorial · validated against PostgreSQL **16** documentation (version-pinned).\n\n## Step 1 — Logical backups with pg_dump\n\n`pg_dump` produces a logical backup of a single PostgreSQL database as a script or archive file. It stays consistent even while the database is in use because it runs inside a single transaction snapshot. [[chunk:c-pg-01]]\n\n## Step 2 — Enable point-in-time recovery with WAL archiving\n\nFor recovery to any moment in time, use continuous archiving of the Write-Ahead Log (WAL). Set `wal_level=replica` (or higher), `archive_mode=on`, and an `archive_command` that copies completed WAL segments to durable storage. [[chunk:c-pg-02]]\n\n## Step 3 — Take physical base backups with pg_basebackup\n\n`pg_basebackup` captures a physical base backup of a running cluster. Combined with archived WAL, it forms the basis of a PITR-capable backup and of initializing streaming replicas. [[chunk:c-pg-03]]\n\n## Step 4 — Retention and restore testing (3-2-1)\n\nApply the 3-2-1 rule: keep at least three copies of the data, on two different media, with one copy off-site. Crucially, test your backups by performing trial restores on a regular schedule. [[chunk:c-pg-04]]",
+    "claims": [
+      {"id": "cl1", "text": "pg_dump makes a consistent logical backup of one database via a transaction snapshot.", "chunk_id": "c-pg-01", "verdict": "supported", "note": "Matches PG16 docs."},
+      {"id": "cl2", "text": "Set wal_level, archive_mode=on, and archive_command to enable PITR.", "chunk_id": "c-pg-02", "verdict": "supported", "note": "Config parameters grounded in docs."},
+      {"id": "cl3", "text": "pg_basebackup + archived WAL enables PITR and replica init.", "chunk_id": "c-pg-03", "verdict": "supported", "note": "Physical backup usage correct."},
+      {"id": "cl4", "text": "Follow 3-2-1 retention and test restores regularly.", "chunk_id": "c-pg-04", "verdict": "supported", "note": "Retention guidance grounded."}
+    ],
+    "verdict": "pass",
+    "bias": {"score": 4.7, "notes": ["Version-pinned to PostgreSQL 16.", "Emphasizes restore testing — avoids the common false-confidence pitfall.", "No product bias."]},
+    "translation_en": "SAME_AS_SOURCE",
+    "qa": {"status": "pass", "notes": "English-only workspace; no translation needed; markers intact."},
+    "meta": {
+      "en": {"meta_title": "PostgreSQL Backup Strategies (PG 16)", "meta_description": "A version-pinned PostgreSQL 16 tutorial: pg_dump, WAL archiving for PITR, pg_basebackup, and 3-2-1 retention with restore testing.", "slug": "postgresql-backup-strategies-pg16", "keywords": ["postgresql", "backup", "pitr", "wal", "pg_dump"], "reading_time_min": 4}
+    },
+    "image": {"prompt": "Flat vector diagram, indigo palette, a PostgreSQL elephant motif beside three backup layers (logical, physical, WAL stream) flowing to an off-site cloud; no text, clean and technical.", "alt_en": "Diagram of PostgreSQL logical, physical, and WAL-based backup layers."},
+    "disclaimer_en": "Tutorial validated against PostgreSQL 16 documentation at time of writing. Always verify parameters against your server version."
+  }
+}

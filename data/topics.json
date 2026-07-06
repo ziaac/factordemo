@@ -1,0 +1,86 @@
+[
+  {
+    "id": "t-fluoride",
+    "workspace_id": "parakita",
+    "title_id": "Cara kerja fluoride mencegah karies",
+    "title_en": "How fluoride prevents cavities",
+    "category": "scientific",
+    "genre": "article",
+    "priority": 5,
+    "related_chunk_count": 14,
+    "status": "active",
+    "scenario": "happy"
+  },
+  {
+    "id": "t-rootcanal",
+    "workspace_id": "parakita",
+    "title_id": "Perawatan saluran akar: kapan diperlukan",
+    "title_en": "Root canal treatment: when it is needed",
+    "category": "scientific",
+    "genre": "article",
+    "priority": 4,
+    "related_chunk_count": 11,
+    "status": "active",
+    "scenario": "revision"
+  },
+  {
+    "id": "t-bruxism",
+    "workspace_id": "parakita",
+    "title_id": "Bruxism pada remaja",
+    "title_en": "Bruxism in adolescents",
+    "category": "scientific",
+    "genre": "article",
+    "priority": 3,
+    "related_chunk_count": 3,
+    "status": "active",
+    "scenario": "weak_corpus"
+  },
+  {
+    "id": "t-sealant",
+    "workspace_id": "parakita",
+    "title_id": "Manfaat dental sealant untuk anak",
+    "title_en": "The benefits of dental sealants for children",
+    "category": "public_info",
+    "genre": "article",
+    "priority": 4,
+    "related_chunk_count": 9,
+    "status": "active",
+    "scenario": "happy"
+  },
+  {
+    "id": "t-traefik",
+    "workspace_id": "devops",
+    "title_id": "Deploying Docker apps with Traefik",
+    "title_en": "Deploying Docker apps with Traefik",
+    "category": "tutorial",
+    "genre": "tutorial",
+    "priority": 5,
+    "related_chunk_count": 8,
+    "status": "active",
+    "scenario": "happy"
+  },
+  {
+    "id": "t-pgbackup",
+    "workspace_id": "devops",
+    "title_id": "PostgreSQL backup strategies",
+    "title_en": "PostgreSQL backup strategies",
+    "category": "tutorial",
+    "genre": "tutorial",
+    "priority": 4,
+    "related_chunk_count": 7,
+    "status": "active",
+    "scenario": "happy"
+  },
+  {
+    "id": "t-argocd",
+    "workspace_id": "devops",
+    "title_id": "GitOps deployments with ArgoCD",
+    "title_en": "GitOps deployments with ArgoCD",
+    "category": "tutorial",
+    "genre": "tutorial",
+    "priority": 3,
+    "related_chunk_count": 2,
+    "status": "active",
+    "scenario": "weak_corpus"
+  }
+]
