@@ -234,7 +234,7 @@ def init_state():
     st.session_state.setdefault("workspace_id", st.session_state.seed["workspaces"][0].id)
     st.session_state.setdefault("current_run", None)
     st.session_state.setdefault("history", [])          # finished runs (dicts)
-    st.session_state.setdefault("force_mock", False)
+    st.session_state.setdefault("force_mock", True)   # default to MOCK even if a key is present
     st.session_state.setdefault("selected_topic", None)
 
 
@@ -371,8 +371,9 @@ def sidebar():
         live_key = live.live_available()
         mode = "LIVE" if mode_is_live() else "MOCK"
         color = ACCENT if mode == "LIVE" else INK
+        textcol = "#FFFFFF" if mode == "LIVE" else BG
         st.markdown(
-            f'<span class="pill" style="background:{color};color:{BG};border-color:{color}">'
+            f'<span class="pill" style="background:{color};color:{textcol};border-color:{color}">'
             f'MODE · {mode}</span>', unsafe_allow_html=True)
         if live_key:
             st.checkbox("Force MOCK (ignore API key)", key="force_mock")
@@ -938,7 +939,8 @@ def page_landing():
             st.session_state.entered = True
             st.rerun()
     with b2:
-        mode = "LIVE (Claude-backed Writer + Fact-checker)" if live_on else "MOCK (no API key — deterministic & free)"
+        mode = ("LIVE (Claude-backed Writer + Fact-checker)" if mode_is_live()
+                else "MOCK (deterministic & free — no API calls)")
         st.caption(f"Running in **{mode}**. This is a simulation — no database, no Redis, no Node. "
                    "Production stack is TypeScript / BullMQ / PostgreSQL.")
 
