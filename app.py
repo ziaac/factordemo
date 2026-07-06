@@ -16,6 +16,7 @@ import re
 import time
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 from engine import mock, live
 from engine import state_machine as sm
@@ -86,6 +87,8 @@ label, .stCaption, [data-testid="stCaptionContainer"],
     text-transform: uppercase; letter-spacing: normal; font-size: 1.2rem;
     font-weight: 800; color: #FF6A5F; margin: 0 0 .5rem 0;
 }}
+/* Pipeline strip on the homepage: white text on every pill */
+.hp-flow .pill {{ color: #FFFFFF !important; }}
 
 h1, h2, h3, h4 {{ letter-spacing: -0.02em; font-weight: 900; }}
 h1 {{ font-size: 2.4rem; line-height: 1.02; }}
@@ -132,6 +135,87 @@ section[data-testid="stSidebar"] {{ background: {BG2}; border-right: 1px solid {
 [data-testid="stAlert"] {{ background: {BG2}; border: 1px solid {LINE}; color: {INK}; }}
 code {{ background: {BG3}; color: {INK}; }}
 </style>
+"""
+
+
+# --------------------------------------------------------------------------- #
+# Animated pipeline illustration (self-contained SVG: SMIL + CSS, no deps)
+# --------------------------------------------------------------------------- #
+PIPELINE_SVG = """
+<svg viewBox="0 0 1080 180" width="100%" style="max-width:100%;height:auto;display:block"
+     xmlns="http://www.w3.org/2000/svg" font-family="Inter, Arial, sans-serif">
+  <style>
+    @keyframes flowmove { to { stroke-dashoffset: -24; } }
+    @keyframes pulse    { 0%,100% { opacity:.30 } 50% { opacity:1 } }
+    @keyframes softpulse{ 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    .flow { stroke:#3A3A44; stroke-width:2; stroke-dasharray:6 6;
+            animation: flowmove 1s linear infinite; }
+    .gate { fill:#FF453A; animation: pulse 2.2s ease-in-out infinite; }
+    .arc  { fill:none; stroke:#FF453A; stroke-width:2; stroke-dasharray:5 5;
+            animation: softpulse 2.4s ease-in-out infinite; }
+    .cap  { fill:#9A9AA4; font-size:9px; font-weight:700; letter-spacing:.5px; }
+    .stg  { fill:#ECECEE; font-size:13px; font-weight:800; letter-spacing:.3px; }
+    .tag  { fill:#FF6A5F; font-size:10px; font-weight:800; }
+    .box  { fill:#141418; stroke:#2A2A31; stroke-width:1; }
+    .boxhot { fill:#141418; stroke:#FF453A; stroke-width:2; }
+    .chk  { fill:#3FB950; animation: softpulse 1.8s ease-in-out infinite; }
+  </style>
+
+  <!-- connectors -->
+  <line class="flow" x1="166" y1="97" x2="202" y2="97"/>
+  <line class="flow" x1="342" y1="97" x2="378" y2="97"/>
+  <line class="flow" x1="518" y1="97" x2="554" y2="97"/>
+  <line class="flow" x1="694" y1="97" x2="730" y2="97"/>
+  <line class="flow" x1="870" y1="97" x2="906" y2="97"/>
+
+  <!-- revise loop: fact-check -> draft -->
+  <path class="arc" d="M448,70 C430,22 290,22 272,70"/>
+  <polygon points="272,70 266,60 278,60" fill="#FF453A"/>
+  <text class="cap" x="360" y="16" text-anchor="middle" fill="#FF6A5F">REVISE  ≤ 3×</text>
+
+  <!-- citation tag on draft -->
+  <g style="animation: softpulse 2s ease-in-out infinite">
+    <rect x="238" y="44" width="68" height="17" fill="none" stroke="#FF453A"/>
+    <text class="tag" x="272" y="56" text-anchor="middle">[[chunk:id]]</text>
+  </g>
+
+  <!-- stage boxes -->
+  <g><rect class="box"    x="26"  y="70" width="140" height="54"/>
+     <text class="stg" x="96"  y="102" text-anchor="middle">RESEARCH</text></g>
+  <g><rect class="box"    x="202" y="70" width="140" height="54"/>
+     <text class="stg" x="272" y="102" text-anchor="middle">DRAFT</text></g>
+  <g><rect class="boxhot" x="378" y="70" width="140" height="54"/>
+     <text class="stg" x="448" y="102" text-anchor="middle">FACT-CHECK</text></g>
+  <g><rect class="box"    x="554" y="70" width="140" height="54"/>
+     <text class="stg" x="624" y="102" text-anchor="middle">BIAS</text></g>
+  <g><rect class="box"    x="730" y="70" width="140" height="54"/>
+     <text class="stg" x="800" y="102" text-anchor="middle">TRANSLATE</text></g>
+  <g><rect class="box"    x="906" y="70" width="140" height="54"/>
+     <text class="stg" x="976" y="102" text-anchor="middle">PUBLISH</text></g>
+
+  <!-- verified check on publish -->
+  <path class="chk" d="M1006,60 l5,6 l10,-13" fill="none" stroke="#3FB950" stroke-width="3"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- gates -->
+  <g><polygon class="gate" points="96,138 102,144 96,150 90,144"/>
+     <text class="cap" x="96"  y="166" text-anchor="middle">GATE 1</text></g>
+  <g><polygon class="gate" points="448,138 454,144 448,150 442,144"/>
+     <text class="cap" x="448" y="166" text-anchor="middle">GATE 3</text></g>
+  <g><polygon class="gate" points="976,138 982,144 976,150 970,144"/>
+     <text class="cap" x="976" y="166" text-anchor="middle">GATE 8</text></g>
+
+  <!-- travelling article tokens -->
+  <circle r="6" fill="#FF453A">
+    <animateMotion dur="7s" repeatCount="indefinite" path="M26,97 H1046"/>
+  </circle>
+  <circle r="6" fill="#FF453A" opacity="0.8">
+    <animateMotion dur="7s" begin="-2.35s" repeatCount="indefinite" path="M26,97 H1046"/>
+  </circle>
+  <circle r="6" fill="#FF453A" opacity="0.6">
+    <animateMotion dur="7s" begin="-4.7s" repeatCount="indefinite" path="M26,97 H1046"/>
+  </circle>
+</svg>
 """
 
 
@@ -713,6 +797,15 @@ def page_dashboard():
 # --------------------------------------------------------------------------- #
 def page_landing():
     live_on = live.live_available()
+    # Landing-only: cap width on desktop so the page reads as a centered box.
+    st.markdown(
+        """<style>
+        .block-container, [data-testid="stMainBlockContainer"] {
+            max-width: 1080px; margin: 0 auto; padding-top: 2rem;
+        }
+        </style>""",
+        unsafe_allow_html=True,
+    )
     st.markdown(
         f"""
         <div style="border-top:6px solid {ACCENT};padding-top:.6rem;margin-top:1rem">
@@ -801,12 +894,17 @@ def page_landing():
     st.markdown("<div style='height:1.6rem'></div>", unsafe_allow_html=True)
     st.markdown('<div class="hp-title">The pipeline — a state machine with 8 gates</div>',
                 unsafe_allow_html=True)
+    components.html(
+        '<div style="margin:0;background:transparent">' + PIPELINE_SVG + "</div>",
+        height=200,
+    )
+    st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
     flow = "".join(
         f'<span class="pill {"pill-active" if s in ("FACT_CHECKING","HUMAN_REVIEW") else "pill-todo"}">'
         f'{sm.step_label(s)}</span>'
         for s in sm.PIPELINE_STATES
     )
-    st.markdown(f'<div style="line-height:2.2">{flow}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="hp-flow" style="line-height:2.2">{flow}</div>', unsafe_allow_html=True)
     st.caption("Grounded generation · independent fact-check · bias & ethics review · "
                "cross-lingual QA · schema validation · human review · post-publish audit. "
                "Revisions capped at 3× before a piece is escalated to a human.")
