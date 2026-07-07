@@ -1,7 +1,7 @@
 # FACTOR — Factual Agentic Content Orchestrator
 
 **A self-hosted, multi-agent AI pipeline that produces hallucination-free, fully-cited
-content — with Writer and Fact-checker inference running live on an
+content — powered by Google Gemma 3 + EmbeddingGemma running live on an
 [AMD Instinct MI300X](https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html)
 (ROCm + vLLM).**
 
@@ -14,10 +14,11 @@ content — with Writer and Fact-checker inference running live on an
 FACTOR's cognitive agents run on **AMD GPUs** via the ROCm software stack:
 
 - **GPU:** AMD Instinct **MI300X** (CDNA 3, `gfx942`), **192 GB HBM3**, **ROCm 7.2.4**.
-- **What runs on AMD (all four cognitive agents):**
-  - **Writer + Fact-checker** — vLLM chat (Qwen2.5 / Llama-3.3), OpenAI-compatible `:8000`.
-    192 GB HBM3 lets a **70B model run on a single GPU, unquantized**.
-  - **Researcher** — real semantic retrieval via **bge-m3 embeddings** (`sentence-transformers`), `:8001`.
+- **Powered by Google Gemma on AMD:**
+  - **Writer + Fact-checker** — **Gemma 3** (`google/gemma-3-4b-it`) via vLLM, OpenAI-compatible `:8000`.
+    (Model-agnostic — swap to Gemma-3-12B/27B or a 70B on the 192 GB GPU by changing one env var.)
+  - **Researcher** — real semantic retrieval via **EmbeddingGemma** (`google/embeddinggemma-300m`,
+    `sentence-transformers`), `:8001`. Generation *and* retrieval both run on the Gemma family.
   - **Image agent** — **SDXL-Turbo** featured images (`diffusers`), `:8002`.
 - **Bring the whole stack up:** [`deploy/amd_stack.sh`](deploy/amd_stack.sh)
   (+ [`deploy/embed_server.py`](deploy/embed_server.py), [`deploy/sdxl_server.py`](deploy/sdxl_server.py),

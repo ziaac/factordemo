@@ -26,7 +26,8 @@ FACTCHECKER_MODEL = "claude-opus-4-8"
 MAX_TOKENS = 2000
 
 # --- AMD / vLLM backend config -------------------------------------------- #
-AMD_MODEL_DEFAULT = "qwen2.5-7b-instruct"
+# Default chat model served on the MI300X (Google Gemma 3).
+AMD_MODEL_DEFAULT = "gemma-3-4b-it"
 
 
 # --------------------------------------------------------------------------- #
@@ -65,7 +66,7 @@ def amd_embed_url() -> Optional[str]:
 
 
 def amd_embed_model() -> str:
-    return _secret("AMD_EMBED_MODEL") or "bge-m3"
+    return _secret("AMD_EMBED_MODEL") or "embeddinggemma"
 
 
 def embeddings_available() -> bool:

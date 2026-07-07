@@ -1055,6 +1055,7 @@ def page_landing():
             <span class="pill" style="background:{ACCENT};color:#FFFFFF;border-color:{ACCENT}">
               ● LIVE ON AMD INSTINCT MI300X</span>
             <span class="pill">ROCm + vLLM</span>
+            <span class="pill">GEMMA 3 · EMBEDDINGGEMMA</span>
             <span class="pill">192 GB HBM3</span>
           </div>
         </div>
@@ -1104,8 +1105,8 @@ def page_landing():
             <div style="font-size:.86rem;color:{MUTE};line-height:1.5">
               Every model runs on your own AMD GPU — nothing is sent to a third party.<br><br>
               <b>GPU:</b> AMD Instinct <b>MI300X</b> · 192 GB HBM3 · ROCm + vLLM<br>
-              <b>LLM:</b> Qwen2.5-72B / Llama-3.3-70B <i>(70B fits on one GPU)</i><br>
-              <b>Embeddings:</b> bge-m3 &nbsp;·&nbsp; <b>Images:</b> SDXL / Flux — same GPU<br>
+              <b>LLM:</b> Google <b>Gemma 3</b> <i>(scales to Gemma-3-27B / a 70B on one GPU)</i><br>
+              <b>Embeddings:</b> <b>EmbeddingGemma</b> &nbsp;·&nbsp; <b>Images:</b> SDXL — same GPU<br>
               <b>Cost:</b> fixed GPU, <b>no per-token charge</b>
             </div>
         </div>""",
@@ -1192,9 +1193,11 @@ def page_landing():
     st.markdown(
         f'<div style="font-size:.9rem;color:{MUTE};line-height:1.55">'
         f'This demo drives the <b>full pipeline and all 8 gates</b> end-to-end. In the '
-        f'<b style="color:{INK}">AMD · MI300X</b> engine, the <b>Writer</b> and <b>Fact-checker</b> run '
-        f'<b style="color:{INK}">live on an AMD Instinct MI300X</b> (ROCm + vLLM) — grounded, correctly-cited '
-        f'output in ~3&nbsp;s/step. The corpus and topic backlog shown here are a curated <b>seed set</b>; '
+        f'<b style="color:{INK}">AMD · MI300X</b> engine, the <b>Writer</b> and <b>Fact-checker</b> run on '
+        f'<b style="color:{INK}">Google Gemma 3</b>, the <b>Researcher</b> retrieves with '
+        f'<b style="color:{INK}">EmbeddingGemma</b>, and the <b>Image</b> agent uses SDXL — all '
+        f'<b style="color:{INK}">live on an AMD Instinct MI300X</b> (ROCm). Grounded, correctly-cited '
+        f'output; real cosine retrieval; real featured images. The corpus and topic backlog shown here are a curated <b>seed set</b>; '
         f'wiring to a live corpus (Google Drive + journals → pgvector) and publishing into a CMS database are '
         f'the next build (≈1–2 weeks for a real vertical slice). <i>Inference on AMD is real; the data '
         f'integrations are simulated for now.</i></div>',
