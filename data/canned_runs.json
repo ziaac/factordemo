@@ -122,7 +122,7 @@
       }
     },
     "image": {
-      "prompt": "Flat vector illustration, PARAKITA brand palette (teal & white), a stylized tooth with a protective mineral shield, calcium ions flowing into enamel; no text, no realistic patient photo.",
+      "prompt": "Flat vector illustration, clean teal & white palette, a stylized tooth with a protective mineral shield, calcium ions flowing into enamel; no text, no realistic patient photo.",
       "alt_id": "Ilustrasi gigi dengan lapisan pelindung mineral fluoride.",
       "alt_en": "Illustration of a tooth with a protective fluoride mineral layer."
     },
@@ -288,7 +288,7 @@
       }
     },
     "image": {
-      "prompt": "Flat vector illustration, PARAKITA teal palette, cross-section of a molar showing a cleaned root canal, calm and clinical; no text, no realistic patient photo.",
+      "prompt": "Flat vector illustration, clean teal palette, cross-section of a molar showing a cleaned root canal, calm and clinical; no text, no realistic patient photo.",
       "alt_id": "Ilustrasi penampang gigi geraham dengan saluran akar yang telah dirawat.",
       "alt_en": "Illustration of a molar cross-section with a treated root canal."
     },
@@ -417,7 +417,7 @@
       }
     },
     "image": {
-      "prompt": "Flat vector illustration, PARAKITA teal & white palette, a child's molar with a glossy protective sealant coating over the grooves; friendly, no text, no realistic patient photo.",
+      "prompt": "Flat vector illustration, clean teal & white palette, a child's molar with a glossy protective sealant coating over the grooves; friendly, no text, no realistic patient photo.",
       "alt_id": "Ilustrasi gigi geraham anak dengan lapisan sealant pelindung.",
       "alt_en": "Illustration of a child's molar with a protective sealant coating."
     },
