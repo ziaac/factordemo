@@ -8,11 +8,11 @@
     "description": "Original FACTOR workspace, evolved from the KLINIK PARAKITA CMS article module. Writes in Indonesian, then transcreates to English. Content type: health articles for the public, strictly grounded in curated dental journals."
   },
   {
-    "id": "devops",
-    "name": "DevOps Tutorials",
-    "domain": "Software infrastructure & DevOps",
-    "languages": ["en"],
-    "credibility_policy": "Tutorial steps must be validated against official documentation with version pinning. Docs (credibility 5) and maintainer sources outrank blog posts. No step ships without a matching docs chunk.",
-    "description": "Demonstrates FACTOR's topic-agnostic, multi-workspace design. English-only tutorials grounded in official product documentation, showing the 'tutorial' genre where every step is version-pinned to a docs source."
+    "id": "edutech",
+    "name": "IT in Education",
+    "domain": "Information technology in education (EdTech)",
+    "languages": ["id", "en"],
+    "credibility_policy": "Every claim must cite a chunk with credibility >= 3. Peer-reviewed education research, systematic reviews, and official standards/guidelines (credibility 5) are preferred over vendor material and blogs. Average corpus credibility per run must be >= 3.",
+    "description": "Second FACTOR workspace, proving the topic-agnostic, multi-workspace design. Covers information technology in education (e-learning, LMS, gamification, AI in education, digital literacy, assessment, accessibility). Writes in Indonesian, then transcreates to English, strictly grounded in education research."
   }
 ]

@@ -452,17 +452,24 @@ def page_workspace():
         st.markdown(ws.credibility_policy)
 
     st.markdown("---")
-    kicker("Topics")
+    ready = [t for t in topics if getattr(t, "scenario", "") != "backlog" and mock.gate1_ok(t)]
+    kicker(f"Topics — {len(topics)} in backlog · {len(ready)} corpus-ready")
     rows = []
     for t in topics:
+        is_backlog = getattr(t, "scenario", "") == "backlog"
         ok = mock.gate1_ok(t)
         support = f"{t.related_chunk_count} chunks"
-        status = "Ready" if ok else "Blocked · Gate 1"
+        if is_backlog:
+            status = "Backlog · awaiting corpus"
+        elif ok:
+            status = "Ready"
+        else:
+            status = "Blocked · Gate 1"
         rows.append({
-            "Title": t.title_en,
+            "Topic": t.title_id,
+            "Topic (EN)": t.title_en,
             "Category": t.category,
             "Genre": t.genre,
-            "Priority": "■" * t.priority + "□" * (5 - t.priority),
             "Corpus support": support,
             "Status": status,
         })
@@ -519,9 +526,15 @@ def page_run():
     kicker("Pipeline")
     st.markdown("# Run pipeline")
 
-    labels = {t.id: f"{t.title_en}  ·  {t.related_chunk_count} chunks" +
-              ("" if mock.gate1_ok(t) else "  ·  ⚠ weak corpus")
-              for t in topics}
+    def _tag(t):
+        if getattr(t, "scenario", "") == "backlog":
+            return "  ·  ○ backlog (no corpus yet)"
+        if not mock.gate1_ok(t):
+            return "  ·  ⚠ weak corpus"
+        return f"  ·  ● {t.related_chunk_count} chunks — ready"
+    # corpus-ready / scenario topics first, then backlog
+    topics = sorted(topics, key=lambda t: (getattr(t, "scenario", "") == "backlog", t.title_en))
+    labels = {t.id: f"{t.title_id}{_tag(t)}" for t in topics}
     tid = st.selectbox("Topic", options=[t.id for t in topics],
                        format_func=lambda i: labels[i])
     topic = seed["topics_by_id"][tid]
@@ -947,15 +960,39 @@ def page_landing():
                "cross-lingual QA · schema validation · human review · post-publish audit. "
                "Revisions capped at 3× before a piece is escalated to a human.")
 
-    # --- Corpus / topic-agnostic ----------------------------------------- #
-    st.markdown("<div style='height:1.4rem'></div>", unsafe_allow_html=True)
+    # --- Works with ANY topic (two example workspaces) ------------------- #
+    st.markdown("<div style='height:1.6rem'></div>", unsafe_allow_html=True)
+    st.markdown('<div class="hp-title">Works with any topic you choose</div>',
+                unsafe_allow_html=True)
     st.markdown(
-        f'<div style="border-left:3px solid {ACCENT};padding-left:.9rem;font-size:.9rem;color:{MUTE}">'
-        '<b>Topic-agnostic, multi-workspace.</b> You define each Topic Workspace and its trusted '
-        'sources — official sites, scientific journals, curated books. Journals are harvested '
-        'automatically via OAI-PMH (≈200 open-access endpoints), chunked, embedded into '
-        'PostgreSQL + pgvector, and hybrid-searched (vector + full-text) at write time. '
-        'Output: 2–5 verified, bilingual articles per day, injected straight into your CMS.</div>',
+        f'<div style="font-size:.95rem;color:{INK};max-width:70ch;margin-bottom:.7rem">'
+        'FACTOR is <b>topic-agnostic</b>. Spin up a Topic Workspace for <b>any domain you want</b> — '
+        'finance, law, agriculture, gaming, medicine, your product docs — point it at your own trusted '
+        'sources, and it produces grounded content for that field. '
+        f'<span style="color:{MUTE}">The two workspaces below are just examples that ship with this demo.</span>'
+        '</div>', unsafe_allow_html=True)
+    w1, w2 = st.columns(2)
+    w1.markdown(
+        f"""<div style="border-top:1px solid {LINE};padding-top:.5rem;min-height:120px">
+            <div class="swiss-kicker" style="color:{MUTE}">Example workspace A</div>
+            <div style="font-size:1.05rem;font-weight:900;color:{INK}">Dental &amp; Oral Health</div>
+            <div style="font-size:.84rem;color:{MUTE};line-height:1.45">100 sample topics · YMYL medical grounding
+            (kariologi, periodonsia, endodonsia, ortodonti, pedodonti …). ID → EN.</div>
+        </div>""", unsafe_allow_html=True)
+    w2.markdown(
+        f"""<div style="border-top:1px solid {LINE};padding-top:.5rem;min-height:120px">
+            <div class="swiss-kicker" style="color:{MUTE}">Example workspace B</div>
+            <div style="font-size:1.05rem;font-weight:900;color:{INK}">IT in Education</div>
+            <div style="font-size:.84rem;color:{MUTE};line-height:1.45">100 sample topics · EdTech
+            (e-learning, LMS, gamifikasi, AI dalam pendidikan, asesmen digital …). ID → EN.</div>
+        </div>""", unsafe_allow_html=True)
+    st.markdown(
+        f'<div style="margin-top:.9rem;border-left:3px solid {ACCENT};padding-left:.9rem;font-size:.88rem;color:{MUTE}">'
+        '<b>Topics are subjects, not titles</b> — you supply the theme, FACTOR writes the article and its title. '
+        'You define each workspace and its trusted sources (official sites, scientific journals, curated books); '
+        'they are harvested, chunked, embedded into PostgreSQL + pgvector, and hybrid-searched at write time. '
+        'A topic becomes runnable once its corpus is ingested. Output: verified, bilingual articles injected '
+        'straight into your CMS.</div>',
         unsafe_allow_html=True,
     )
 

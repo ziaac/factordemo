@@ -14,9 +14,10 @@ near-black canvas with light ink and a single refined red accent, Helvetica-styl
 
 ## What it demonstrates
 
-- **Topic Workspaces** — two seeded workspaces prove the topic-agnostic design:
-  - **PARAKITA Dental Health** (Indonesian → English, `article` genre, YMYL medical grounding)
-  - **DevOps Tutorials** (English, `tutorial` genre, version-pinned to official docs)
+- **Topic Workspaces** — two seeded workspaces, **100 topic themes each** (200 total), prove the topic-agnostic design:
+  - **PARAKITA Dental Health** (Indonesian → English, dental/oral-health, YMYL medical grounding)
+  - **IT in Education** (Indonesian → English, EdTech: e-learning, LMS, gamification, AI in education, assessment)
+  - Topics are *themes/subjects* — the article and its title are the generated output. Topics without ingested corpus sit in the backlog (blocked at Gate 1) until their sources are added.
 - **The full state machine** advancing in real time:
   `QUEUED → PLANNING → RESEARCHING → OUTLINING → DRAFTING → FACT_CHECKING → BIAS_REVIEW →
   [REVISING] → TRANSLATING → TRANSLATION_QA → META_SEO → IMAGE_GEN → HUMAN_REVIEW →
@@ -131,9 +132,9 @@ engine/
   live.py               # live engines: AMD/vLLM (urllib) + hosted LLM API, with fallback
 data/
   workspaces.json       # 2 workspaces
-  topics.json           # 7 topics (happy / revision / weak-corpus scenarios)
-  chunks.json           # 22 source chunks with credibility metadata
-  canned_runs.json      # canonical agent outputs per runnable topic
+  topics.json           # 200 topic themes (100 dental + 100 IT-in-education); runnable + backlog
+  chunks.json           # 25 source chunks with credibility metadata (dental + edutech)
+  canned_runs.json      # canonical agent outputs per runnable topic (happy / revision)
 deploy/
   vllm_mi300x.sh        # serve an open model with vLLM on AMD Instinct MI300X (ROCm)
 Dockerfile              # containerize the Streamlit app (linux/amd64)
