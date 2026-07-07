@@ -59,6 +59,28 @@ def amd_api_key() -> Optional[str]:
     return _secret("AMD_API_KEY")
 
 
+# --- AMD embeddings (bge-m3 on MI300X) ------------------------------------ #
+def amd_embed_url() -> Optional[str]:
+    return _secret("AMD_EMBED_URL")
+
+
+def amd_embed_model() -> str:
+    return _secret("AMD_EMBED_MODEL") or "bge-m3"
+
+
+def embeddings_available() -> bool:
+    return bool(amd_embed_url())
+
+
+# --- AMD image generation (SDXL on MI300X) -------------------------------- #
+def amd_image_url() -> Optional[str]:
+    return _secret("AMD_IMAGE_URL")
+
+
+def image_available() -> bool:
+    return bool(amd_image_url())
+
+
 def live_available() -> bool:
     """True if the Anthropic backend can be used."""
     if not api_key():
@@ -114,10 +136,14 @@ def _amd_chat(system: str, user: str, temperature: float) -> str:
 # --------------------------------------------------------------------------- #
 # Shared prompt builders
 # --------------------------------------------------------------------------- #
-def _chunks_for_topic(seed: dict[str, Any], canned: dict[str, Any]) -> list[dict[str, Any]]:
+def _pack_chunks(seed: dict[str, Any], canned: dict[str, Any],
+                 pack: Optional[list] = None) -> list[dict[str, Any]]:
+    """Resolve the research-pack chunk ids to chunk text. Uses the live `pack`
+    (real retrieval) when given, otherwise the canned research pack."""
     by_id = seed["chunks_by_id"]
+    items = pack if pack is not None else canned.get("research_pack", [])
     out = []
-    for item in canned.get("research_pack", []):
+    for item in items:
         c = by_id.get(item["chunk_id"])
         if c:
             out.append({"chunk_id": c.id, "content": c.content,
@@ -125,8 +151,8 @@ def _chunks_for_topic(seed: dict[str, Any], canned: dict[str, Any]) -> list[dict
     return out
 
 
-def _writer_prompt(topic, workspace, seed, canned) -> tuple[str, str]:
-    chunks = _chunks_for_topic(seed, canned)
+def _writer_prompt(topic, workspace, seed, canned, pack=None) -> tuple[str, str]:
+    chunks = _pack_chunks(seed, canned, pack)
     corpus = "\n".join(f"[[chunk:{c['chunk_id']}]] {c['content']}" for c in chunks)
     lang = "Bahasa Indonesia" if workspace.id == "parakita" else "English"
     system = (
@@ -140,8 +166,8 @@ def _writer_prompt(topic, workspace, seed, canned) -> tuple[str, str]:
     return system, user
 
 
-def _factchecker_prompt(topic, workspace, seed, canned, draft: str) -> tuple[str, str]:
-    chunks = _chunks_for_topic(seed, canned)
+def _factchecker_prompt(topic, workspace, seed, canned, draft: str, pack=None) -> tuple[str, str]:
+    chunks = _pack_chunks(seed, canned, pack)
     corpus = "\n".join(f"[[chunk:{c['chunk_id']}]] {c['content']}" for c in chunks)
     system = (
         "You are FACTOR's independent Fact-checker agent. You did NOT write this draft. "
@@ -183,24 +209,24 @@ def _parse_claims(raw: str) -> list[dict]:
 # --------------------------------------------------------------------------- #
 # Anthropic backend (LIVE)
 # --------------------------------------------------------------------------- #
-def live_writer(topic, workspace, seed, canned) -> str:
-    system, user = _writer_prompt(topic, workspace, seed, canned)
+def live_writer(topic, workspace, seed, canned, pack=None) -> str:
+    system, user = _writer_prompt(topic, workspace, seed, canned, pack)
     return _anthropic_chat(system, user, WRITER_MODEL, 0.3)
 
 
-def live_factchecker(topic, workspace, seed, canned, draft: str) -> list[dict]:
-    system, user = _factchecker_prompt(topic, workspace, seed, canned, draft)
+def live_factchecker(topic, workspace, seed, canned, draft: str, pack=None) -> list[dict]:
+    system, user = _factchecker_prompt(topic, workspace, seed, canned, draft, pack)
     return _parse_claims(_anthropic_chat(system, user, FACTCHECKER_MODEL, 0.2))
 
 
 # --------------------------------------------------------------------------- #
 # AMD / vLLM backend (runs on AMD Instinct MI300X via ROCm)
 # --------------------------------------------------------------------------- #
-def amd_writer(topic, workspace, seed, canned) -> str:
-    system, user = _writer_prompt(topic, workspace, seed, canned)
+def amd_writer(topic, workspace, seed, canned, pack=None) -> str:
+    system, user = _writer_prompt(topic, workspace, seed, canned, pack)
     return _amd_chat(system, user, 0.3)
 
 
-def amd_factchecker(topic, workspace, seed, canned, draft: str) -> list[dict]:
-    system, user = _factchecker_prompt(topic, workspace, seed, canned, draft)
+def amd_factchecker(topic, workspace, seed, canned, draft: str, pack=None) -> list[dict]:
+    system, user = _factchecker_prompt(topic, workspace, seed, canned, draft, pack)
     return _parse_claims(_amd_chat(system, user, 0.2))

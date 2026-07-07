@@ -18,7 +18,7 @@ import time
 import streamlit as st
 import streamlit.components.v1 as components
 
-from engine import mock, live
+from engine import mock, live, retrieval, imagegen
 from engine import state_machine as sm
 
 # --------------------------------------------------------------------------- #
@@ -404,8 +404,14 @@ def sidebar():
             f'<span class="pill" style="background:{color};color:{textcol};border-color:{color}">'
             f'ENGINE · {ENGINE_LABELS[eng]}</span>', unsafe_allow_html=True)
         if eng == "amd":
-            st.caption(f"Writer + Fact-checker run on an **AMD Instinct MI300X** (ROCm + vLLM), "
-                       f"model `{live.amd_model()}`. Other steps stay mock; failures fall back to mock.")
+            extra = []
+            if retrieval.available():
+                extra.append("Researcher (bge-m3 embeddings)")
+            if imagegen.available():
+                extra.append("Image (SDXL)")
+            more = (" + " + " + ".join(extra)) if extra else ""
+            st.caption(f"On an **AMD Instinct MI300X** (ROCm): Writer + Fact-checker "
+                       f"(`{live.amd_model()}`){more}. Remaining steps stay mock; failures fall back.")
         elif eng == "live":
             st.caption("Writer + Fact-checker run via the hosted LLM API. Other steps stay mock; "
                        "failures fall back to mock.")
@@ -507,8 +513,12 @@ def _record_history(run):
 
 def _animate_run(run, topic, ws, seed):
     placeholder = st.empty()
-    lw, lf = engine_backends(active_engine())
-    for r in mock.iter_pipeline(run, topic, ws, seed, live_writer=lw, live_factchecker=lf):
+    eng = active_engine()
+    lw, lf = engine_backends(eng)
+    retr = retrieval.research_pack if (eng == "amd" and retrieval.available()) else None
+    imgr = imagegen.generate if (eng == "amd" and imagegen.available()) else None
+    for r in mock.iter_pipeline(run, topic, ws, seed, live_writer=lw, live_factchecker=lf,
+                                live_retriever=retr, live_imager=imgr):
         last = r.events[-1]
         with placeholder.container():
             render_stepper(r)
@@ -674,17 +684,24 @@ def _render_step_expanders(run, ws):
             st.json(a["meta"])
 
     if "image" in a and a["image"]:
-        with st.expander("⑧ Image — prompt + placeholder"):
-            img = a["image"]
+        img = a["image"]
+        real = img.get("image_data")
+        title = "⑧ Image — SDXL on AMD MI300X" if real else "⑧ Image — prompt + placeholder"
+        with st.expander(title):
             st.caption("Prompt")
             st.code(img.get("prompt", ""), language=None)
-            st.markdown(
-                f'<div style="border:1px solid {LINE};background:{BG2};height:120px;display:flex;'
-                f'align-items:center;justify-content:center;color:{MUTE};'
-                f'font-size:.7rem;letter-spacing:.2em;text-transform:uppercase">'
-                f'1200 × 630 · brand-safe illustration (placeholder)</div>',
-                unsafe_allow_html=True)
-            st.caption(f"alt (EN): {img.get('alt_en','')}")
+            if real:
+                st.markdown(f'<img src="{real}" style="width:100%;max-width:640px;'
+                            f'border:1px solid {LINE}">', unsafe_allow_html=True)
+                st.caption(f"Generated on {img.get('gen_model','AMD MI300X')} · alt: {img.get('alt_en','')}")
+            else:
+                st.markdown(
+                    f'<div style="border:1px solid {LINE};background:{BG2};height:120px;display:flex;'
+                    f'align-items:center;justify-content:center;color:{MUTE};'
+                    f'font-size:.7rem;letter-spacing:.2em;text-transform:uppercase">'
+                    f'1200 × 630 · brand-safe illustration (placeholder)</div>',
+                    unsafe_allow_html=True)
+                st.caption(f"alt (EN): {img.get('alt_en','')}")
 
     if a.get("live_used"):
         st.info("LIVE mode used the hosted LLM for: " + ", ".join(sorted(set(a["live_used"]))))
@@ -786,8 +803,14 @@ def _cms_preview_html(run, ws, loc: str, seed: dict) -> str:
             f'<a href="https://doi.org/{doi}" target="_blank" rel="noopener">{doi}</a></span></li>')
     refs_html = "\n".join(refs)
 
-    # Featured image = flat brand-safe SVG banner (placeholder for SDXL/Flux on AMD).
-    featured = f'''
+    # Featured image: real SDXL output (AMD) if present, else a flat brand-safe SVG banner.
+    real_img = img.get("image_data")
+    if real_img:
+        featured = (f'<div class="hero"><img src="{real_img}" alt="{html.escape(alt)}" '
+                    f'style="width:100%;height:280px;object-fit:cover;display:block">'
+                    f'<div class="hero-cap">Featured image · generated on AMD MI300X (SDXL/ROCm)</div></div>')
+    else:
+        featured = f'''
     <div class="hero">
       <svg viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
         <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">

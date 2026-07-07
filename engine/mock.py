@@ -100,6 +100,8 @@ def iter_pipeline(
     seed: dict[str, Any],
     live_writer: Optional[Callable[..., str]] = None,
     live_factchecker: Optional[Callable[..., list[dict]]] = None,
+    live_retriever: Optional[Callable[..., tuple]] = None,
+    live_imager: Optional[Callable[..., Optional[str]]] = None,
 ) -> Iterator[Run]:
     """Drive the run through the state machine, yielding `run` after each step.
 
@@ -140,12 +142,23 @@ def iter_pipeline(
         return
 
     pack = canned.get("research_pack", [])
+    avg = canned.get("avg_credibility")
+    src = "seed"
+    if live_retriever is not None:
+        try:
+            pack, _related, avg = live_retriever(topic, workspace, seed)
+            src = "AMD · bge-m3"
+            run.artifacts["retrieval"] = src
+            run.artifacts.setdefault("live_used", []).append("Researcher (embeddings)")
+        except Exception as exc:
+            run.artifacts.setdefault("live_warnings", []).append(
+                f"Retrieval LIVE failed ({exc}); used seed pack.")
     run.artifacts["research_pack"] = pack
-    run.artifacts["avg_credibility"] = canned.get("avg_credibility")
+    run.artifacts["avg_credibility"] = avg
     run.events.append(
         _mk_event("RESEARCHING", "ok",
-                  f"Gate 1 PASSED: {len(pack)} high-quality chunks selected "
-                  f"(avg credibility {canned.get('avg_credibility')}).")
+                  f"Gate 1 PASSED: {len(pack)} chunks ranked by {src} "
+                  f"(avg credibility {avg}).")
     )
     yield run
 
@@ -164,7 +177,7 @@ def iter_pipeline(
 
     if live_writer is not None:
         try:
-            draft = live_writer(topic, workspace, seed, canned)
+            draft = live_writer(topic, workspace, seed, canned, run.artifacts.get("research_pack"))
             run.artifacts.setdefault("live_used", []).append("Writer")
         except Exception as exc:  # graceful fallback to mock
             run.artifacts.setdefault("live_warnings", []).append(f"Writer LIVE failed ({exc}); used mock draft.")
@@ -179,7 +192,9 @@ def iter_pipeline(
         verdict = canned.get(verdict_key, "pass")
         if live_factchecker is not None:
             try:
-                claims = live_factchecker(topic, workspace, seed, canned, run.artifacts.get("draft", ""))
+                claims = live_factchecker(topic, workspace, seed, canned,
+                                          run.artifacts.get("draft", ""),
+                                          run.artifacts.get("research_pack"))
                 verdict = "revise" if any(c["verdict"] in ("unsupported", "contradicted") for c in claims) else "pass"
                 run.artifacts.setdefault("live_used", []).append("Fact-checker")
             except Exception as exc:
@@ -268,8 +283,24 @@ def iter_pipeline(
 
     # --- IMAGE_GEN -------------------------------------------------------- #
     run.state = "IMAGE_GEN"
-    run.artifacts["image"] = canned.get("image", {})
-    run.events.append(_mk_event("IMAGE_GEN", "ok", "Generated brand-safe featured illustration (placeholder)."))
+    image = dict(canned.get("image", {}))
+    note = "Generated brand-safe featured illustration (placeholder)."
+    if live_imager is not None and image.get("prompt"):
+        try:
+            data_uri = live_imager(image["prompt"])
+            if data_uri:
+                image["image_data"] = data_uri
+                image["gen_model"] = "SDXL · AMD MI300X"
+                note = "Generated featured image on AMD MI300X (SDXL/ROCm)."
+                run.artifacts.setdefault("live_used", []).append("Image (SDXL)")
+            else:
+                run.artifacts.setdefault("live_warnings", []).append(
+                    "Image LIVE returned nothing; used placeholder.")
+        except Exception as exc:
+            run.artifacts.setdefault("live_warnings", []).append(
+                f"Image LIVE failed ({exc}); used placeholder.")
+    run.artifacts["image"] = image
+    run.events.append(_mk_event("IMAGE_GEN", "ok", note))
     yield run
 
     # --- HUMAN_REVIEW (Gate 7) — pause ----------------------------------- #

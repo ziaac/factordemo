@@ -14,15 +14,19 @@ content — with Writer and Fact-checker inference running live on an
 FACTOR's cognitive agents run on **AMD GPUs** via the ROCm software stack:
 
 - **GPU:** AMD Instinct **MI300X** (CDNA 3, `gfx942`), **192 GB HBM3**, **ROCm 7.2.4**.
-- **Serving:** [vLLM](https://github.com/vllm-project/vllm) (`rocm/vllm` image) exposing an
-  OpenAI-compatible endpoint. See [`deploy/vllm_mi300x.sh`](deploy/vllm_mi300x.sh).
-- **What runs on AMD:** the **Writer** and **Fact-checker** agents (open instruction models,
-  e.g. Qwen2.5 / Llama-3.3). The MI300X's 192 GB lets a **70B model run on a single GPU,
-  unquantized** — plus co-hosted **bge-m3 embeddings** and **SDXL/Flux** image generation.
-- **Verified:** grounded, correctly-cited drafts and per-claim verdicts in **~3 s/step**.
-- The app calls the endpoint over stdlib `urllib` (OpenAI schema) — see
-  [`engine/live.py`](engine/live.py) (`amd_writer` / `amd_factchecker`). Select the
-  **AMD · MI300X** engine in the sidebar.
+- **What runs on AMD (all four cognitive agents):**
+  - **Writer + Fact-checker** — vLLM chat (Qwen2.5 / Llama-3.3), OpenAI-compatible `:8000`.
+    192 GB HBM3 lets a **70B model run on a single GPU, unquantized**.
+  - **Researcher** — real semantic retrieval via **bge-m3 embeddings** (`sentence-transformers`), `:8001`.
+  - **Image agent** — **SDXL-Turbo** featured images (`diffusers`), `:8002`.
+- **Bring the whole stack up:** [`deploy/amd_stack.sh`](deploy/amd_stack.sh)
+  (+ [`deploy/embed_server.py`](deploy/embed_server.py), [`deploy/sdxl_server.py`](deploy/sdxl_server.py),
+  [`deploy/vllm_mi300x.sh`](deploy/vllm_mi300x.sh)).
+- **Verified on MI300X (gfx942, ROCm 7.2.4):** grounded, correctly-cited drafts + per-claim
+  verdicts (~3 s/step), real cosine retrieval over the corpus, and generated featured images.
+- The app calls every endpoint over stdlib `urllib` (no extra dependency) —
+  [`engine/live.py`](engine/live.py), [`engine/retrieval.py`](engine/retrieval.py),
+  [`engine/imagegen.py`](engine/imagegen.py). Select the **AMD · MI300X** engine in the sidebar.
 
 ## What FACTOR does
 
