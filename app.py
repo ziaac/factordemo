@@ -732,9 +732,8 @@ def page_article():
     genre = run.genre
 
     label = (f'<span class="pill" style="background:{ACCENT};color:{BG};border-color:{ACCENT}">'
-             f'AI-ASSISTED</span> <span class="pill">{genre.upper()}</span>')
-    if ws.id == "parakita":
-        label += ' <span class="pill">TIM PARAKITA</span>'
+             f'AI-ASSISTED</span> <span class="pill">{genre.upper()}</span> '
+             f'<span class="pill">REVIEWED BY EDITOR</span>')
     st.markdown(label, unsafe_allow_html=True)
 
     locales = ws.languages

@@ -1,11 +1,11 @@
 [
   {
     "id": "parakita",
-    "name": "PARAKITA Dental Health",
+    "name": "Dental & Oral Health",
     "domain": "Dental & oral health (YMYL)",
     "languages": ["id", "en"],
     "credibility_policy": "Every medical claim must cite a chunk with credibility >= 3. Guidelines & systematic reviews (credibility 5) are preferred over primary studies. Average corpus credibility per run must be >= 3.",
-    "description": "Original FACTOR workspace, evolved from the KLINIK PARAKITA CMS article module. Writes in Indonesian, then transcreates to English. Content type: health articles for the public, strictly grounded in curated dental journals."
+    "description": "Example workspace (dental & oral health). Writes in Indonesian, then transcreates to English. Content type: health articles for the public, strictly grounded in curated dental journals. Swap in your own domain and sources to make it yours."
   },
   {
     "id": "edutech",
