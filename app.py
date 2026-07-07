@@ -848,6 +848,12 @@ def page_landing():
             A self-hosted, agentic pipeline that produces
             <b>hallucination-free</b> content — every claim grounded in a verified source.
           </p>
+          <div style="margin-top:.9rem">
+            <span class="pill" style="background:{ACCENT};color:#FFFFFF;border-color:{ACCENT}">
+              ● LIVE ON AMD INSTINCT MI300X</span>
+            <span class="pill">ROCm + vLLM</span>
+            <span class="pill">192 GB HBM3</span>
+          </div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -890,13 +896,14 @@ def page_landing():
     )
     d2.markdown(
         f"""<div style="border:2px solid {ACCENT};background:{BG2};padding:1rem 1.1rem;min-height:210px">
-            <div class="swiss-kicker">Profile B · Full self-hosted</div>
+            <div class="swiss-kicker">Profile B · Full self-hosted on AMD &nbsp;·&nbsp; ● proven</div>
             <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Zero API · data never leaves</div>
             <div style="font-size:.86rem;color:{MUTE};line-height:1.5">
-              Every model runs on your hardware — nothing is sent to a third party.<br><br>
-              <b>LLM:</b> vLLM · Qwen2.5-72B / Llama-3.3-70B<br>
-              <b>Embeddings:</b> bge-m3 (Ollama) &nbsp;·&nbsp; <b>Images:</b> SDXL / Flux (ComfyUI)<br>
-              <b>Hardware:</b> GPU 48 GB VRAM · no per-token cost
+              Every model runs on your own AMD GPU — nothing is sent to a third party.<br><br>
+              <b>GPU:</b> AMD Instinct <b>MI300X</b> · 192 GB HBM3 · ROCm + vLLM<br>
+              <b>LLM:</b> Qwen2.5-72B / Llama-3.3-70B <i>(70B fits on one GPU)</i><br>
+              <b>Embeddings:</b> bge-m3 &nbsp;·&nbsp; <b>Images:</b> SDXL / Flux — same GPU<br>
+              <b>Cost:</b> fixed GPU, <b>no per-token charge</b>
             </div>
         </div>""",
         unsafe_allow_html=True,
@@ -949,6 +956,21 @@ def page_landing():
         'automatically via OAI-PMH (≈200 open-access endpoints), chunked, embedded into '
         'PostgreSQL + pgvector, and hybrid-searched (vector + full-text) at write time. '
         'Output: 2–5 verified, bilingual articles per day, injected straight into your CMS.</div>',
+        unsafe_allow_html=True,
+    )
+
+    # --- Honest status ---------------------------------------------------- #
+    st.markdown("<div style='height:1.6rem'></div>", unsafe_allow_html=True)
+    st.markdown('<div class="hp-title">What is real today</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div style="font-size:.9rem;color:{MUTE};line-height:1.55">'
+        f'This demo drives the <b>full pipeline and all 8 gates</b> end-to-end. In the '
+        f'<b style="color:{INK}">AMD · MI300X</b> engine, the <b>Writer</b> and <b>Fact-checker</b> run '
+        f'<b style="color:{INK}">live on an AMD Instinct MI300X</b> (ROCm + vLLM) — grounded, correctly-cited '
+        f'output in ~3&nbsp;s/step. The corpus and topic backlog shown here are a curated <b>seed set</b>; '
+        f'wiring to a live corpus (Google Drive + journals → pgvector) and publishing into a CMS database are '
+        f'the next build (≈1–2 weeks for a real vertical slice). <i>Inference on AMD is real; the data '
+        f'integrations are simulated for now.</i></div>',
         unsafe_allow_html=True,
     )
 
