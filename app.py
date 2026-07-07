@@ -708,6 +708,164 @@ def _render_audit(run):
 
 
 # --------------------------------------------------------------------------- #
+# CMS-style full article preview (how it would render on a real site)
+# --------------------------------------------------------------------------- #
+_PUB_DATE = "7 July 2026"
+
+
+def _md_to_article_html(body: str, by_id: dict, ordered_ids: list[str]) -> tuple[str, str]:
+    """Return (title, body_html). Converts the markdown draft to a CMS-like article body,
+    turning [[chunk:id]] markers into numbered superscript reference links."""
+    def cite_repl(m):
+        cid = m.group(1)
+        n = ordered_ids.index(cid) + 1 if cid in ordered_ids else "?"
+        return f'<sup class="c"><a href="#ref-{cid}">[{n}]</a></sup>'
+
+    def inline(t: str) -> str:
+        t = html.escape(t)
+        t = _CITE_RE.sub(cite_repl, t)
+        t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
+        t = re.sub(r"`([^`]+)`", r"<code>\1</code>", t)
+        return t
+
+    title, out, para = "", [], []
+    def flush():
+        if para:
+            out.append("<p>" + " ".join(para) + "</p>")
+            para.clear()
+    for line in (body or "").split("\n"):
+        s = line.strip()
+        if not s:
+            flush(); continue
+        if s.startswith("# "):
+            flush(); title = s[2:].strip(); continue
+        if s.startswith("### "):
+            flush(); out.append(f"<h3>{inline(s[4:])}</h3>"); continue
+        if s.startswith("## "):
+            flush(); out.append(f"<h2>{inline(s[3:])}</h2>"); continue
+        if s.startswith("> "):
+            flush(); out.append(f"<blockquote>{inline(s[2:])}</blockquote>"); continue
+        para.append(inline(s))
+    flush()
+    return title, "\n".join(out)
+
+
+def _cms_preview_html(run, ws, loc: str, seed: dict) -> str:
+    a = run.artifacts
+    body = a["draft"] if loc == "id" else a.get("translation_en", a["draft"])
+    meta = a.get("meta", {}).get(loc, {})
+    by_id = seed["chunks_by_id"]
+    ordered = cited_ids(body)
+    title, body_html = _md_to_article_html(body, by_id, ordered)
+    if not title:
+        title = meta.get("meta_title", run.topic_id)
+
+    accent = "#0F6E56" if ws.id == "parakita" else "#3730A3"   # teal / indigo
+    accent2 = "#12B886" if ws.id == "parakita" else "#6366F1"
+    img = a.get("image", {})
+    alt = img.get("alt_id" if loc == "id" else "alt_en", "") or img.get("alt_en", "")
+    kw = meta.get("keywords", [])
+    rt = meta.get("reading_time_min", "-")
+    cat = "Kesehatan Gigi" if ws.id == "parakita" and loc == "id" else \
+          ("Dental Health" if ws.id == "parakita" else
+           ("Teknologi Pendidikan" if loc == "id" else "EdTech"))
+    disc = a.get("disclaimer_id" if loc == "id" else "disclaimer_en", "")
+
+    tags_html = " ".join(f'<span class="tag">#{html.escape(k)}</span>' for k in kw)
+    refs = []
+    for i, cid in enumerate(ordered, 1):
+        c = by_id.get(cid)
+        if not c:
+            continue
+        doi = html.escape(c.doi)
+        refs.append(
+            f'<li id="ref-{cid}"><span class="rn">{i}.</span> '
+            f'{html.escape(", ".join(c.authors))} ({c.year}). '
+            f'<i>{html.escape(c.title)}</i>. '
+            f'<span class="rt">{c.source_type} · credibility {c.credibility}/5 · '
+            f'<a href="https://doi.org/{doi}" target="_blank" rel="noopener">{doi}</a></span></li>')
+    refs_html = "\n".join(refs)
+
+    # Featured image = flat brand-safe SVG banner (placeholder for SDXL/Flux on AMD).
+    featured = f'''
+    <div class="hero">
+      <svg viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="{accent}"/><stop offset="1" stop-color="{accent2}"/></linearGradient></defs>
+        <rect width="1200" height="500" fill="url(#g)"/>
+        <circle cx="960" cy="120" r="220" fill="#ffffff" opacity="0.08"/>
+        <circle cx="240" cy="430" r="180" fill="#000000" opacity="0.08"/>
+        <rect x="80" y="360" width="70" height="70" fill="#ffffff" opacity="0.14"/>
+      </svg>
+      <div class="hero-cap">AI-generated featured illustration · 1200×630 <span>(SDXL/Flux on AMD — placeholder)</span></div>
+    </div>'''
+
+    return f'''<!doctype html><html lang="{loc}"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{html.escape(meta.get("meta_description",""))}">
+<style>
+  * {{ box-sizing: border-box; }}
+  body {{ margin:0; background:#F3F4F6; color:#1F2937;
+         font-family:-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif; line-height:1.7; }}
+  .wrap {{ max-width:760px; margin:0 auto; background:#FFFFFF; }}
+  .hero {{ position:relative; }}
+  .hero svg {{ width:100%; height:280px; display:block; }}
+  .hero-cap {{ position:absolute; bottom:8px; right:12px; font-size:11px; color:#fff;
+              background:rgba(0,0,0,.35); padding:3px 8px; border-radius:3px; }}
+  .hero-cap span {{ opacity:.8; }}
+  .content {{ padding:28px 34px 40px; }}
+  .cat {{ display:inline-block; text-transform:uppercase; letter-spacing:.12em; font-size:12px;
+         font-weight:700; color:{accent}; margin-bottom:10px; }}
+  h1 {{ font-size:2.15rem; line-height:1.2; margin:.1rem 0 .5rem; color:#111827; font-weight:800; letter-spacing:-.01em; }}
+  .byline {{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; color:#6B7280; font-size:14px;
+            border-bottom:1px solid #E5E7EB; padding-bottom:16px; margin-bottom:22px; }}
+  .avatar {{ width:34px; height:34px; border-radius:50%; background:{accent}; color:#fff; font-weight:700;
+            display:flex; align-items:center; justify-content:center; font-size:13px; }}
+  .badge {{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;
+           color:{accent}; border:1px solid {accent}; border-radius:3px; padding:1px 6px; }}
+  .content h2 {{ font-size:1.4rem; margin:1.8rem 0 .6rem; color:#111827; font-weight:800; }}
+  .content h3 {{ font-size:1.15rem; margin:1.3rem 0 .5rem; color:#111827; }}
+  .content p {{ margin:0 0 1.05rem; font-size:1.05rem; }}
+  blockquote {{ border-left:3px solid {accent}; margin:1rem 0; padding:.2rem 0 .2rem 1rem; color:#4B5563; }}
+  code {{ background:#F3F4F6; padding:1px 5px; border-radius:3px; font-size:.9em; }}
+  sup.c a {{ color:{accent}; text-decoration:none; font-weight:700; }}
+  .disc {{ background:#FFF7ED; border-left:3px solid #F59E0B; padding:12px 14px; font-size:14px;
+          color:#7C2D12; margin:22px 0; border-radius:2px; }}
+  .tags {{ margin:22px 0; }}
+  .tag {{ display:inline-block; background:#F3F4F6; color:#374151; font-size:13px; padding:3px 10px;
+         border-radius:999px; margin:0 6px 6px 0; }}
+  .refs {{ border-top:1px solid #E5E7EB; margin-top:26px; padding-top:14px; }}
+  .refs h4 {{ font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:#6B7280; margin:0 0 10px; }}
+  .refs ol {{ list-style:none; padding:0; margin:0; }}
+  .refs li {{ font-size:13.5px; color:#374151; margin-bottom:10px; padding-left:4px; }}
+  .rn {{ color:{accent}; font-weight:700; margin-right:4px; }}
+  .rt {{ color:#6B7280; }}
+  .refs a {{ color:{accent}; }}
+  .seo {{ margin-top:26px; padding:14px; background:#F9FAFB; border:1px dashed #D1D5DB; border-radius:4px;
+         font-size:12.5px; color:#6B7280; font-family:ui-monospace,Consolas,monospace; }}
+</style></head><body><div class="wrap">
+  {featured}
+  <div class="content">
+    <span class="cat">{html.escape(cat)}</span>
+    <h1>{html.escape(title)}</h1>
+    <div class="byline">
+      <div class="avatar">AI</div>
+      <div><b>AI-assisted</b> · {_PUB_DATE} · {rt} min read</div>
+      <span class="badge">Reviewed by editor</span>
+      <span class="badge">Grounded · {len(ordered)} sources</span>
+    </div>
+    {body_html}
+    {f'<div class="disc">{html.escape(disc)}</div>' if disc else ''}
+    <div class="tags">{tags_html}</div>
+    <div class="refs"><h4>References</h4><ol>{refs_html}</ol></div>
+    <div class="seo">meta_title: {html.escape(meta.get("meta_title",""))}<br>
+      meta_description: {html.escape(meta.get("meta_description",""))}<br>
+      slug: /{html.escape(meta.get("slug",""))}</div>
+  </div>
+</div></body></html>'''
+
+
+# --------------------------------------------------------------------------- #
 # Page: Article
 # --------------------------------------------------------------------------- #
 def page_article():
@@ -738,6 +896,16 @@ def page_article():
 
     locales = ws.languages
     tab_labels = {"id": "Indonesian", "en": "English"}
+
+    view = st.radio("View", ["Reader", "CMS preview"], horizontal=True,
+                    label_visibility="collapsed")
+    if view == "CMS preview":
+        st.caption("Full article detail as it would render on the connected CMS.")
+        loc = st.radio("Language", locales, horizontal=True,
+                       format_func=lambda l: tab_labels[l], label_visibility="collapsed")
+        components.html(_cms_preview_html(run, ws, loc, seed), height=1500, scrolling=True)
+        return
+
     tabs = st.tabs([tab_labels[l] for l in locales])
 
     for tab, loc in zip(tabs, locales):
