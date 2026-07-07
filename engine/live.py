@@ -163,12 +163,19 @@ def _parse_claims(raw: str) -> list[dict]:
     parsed = json.loads(raw[start:end + 1])
     out = []
     for i, c in enumerate(parsed):
+        if not isinstance(c, dict):
+            continue
+        # Coerce every field to str: the model may emit null / numbers / nested
+        # objects, and `dict.get(k, default)` returns None (not default) on null.
+        verdict = str(c.get("verdict") or "partial").strip().lower()
+        if verdict not in ("supported", "partial", "unsupported", "contradicted"):
+            verdict = "partial"
         out.append({
-            "id": c.get("id", f"cl{i+1}"),
-            "text": c.get("text", ""),
-            "chunk_id": c.get("chunk_id", ""),
-            "verdict": c.get("verdict", "partial"),
-            "note": c.get("note", ""),
+            "id": str(c.get("id") or f"cl{i+1}"),
+            "text": str(c.get("text") or ""),
+            "chunk_id": str(c.get("chunk_id") or ""),
+            "verdict": verdict,
+            "note": str(c.get("note") or ""),
         })
     return out
 
