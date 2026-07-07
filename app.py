@@ -234,7 +234,7 @@ def init_state():
     st.session_state.setdefault("workspace_id", st.session_state.seed["workspaces"][0].id)
     st.session_state.setdefault("current_run", None)
     st.session_state.setdefault("history", [])          # finished runs (dicts)
-    st.session_state.setdefault("force_mock", True)   # default to MOCK even if a key is present
+    st.session_state.setdefault("engine", "amd" if live.amd_available() else "mock")
     st.session_state.setdefault("selected_topic", None)
 
 
@@ -244,8 +244,31 @@ def reset_demo():
     init_state()
 
 
-def mode_is_live() -> bool:
-    return live.live_available() and not st.session_state.force_mock
+# --- Inference engine selection -------------------------------------------- #
+ENGINE_LABELS = {"mock": "MOCK", "amd": "AMD · MI300X", "live": "CLAUDE LIVE"}
+
+
+def available_engines() -> list[str]:
+    opts = ["mock"]
+    if live.amd_available():
+        opts.append("amd")
+    if live.live_available():
+        opts.append("live")
+    return opts
+
+
+def active_engine() -> str:
+    eng = st.session_state.get("engine", "mock")
+    return eng if eng in available_engines() else "mock"
+
+
+def engine_backends(eng: str):
+    """Return (writer_fn, factchecker_fn) for the chosen engine; (None, None) = mock."""
+    if eng == "amd":
+        return live.amd_writer, live.amd_factchecker
+    if eng == "live":
+        return live.live_writer, live.live_factchecker
+    return None, None
 
 
 # --------------------------------------------------------------------------- #
@@ -368,20 +391,29 @@ def sidebar():
             st.rerun()
 
         st.markdown("---")
-        live_key = live.live_available()
-        mode = "LIVE" if mode_is_live() else "MOCK"
-        color = ACCENT if mode == "LIVE" else INK
-        textcol = "#FFFFFF" if mode == "LIVE" else BG
+        opts = available_engines()
+        eng = active_engine()
+        if len(opts) > 1:
+            eng = st.radio("Inference engine", opts,
+                           format_func=lambda e: ENGINE_LABELS[e],
+                           index=opts.index(eng))
+            st.session_state.engine = eng
+        color = ACCENT if eng in ("amd", "live") else INK
+        textcol = "#FFFFFF" if eng in ("amd", "live") else BG
         st.markdown(
             f'<span class="pill" style="background:{color};color:{textcol};border-color:{color}">'
-            f'MODE · {mode}</span>', unsafe_allow_html=True)
-        if live_key:
-            st.checkbox("Force MOCK (ignore API key)", key="force_mock")
-            st.caption("API key detected. LIVE runs Writer + Fact-checker via the hosted "
-                       "LLM API; other steps stay mock. Failures fall back to mock.")
+            f'ENGINE · {ENGINE_LABELS[eng]}</span>', unsafe_allow_html=True)
+        if eng == "amd":
+            st.caption(f"Writer + Fact-checker run on an **AMD Instinct MI300X** (ROCm + vLLM), "
+                       f"model `{live.amd_model()}`. Other steps stay mock; failures fall back to mock.")
+        elif eng == "live":
+            st.caption("Writer + Fact-checker run via the hosted LLM API. Other steps stay mock; "
+                       "failures fall back to mock.")
+        elif live.amd_available() or live.live_available():
+            st.caption("MOCK: deterministic canned output, no API calls. Switch engine above to run live.")
         else:
-            st.caption("No ANTHROPIC_API_KEY — MOCK only. Set it in st.secrets or env "
-                       "to enable LIVE Writer + Fact-checker.")
+            st.caption("MOCK only. Set AMD_BASE_URL (vLLM/MI300X) or ANTHROPIC_API_KEY in "
+                       "st.secrets/env to enable a live engine.")
 
         st.markdown("---")
         page = st.radio("View", ["Workspace", "Run pipeline", "Article", "Dashboard"],
@@ -468,8 +500,7 @@ def _record_history(run):
 
 def _animate_run(run, topic, ws, seed):
     placeholder = st.empty()
-    lw = live.live_writer if mode_is_live() else None
-    lf = live.live_factchecker if mode_is_live() else None
+    lw, lf = engine_backends(active_engine())
     for r in mock.iter_pipeline(run, topic, ws, seed, live_writer=lw, live_factchecker=lf):
         last = r.events[-1]
         with placeholder.container():
@@ -797,7 +828,6 @@ def page_dashboard():
 # Landing page
 # --------------------------------------------------------------------------- #
 def page_landing():
-    live_on = live.live_available()
     # Landing-only: cap width on desktop so the page reads as a centered box.
     st.markdown(
         """<style>
@@ -939,9 +969,14 @@ def page_landing():
             st.session_state.entered = True
             st.rerun()
     with b2:
-        mode = ("LIVE (LLM-backed Writer + Fact-checker)" if mode_is_live()
-                else "MOCK (deterministic & free — no API calls)")
-        st.caption(f"Running in **{mode}**. This is a simulation — no database, no Redis, no Node. "
+        eng = active_engine()
+        if eng == "amd":
+            mode = f"AMD Instinct MI300X · ROCm + vLLM ({live.amd_model()})"
+        elif eng == "live":
+            mode = "hosted LLM API (Writer + Fact-checker)"
+        else:
+            mode = "MOCK (deterministic & free — no API calls)"
+        st.caption(f"Engine: **{mode}**. This is a simulation — no database, no Redis, no Node. "
                    "Production stack is TypeScript / BullMQ / PostgreSQL.")
 
 

@@ -51,14 +51,49 @@ MOCK mode is fully functional and deterministic.
 
 ---
 
-## MOCK vs LIVE
+## Inference engines
 
-| Mode | When | Behaviour |
-|------|------|-----------|
-| **MOCK** (default) | No `ANTHROPIC_API_KEY` | Canonical outputs from the JSON seed. Deterministic, free, offline. Artificial 0.5–1.3 s/step so the pipeline feels alive. |
-| **LIVE** (optional) | `ANTHROPIC_API_KEY` present | Only the **Writer** and **Fact-checker** call the hosted LLM API, against the small seed corpus, `max_tokens ≤ 2000`. Every other step stays mock. Any API failure **falls back to mock with a warning** — it never crashes. |
+Pick the engine in the sidebar. The **Writer** and **Fact-checker** steps run on the
+chosen engine; every other step stays mock. Any live failure **falls back to mock with a
+warning** — it never crashes.
 
-Toggle **Force MOCK** in the sidebar to ignore a present key.
+| Engine | When available | Behaviour |
+|--------|----------------|-----------|
+| **MOCK** (default) | always | Canonical outputs from the JSON seed. Deterministic, free, offline. Artificial 0.5–1.3 s/step so the pipeline feels alive. |
+| **AMD · MI300X** | `AMD_BASE_URL` set | Writer + Fact-checker run on an **AMD Instinct MI300X (ROCm + vLLM)** via an OpenAI-compatible endpoint. Called with stdlib `urllib` (no extra dependency), `max_tokens ≤ 2000`. |
+| **CLAUDE LIVE** | `ANTHROPIC_API_KEY` set | Writer + Fact-checker call the hosted LLM API. |
+
+### Running the AMD MI300X backend
+
+FACTOR's "full self-hosted" profile runs open models on AMD GPUs. To serve one:
+
+```bash
+# on an AMD Instinct host (ROCm + Docker), e.g. AMD Developer Cloud:
+export VLLM_API_KEY=your-secret
+MODEL=Qwen/Qwen2.5-7B-Instruct ./deploy/vllm_mi300x.sh
+# 192 GB HBM3 fits much bigger single-GPU models:
+# MODEL=Qwen/Qwen2.5-72B-Instruct SERVED_NAME=qwen2.5-72b MAXLEN=16384 ./deploy/vllm_mi300x.sh
+```
+
+Then point the app at it (env or `.streamlit/secrets.toml`, see `.streamlit/secrets.toml.example`):
+
+```toml
+AMD_BASE_URL = "http://YOUR_MI300X_HOST:8000/v1"
+AMD_MODEL    = "qwen2.5-7b-instruct"
+AMD_API_KEY  = "your-secret"
+```
+
+Verified on AMD Instinct MI300X (gfx942), ROCm 7.2.4 — Writer + Fact-checker
+returned grounded, correctly-cited output in ~3 s/step.
+
+### Containerized (for graders / reproducible runs)
+
+```bash
+docker buildx build --platform linux/amd64 -t <registry>/factor-demo:latest --push .
+docker run -p 8501:8501 \
+  -e AMD_BASE_URL=http://<mi300x-host>:8000/v1 -e AMD_MODEL=qwen2.5-7b-instruct \
+  -e AMD_API_KEY=... <registry>/factor-demo:latest
+```
 
 ---
 
@@ -69,9 +104,14 @@ The flow is **push to GitHub → deploy on Streamlit Cloud**.
 1. Push this folder to GitHub — it is the repo root (`app.py` sits at the top level).
 2. On <https://share.streamlit.io> → **New app** → pick the repo/branch.
 3. **Main file path:** `app.py`  *(this folder is the repo root)*.
-4. *(Optional, for LIVE mode)* **Advanced settings → Secrets:**
+4. *(Optional, for a live engine)* **Advanced settings → Secrets:**
    ```toml
-   ANTHROPIC_API_KEY = "sk-ant-..."
+   # AMD MI300X engine:
+   AMD_BASE_URL = "http://YOUR_MI300X_HOST:8000/v1"
+   AMD_MODEL    = "qwen2.5-7b-instruct"
+   AMD_API_KEY  = "your-secret"
+   # or the hosted LLM API:
+   # ANTHROPIC_API_KEY = "sk-ant-..."
    ```
 5. Deploy. The repo must be public, or your Streamlit account linked to the private repo.
 
@@ -88,12 +128,15 @@ engine/
   models.py             # dataclasses: Workspace, Topic, Chunk, Run, Claim, RunEvent
   state_machine.py      # states, per-step agent/model/gate metadata, thresholds
   mock.py               # seed loader + deterministic pipeline generator
-  live.py               # optional hosted-LLM calls (Writer, Fact-checker) + fallback
+  live.py               # live engines: AMD/vLLM (urllib) + hosted LLM API, with fallback
 data/
   workspaces.json       # 2 workspaces
   topics.json           # 7 topics (happy / revision / weak-corpus scenarios)
   chunks.json           # 22 source chunks with credibility metadata
   canned_runs.json      # canonical agent outputs per runnable topic
+deploy/
+  vllm_mi300x.sh        # serve an open model with vLLM on AMD Instinct MI300X (ROCm)
+Dockerfile              # containerize the Streamlit app (linux/amd64)
 requirements.txt
 ```
 
