@@ -69,4 +69,4 @@ docker buildx build --platform linux/amd64 -t <registry>/factor-demo:latest --pu
 
 - Detailed guide: [`README-demo.md`](README-demo.md)
 - Serve-on-AMD script: [`deploy/vllm_mi300x.sh`](deploy/vllm_mi300x.sh)
-- Architecture & roadmap: [FACTOR Technical Whitepaper v1.1](docs/FACTOR-Technical-Whitepaper.pdf)
+- Architecture & roadmap: [FACTOR Technical Whitepaper v1.2](docs/FACTOR-Technical-Whitepaper.pdf)
