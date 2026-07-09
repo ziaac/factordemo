@@ -718,5 +718,525 @@
     },
     "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan penilaian pendidik profesional. Sesuaikan penerapan dengan konteks kelas Anda.",
     "disclaimer_en": "This article is informational and does not replace professional educator judgment. Adapt any application to your own classroom context."
+  },
+  "d-024": {
+    "research_pack": [
+      {
+        "chunk_id": "c-pg-01",
+        "score": 0.93,
+        "reason": "Defines plaque biofilm and its role in starting gum inflammation."
+      },
+      {
+        "chunk_id": "c-pg-02",
+        "score": 0.9,
+        "reason": "Progression gingivitis -> periodontitis with bone loss."
+      },
+      {
+        "chunk_id": "c-pg-03",
+        "score": 0.88,
+        "reason": "Prevention core: daily mechanical plaque control."
+      },
+      {
+        "chunk_id": "c-pg-04",
+        "score": 0.84,
+        "reason": "Professional scaling/root planing evidence."
+      }
+    ],
+    "avg_credibility": 5.0,
+    "outline": [
+      {
+        "level": "H2",
+        "heading": "Apa itu plak dan bagaimana memicu radang gusi",
+        "claim": "Plak adalah biofilm bakteri yang memicu peradangan gusi.",
+        "chunk_id": "c-pg-01"
+      },
+      {
+        "level": "H2",
+        "heading": "Dari gingivitis ke periodontitis",
+        "claim": "Plak yang dibiarkan membuat gingivitis berkembang menjadi periodontitis dan kehilangan tulang.",
+        "chunk_id": "c-pg-02"
+      },
+      {
+        "level": "H2",
+        "heading": "Cara mencegah dan mengendalikan",
+        "claim": "Kontrol plak harian dan skeling profesional adalah kunci.",
+        "chunk_id": "c-pg-03"
+      },
+      {
+        "level": "H2",
+        "heading": "Faktor risiko dan tanda awal",
+        "claim": "Merokok memperparah; gusi berdarah adalah tanda awal.",
+        "chunk_id": "c-pg-05"
+      }
+    ],
+    "draft_id": "# Peran Plak dalam Penyakit Gusi dan Cara Mencegahnya\n\n## Apa itu plak dan bagaimana memicu radang gusi\n\nPlak gigi adalah biofilm bakteri yang menempel di permukaan gigi; produk yang dilepaskan bakteri di dalamnya memicu peradangan gusi yang menjadi awal penyakit gusi. [[chunk:c-pg-01]]\n\n## Dari gingivitis ke periodontitis\n\nBila plak tidak dibersihkan, gingivitis dapat berkembang menjadi periodontitis, yaitu ketika respons peradangan merusak ligamen periodontal dan tulang alveolar yang menyangga gigi. [[chunk:c-pg-02]]\n\n## Cara mencegah dan mengendalikan\n\nKontrol plak mekanis setiap hari - menyikat gigi dipadukan dengan pembersihan sela gigi - adalah dasar pencegahan radang gusi. [[chunk:c-pg-03]] Pada kasus yang sudah lanjut, skeling dan root planing profesional membersihkan plak dan karang di bawah garis gusi serta menurunkan kedalaman poket dan perdarahan. [[chunk:c-pg-04]]\n\n## Faktor risiko dan tanda awal\n\nMerokok adalah faktor risiko utama yang memperparah periodontitis dan menghambat respons perawatan. [[chunk:c-pg-05]] Gusi yang berdarah saat menyikat adalah tanda awal peradangan dan sebaiknya tidak dianggap normal. [[chunk:c-pg-06]]",
+    "claims": [
+      {
+        "id": "cl1",
+        "text": "Plak adalah biofilm bakteri yang memicu peradangan gusi.",
+        "chunk_id": "c-pg-01",
+        "verdict": "supported",
+        "note": "Definition and role grounded."
+      },
+      {
+        "id": "cl2",
+        "text": "Gingivitis dapat berkembang menjadi periodontitis dengan kerusakan tulang.",
+        "chunk_id": "c-pg-02",
+        "verdict": "supported",
+        "note": "Progression preserved."
+      },
+      {
+        "id": "cl3",
+        "text": "Kontrol plak harian adalah dasar pencegahan.",
+        "chunk_id": "c-pg-03",
+        "verdict": "supported",
+        "note": "Matches guideline."
+      },
+      {
+        "id": "cl4",
+        "text": "Merokok memperparah periodontitis.",
+        "chunk_id": "c-pg-05",
+        "verdict": "supported",
+        "note": "Risk factor grounded."
+      }
+    ],
+    "verdict": "pass",
+    "bias": {
+      "score": 4.6,
+      "notes": [
+        "No product or clinic hard-sell.",
+        "No overclaiming of cure.",
+        "Balanced risk/benefit.",
+        "Readable for general public."
+      ]
+    },
+    "translation_en": "# The Role of Plaque in Gum Disease and How to Prevent It\n\n## What plaque is and how it triggers gum inflammation\n\nDental plaque is a bacterial biofilm attached to tooth surfaces; the products its bacteria release trigger the gum inflammation that starts gum disease. [[chunk:c-pg-01]]\n\n## From gingivitis to periodontitis\n\nIf plaque is not removed, gingivitis can progress to periodontitis, where the inflammatory response destroys the periodontal ligament and alveolar bone that support the teeth. [[chunk:c-pg-02]]\n\n## How to prevent and control it\n\nDaily mechanical plaque control - toothbrushing combined with interdental cleaning - is the foundation of preventing gum inflammation. [[chunk:c-pg-03]] In advanced cases, professional scaling and root planing removes plaque and calculus below the gumline and lowers pocket depth and bleeding. [[chunk:c-pg-04]]\n\n## Risk factors and early signs\n\nSmoking is a major risk factor that worsens periodontitis and impairs treatment response. [[chunk:c-pg-05]] Gums that bleed on brushing are an early sign of inflammation and should not be treated as normal. [[chunk:c-pg-06]]",
+    "qa": {
+      "status": "pass",
+      "notes": "No meaning drift ID<->EN; all citation markers preserved."
+    },
+    "meta": {
+      "id": {
+        "meta_title": "Peran Plak dalam Penyakit Gusi dan Cara Mencegahnya",
+        "meta_description": "Plak memicu radang gusi yang bisa berkembang jadi periodontitis. Simak cara mencegahnya.",
+        "slug": "peran-plak-penyakit-gusi",
+        "keywords": [
+          "plak",
+          "penyakit gusi",
+          "periodontitis",
+          "kesehatan gusi"
+        ],
+        "reading_time_min": 3
+      },
+      "en": {
+        "meta_title": "The Role of Plaque in Gum Disease and How to Prevent It",
+        "meta_description": "Plaque triggers gum inflammation that can progress to periodontitis. Learn how to prevent it.",
+        "slug": "plaque-role-gum-disease",
+        "keywords": [
+          "plaque",
+          "gum disease",
+          "periodontitis",
+          "gum health"
+        ],
+        "reading_time_min": 3
+      }
+    },
+    "image": {
+      "prompt": "Flat vector illustration, clean teal and white palette, a healthy gumline versus inflamed gums with plaque near the tooth base, a toothbrush and floss; no text, no realistic patient photo.",
+      "alt_id": "Ilustrasi gusi sehat dibanding gusi meradang akibat plak.",
+      "alt_en": "Illustration of healthy gums versus inflamed gums caused by plaque."
+    },
+    "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan konsultasi dengan dokter gigi.",
+    "disclaimer_en": "This article is informational and does not replace consultation with a dentist."
+  },
+  "d-071": {
+    "research_pack": [
+      {
+        "chunk_id": "c-sn-01",
+        "score": 0.94,
+        "reason": "Consensus definition of dentin hypersensitivity."
+      },
+      {
+        "chunk_id": "c-sn-02",
+        "score": 0.9,
+        "reason": "Hydrodynamic mechanism via exposed tubules."
+      },
+      {
+        "chunk_id": "c-sn-04",
+        "score": 0.88,
+        "reason": "Desensitizing toothpaste efficacy (treatment)."
+      },
+      {
+        "chunk_id": "c-sn-03",
+        "score": 0.83,
+        "reason": "Aggressive brushing as a cause."
+      }
+    ],
+    "avg_credibility": 4.5,
+    "outline": [
+      {
+        "level": "H2",
+        "heading": "Apa itu gigi sensitif",
+        "claim": "Nyeri tajam singkat dari dentin yang terbuka.",
+        "chunk_id": "c-sn-01"
+      },
+      {
+        "level": "H2",
+        "heading": "Mengapa bisa terjadi",
+        "claim": "Tubulus dentin terbuka akibat abrasi email atau resesi gusi.",
+        "chunk_id": "c-sn-02"
+      },
+      {
+        "level": "H2",
+        "heading": "Cara mengatasi",
+        "claim": "Pasta desensitisasi dan mengurangi asam membantu.",
+        "chunk_id": "c-sn-04"
+      },
+      {
+        "level": "H2",
+        "heading": "Kapan ke dokter gigi",
+        "claim": "Sensitivitas menetap bisa menandakan masalah lain.",
+        "chunk_id": "c-sn-06"
+      }
+    ],
+    "draft_id": "# Gigi Sensitif: Penyebab dan Cara Mengatasinya\n\n## Apa itu gigi sensitif\n\nGigi sensitif (hipersensitivitas dentin) adalah nyeri tajam dan singkat yang muncul dari dentin yang terbuka sebagai respons terhadap rangsangan seperti dingin, panas, atau manis, dan tidak disebabkan oleh kelainan gigi lain. [[chunk:c-sn-01]]\n\n## Mengapa bisa terjadi\n\nSensitivitas terjadi ketika hilangnya email atau resesi gusi membuka tubulus dentin, sehingga pergerakan cairan di dalamnya merangsang saraf di pulpa. [[chunk:c-sn-02]] Menyikat gigi terlalu keras dengan sikat kasar dan pasta abrasif dapat mengikis email dan memperparahnya. [[chunk:c-sn-03]]\n\n## Cara mengatasi\n\nPasta gigi desensitisasi yang mengandung kalium nitrat atau stannous fluoride terbukti menurunkan sensitivitas dibanding kontrol pada uji klinis. [[chunk:c-sn-04]] Mengurangi makanan dan minuman asam serta tidak langsung menyikat gigi setelah paparan asam membantu membatasi erosi dan sensitivitas. [[chunk:c-sn-05]]\n\n## Kapan ke dokter gigi\n\nSensitivitas yang menetap atau berat dapat menandakan gigi retak, karies, atau tambalan yang bermasalah dan perlu diperiksa oleh dokter gigi. [[chunk:c-sn-06]]",
+    "claims": [
+      {
+        "id": "cl1",
+        "text": "Gigi sensitif adalah nyeri tajam singkat dari dentin terbuka.",
+        "chunk_id": "c-sn-01",
+        "verdict": "supported",
+        "note": "Definition preserved."
+      },
+      {
+        "id": "cl2",
+        "text": "Tubulus dentin terbuka merangsang saraf (teori hidrodinamik).",
+        "chunk_id": "c-sn-02",
+        "verdict": "supported",
+        "note": "Mechanism grounded."
+      },
+      {
+        "id": "cl3",
+        "text": "Pasta desensitisasi menurunkan sensitivitas pada uji klinis.",
+        "chunk_id": "c-sn-04",
+        "verdict": "supported",
+        "note": "Treatment effect grounded."
+      },
+      {
+        "id": "cl4",
+        "text": "Sensitivitas menetap perlu diperiksa dokter gigi.",
+        "chunk_id": "c-sn-06",
+        "verdict": "supported",
+        "note": "Referral advice grounded."
+      }
+    ],
+    "verdict": "pass",
+    "bias": {
+      "score": 4.6,
+      "notes": [
+        "No brand hard-sell (generic ingredients named).",
+        "No overclaiming.",
+        "Advises professional evaluation when needed.",
+        "Readable for general public."
+      ]
+    },
+    "translation_en": "# Tooth Sensitivity: Causes and How to Manage It\n\n## What tooth sensitivity is\n\nTooth sensitivity (dentin hypersensitivity) is a short, sharp pain arising from exposed dentin in response to stimuli such as cold, heat or sweetness, and not caused by any other dental defect. [[chunk:c-sn-01]]\n\n## Why it happens\n\nSensitivity occurs when enamel loss or gum recession exposes dentinal tubules, so fluid movement within them stimulates nerves in the pulp. [[chunk:c-sn-02]] Brushing too hard with a stiff brush and abrasive pastes can wear enamel and make it worse. [[chunk:c-sn-03]]\n\n## How to manage it\n\nDesensitizing toothpastes containing potassium nitrate or stannous fluoride are shown to reduce sensitivity versus control in clinical trials. [[chunk:c-sn-04]] Cutting down on acidic foods and drinks and not brushing immediately after acid exposure helps limit erosion and sensitivity. [[chunk:c-sn-05]]\n\n## When to see a dentist\n\nPersistent or severe sensitivity can signal a cracked tooth, caries or a failing filling and should be checked by a dentist. [[chunk:c-sn-06]]",
+    "qa": {
+      "status": "pass",
+      "notes": "No meaning drift; all six markers preserved."
+    },
+    "meta": {
+      "id": {
+        "meta_title": "Gigi Sensitif: Penyebab dan Cara Mengatasinya",
+        "meta_description": "Kenali penyebab gigi sensitif dan cara mengatasinya, dari pasta desensitisasi sampai kebiasaan menyikat.",
+        "slug": "gigi-sensitif-penyebab-cara-mengatasi",
+        "keywords": [
+          "gigi sensitif",
+          "hipersensitivitas dentin",
+          "pasta desensitisasi",
+          "erosi email"
+        ],
+        "reading_time_min": 3
+      },
+      "en": {
+        "meta_title": "Tooth Sensitivity: Causes and How to Manage It",
+        "meta_description": "Understand what causes tooth sensitivity and how to manage it, from desensitizing toothpaste to brushing habits.",
+        "slug": "tooth-sensitivity-causes-management",
+        "keywords": [
+          "tooth sensitivity",
+          "dentin hypersensitivity",
+          "desensitizing toothpaste",
+          "enamel erosion"
+        ],
+        "reading_time_min": 3
+      }
+    },
+    "image": {
+      "prompt": "Flat vector illustration, clean teal and white palette, a tooth cross-section showing exposed dentin tubules with a cold stimulus, gentle soft-bristle toothbrush nearby; no text, no realistic patient photo.",
+      "alt_id": "Ilustrasi penampang gigi dengan tubulus dentin terbuka.",
+      "alt_en": "Illustration of a tooth cross-section with exposed dentin tubules."
+    },
+    "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan konsultasi dengan dokter gigi.",
+    "disclaimer_en": "This article is informational and does not replace consultation with a dentist."
+  },
+  "e-005": {
+    "research_pack": [
+      {
+        "chunk_id": "c-fc-02",
+        "score": 0.93,
+        "reason": "Meta-analytic effect on achievement (core evidence)."
+      },
+      {
+        "chunk_id": "c-fc-01",
+        "score": 0.9,
+        "reason": "Clear definition of the flipped model."
+      },
+      {
+        "chunk_id": "c-fc-03",
+        "score": 0.86,
+        "reason": "Mechanism: more in-class active learning."
+      },
+      {
+        "chunk_id": "c-fc-04",
+        "score": 0.82,
+        "reason": "Pre-class preparation is a precondition."
+      }
+    ],
+    "avg_credibility": 4.3,
+    "outline": [
+      {
+        "level": "H2",
+        "heading": "Apa itu flipped classroom",
+        "claim": "Instruksi langsung dipindah ke sebelum kelas.",
+        "chunk_id": "c-fc-01"
+      },
+      {
+        "level": "H2",
+        "heading": "Bukti terhadap hasil belajar",
+        "claim": "Meta-analisis menunjukkan efek positif kecil-sedang.",
+        "chunk_id": "c-fc-02"
+      },
+      {
+        "level": "H2",
+        "heading": "Syarat keberhasilan",
+        "claim": "Bergantung pada persiapan siswa dan kualitas implementasi.",
+        "chunk_id": "c-fc-04"
+      },
+      {
+        "level": "H2",
+        "heading": "Keterlibatan siswa",
+        "claim": "Cenderung meningkatkan keterlibatan dan kepuasan.",
+        "chunk_id": "c-fc-06"
+      }
+    ],
+    "draft_id": "# Flipped Classroom: Apakah Meningkatkan Hasil Belajar?\n\n## Apa itu flipped classroom\n\nDalam flipped classroom, instruksi langsung diberikan sebelum kelas (sering lewat video) sehingga waktu di kelas dapat digunakan untuk pemecahan masalah yang aktif dan kolaboratif. [[chunk:c-fc-01]]\n\n## Bukti terhadap hasil belajar\n\nMeta-analisis melaporkan efek positif kecil hingga sedang dari flipped classroom terhadap prestasi siswa dibanding perkuliahan tradisional. [[chunk:c-fc-02]] Desain ini meningkatkan porsi waktu kelas untuk pembelajaran aktif dan interaksi antara siswa dan pengajar. [[chunk:c-fc-03]]\n\n## Syarat keberhasilan\n\nManfaatnya bergantung pada siswa yang menyelesaikan persiapan pra-kelas; mekanisme akuntabilitas seperti kuis singkat memperbaiki hasil. [[chunk:c-fc-04]] Besar efeknya bervariasi menurut kualitas implementasi, bidang studi, dan jenjang pendidikan. [[chunk:c-fc-05]]\n\n## Keterlibatan siswa\n\nSiswa kerap melaporkan keterlibatan dan kepuasan yang lebih tinggi pada kelas flipped yang dirancang baik. [[chunk:c-fc-06]]",
+    "claims": [
+      {
+        "id": "cl1",
+        "text": "Instruksi langsung dipindah ke sebelum kelas; waktu kelas untuk pembelajaran aktif.",
+        "chunk_id": "c-fc-01",
+        "verdict": "supported",
+        "note": "Definition grounded."
+      },
+      {
+        "id": "cl2",
+        "text": "Meta-analisis menunjukkan efek positif kecil-sedang pada prestasi.",
+        "chunk_id": "c-fc-02",
+        "verdict": "supported",
+        "note": "Effect size framing preserved."
+      },
+      {
+        "id": "cl3",
+        "text": "Manfaat bergantung pada persiapan pra-kelas.",
+        "chunk_id": "c-fc-04",
+        "verdict": "supported",
+        "note": "Precondition grounded."
+      },
+      {
+        "id": "cl4",
+        "text": "Besar efek bervariasi menurut implementasi.",
+        "chunk_id": "c-fc-05",
+        "verdict": "supported",
+        "note": "Moderators grounded."
+      }
+    ],
+    "verdict": "pass",
+    "bias": {
+      "score": 4.5,
+      "notes": [
+        "Reports effect as small-to-moderate, not exaggerated.",
+        "Notes conditions and variability.",
+        "No vendor/tool promotion.",
+        "Balanced framing."
+      ]
+    },
+    "translation_en": "# The Flipped Classroom: Does It Improve Learning Outcomes?\n\n## What a flipped classroom is\n\nIn a flipped classroom, direct instruction is delivered before class (often via video) so that class time can be used for active, collaborative problem-solving. [[chunk:c-fc-01]]\n\n## Evidence on learning outcomes\n\nMeta-analyses report a small-to-moderate positive effect of flipped classrooms on student achievement compared with traditional lecturing. [[chunk:c-fc-02]] The design increases the share of class time spent on active learning and student-instructor interaction. [[chunk:c-fc-03]]\n\n## Conditions for success\n\nThe benefits depend on students completing pre-class preparation; accountability mechanisms such as short quizzes improve outcomes. [[chunk:c-fc-04]] Effect sizes vary with implementation quality, subject area and education level. [[chunk:c-fc-05]]\n\n## Student engagement\n\nStudents often report higher engagement and satisfaction in well-designed flipped courses. [[chunk:c-fc-06]]",
+    "qa": {
+      "status": "pass",
+      "notes": "No meaning drift; markers preserved; effect framed cautiously in both languages."
+    },
+    "meta": {
+      "id": {
+        "meta_title": "Flipped Classroom: Apakah Meningkatkan Hasil Belajar?",
+        "meta_description": "Bukti meta-analisis soal flipped classroom dan syarat agar efektif meningkatkan hasil belajar.",
+        "slug": "flipped-classroom-hasil-belajar",
+        "keywords": [
+          "flipped classroom",
+          "hasil belajar",
+          "pembelajaran aktif",
+          "edtech"
+        ],
+        "reading_time_min": 3
+      },
+      "en": {
+        "meta_title": "The Flipped Classroom: Does It Improve Learning Outcomes?",
+        "meta_description": "Meta-analytic evidence on the flipped classroom and the conditions that make it effective.",
+        "slug": "flipped-classroom-learning-outcomes",
+        "keywords": [
+          "flipped classroom",
+          "learning outcomes",
+          "active learning",
+          "edtech"
+        ],
+        "reading_time_min": 3
+      }
+    },
+    "image": {
+      "prompt": "Flat vector illustration, clean indigo and white palette, a split scene: a student watching a lecture video at home and a lively group activity in a classroom; no text, no real faces.",
+      "alt_id": "Ilustrasi siswa menonton video di rumah dan aktivitas kelompok di kelas.",
+      "alt_en": "Illustration of a student watching a video at home and a group activity in class."
+    },
+    "disclaimer_id": "Ringkasan berbasis bukti pendidikan; hasil dapat berbeda menurut konteks penerapan.",
+    "disclaimer_en": "An evidence-based summary; outcomes can vary by implementation context."
+  },
+  "t-spaced": {
+    "research_pack": [
+      {
+        "chunk_id": "c-sr-01",
+        "score": 0.94,
+        "reason": "The spacing effect meta-analysis (core)."
+      },
+      {
+        "chunk_id": "c-sr-02",
+        "score": 0.91,
+        "reason": "Retrieval practice / testing effect."
+      },
+      {
+        "chunk_id": "c-sr-05",
+        "score": 0.86,
+        "reason": "Generalizes across ages and subjects."
+      },
+      {
+        "chunk_id": "c-sr-03",
+        "score": 0.82,
+        "reason": "How to schedule the gaps."
+      }
+    ],
+    "avg_credibility": 4.75,
+    "outline": [
+      {
+        "level": "H2",
+        "heading": "Efek spacing",
+        "claim": "Belajar terdistribusi mengalahkan belajar menumpuk.",
+        "chunk_id": "c-sr-01"
+      },
+      {
+        "level": "H2",
+        "heading": "Kekuatan retrieval practice",
+        "claim": "Mengingat aktif lebih kuat daripada membaca ulang.",
+        "chunk_id": "c-sr-02"
+      },
+      {
+        "level": "H2",
+        "heading": "Cara menjadwalkan",
+        "claim": "Jarak sesi menyesuaikan interval retensi; SRS membantu.",
+        "chunk_id": "c-sr-03"
+      },
+      {
+        "level": "H2",
+        "heading": "Berlaku lintas bidang",
+        "claim": "Manfaatnya umum; interleaving melengkapi.",
+        "chunk_id": "c-sr-05"
+      }
+    ],
+    "draft_id": "# Spaced Repetition: Belajar Sedikit tapi Sering untuk Ingatan Jangka Panjang\n\n## Efek spacing\n\nEfek spacing menunjukkan bahwa membagi belajar ke beberapa sesi menghasilkan retensi jangka panjang yang lebih baik daripada belajar menumpuk dalam jumlah waktu yang sama. [[chunk:c-sr-01]]\n\n## Kekuatan retrieval practice\n\nLatihan mengingat (retrieval practice) - secara aktif memanggil kembali informasi - memperkuat memori lebih baik daripada sekadar membaca ulang, yang dikenal sebagai testing effect. [[chunk:c-sr-02]]\n\n## Cara menjadwalkan\n\nJarak optimal antar sesi belajar membesar seiring interval retensi yang diinginkan: makin lama ingin diingat, makin panjang jaraknya. [[chunk:c-sr-03]] Perangkat lunak spaced repetition menjadwalkan pengulangan dengan algoritma (misalnya sistem Leitner atau SM-2) yang memperpanjang interval untuk materi yang sudah dikuasai. [[chunk:c-sr-04]]\n\n## Berlaku lintas bidang\n\nManfaat spacing dan retrieval practice berlaku lintas usia, mata pelajaran, dan materi. [[chunk:c-sr-05]] Menyelang-nyeling (interleaving) berbagai jenis soal saat berlatih semakin meningkatkan transfer pada pemecahan masalah. [[chunk:c-sr-06]]",
+    "claims": [
+      {
+        "id": "cl1",
+        "text": "Belajar terdistribusi mengalahkan belajar menumpuk untuk retensi.",
+        "chunk_id": "c-sr-01",
+        "verdict": "supported",
+        "note": "Spacing effect grounded."
+      },
+      {
+        "id": "cl2",
+        "text": "Retrieval practice memperkuat memori lebih dari membaca ulang.",
+        "chunk_id": "c-sr-02",
+        "verdict": "supported",
+        "note": "Testing effect grounded."
+      },
+      {
+        "id": "cl3",
+        "text": "Jarak sesi menyesuaikan interval retensi.",
+        "chunk_id": "c-sr-03",
+        "verdict": "supported",
+        "note": "Scheduling grounded."
+      },
+      {
+        "id": "cl4",
+        "text": "Manfaatnya berlaku lintas usia dan bidang.",
+        "chunk_id": "c-sr-05",
+        "verdict": "supported",
+        "note": "Generalization grounded."
+      }
+    ],
+    "verdict": "pass",
+    "bias": {
+      "score": 4.7,
+      "notes": [
+        "Evidence-based, no product promotion.",
+        "Names concrete algorithms neutrally.",
+        "No overclaiming.",
+        "Practical and balanced."
+      ]
+    },
+    "translation_en": "# Spaced Repetition: Study a Little, Often, for Long-Term Memory\n\n## The spacing effect\n\nThe spacing effect shows that dividing study across several sessions produces better long-term retention than massing the same amount of study time. [[chunk:c-sr-01]]\n\n## The power of retrieval practice\n\nRetrieval practice - actively recalling information - strengthens memory more than simply rereading, an effect known as the testing effect. [[chunk:c-sr-02]]\n\n## How to schedule it\n\nThe optimal gap between study sessions grows with the desired retention interval: the longer you want to remember, the longer the gap. [[chunk:c-sr-03]] Spaced-repetition software schedules reviews with algorithms (such as the Leitner system or SM-2) that lengthen intervals for well-learned material. [[chunk:c-sr-04]]\n\n## It applies across domains\n\nThe benefits of spacing and retrieval practice hold across ages, subjects and materials. [[chunk:c-sr-05]] Interleaving different problem types during practice further improves transfer in problem-solving. [[chunk:c-sr-06]]",
+    "qa": {
+      "status": "pass",
+      "notes": "No meaning drift; all markers preserved."
+    },
+    "meta": {
+      "id": {
+        "meta_title": "Spaced Repetition untuk Retensi Belajar",
+        "meta_description": "Efek spacing dan retrieval practice: cara belajar sedikit tapi sering agar ingatan bertahan lama.",
+        "slug": "spaced-repetition-retensi-belajar",
+        "keywords": [
+          "spaced repetition",
+          "retrieval practice",
+          "efek spacing",
+          "strategi belajar"
+        ],
+        "reading_time_min": 3
+      },
+      "en": {
+        "meta_title": "Spaced Repetition for Learning Retention",
+        "meta_description": "The spacing effect and retrieval practice: how studying a little, often makes memory last.",
+        "slug": "spaced-repetition-learning-retention",
+        "keywords": [
+          "spaced repetition",
+          "retrieval practice",
+          "spacing effect",
+          "study strategies"
+        ],
+        "reading_time_min": 3
+      }
+    },
+    "image": {
+      "prompt": "Flat vector illustration, clean indigo and white palette, a memory-retention curve rising with repeated spaced review markers and a small calendar; no text labels, no real faces.",
+      "alt_id": "Ilustrasi kurva retensi memori yang menguat dengan pengulangan berjarak.",
+      "alt_en": "Illustration of a memory-retention curve strengthened by spaced reviews."
+    },
+    "disclaimer_id": "Ringkasan berbasis riset kognitif; strategi dapat disesuaikan dengan kebutuhan belajar.",
+    "disclaimer_en": "A summary based on cognitive-science research; strategies can be adapted to your needs."
   }
 }

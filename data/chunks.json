@@ -462,5 +462,441 @@
       "virtual reality",
       "laboratory"
     ]
+  },
+  {
+    "id": "c-pg-01",
+    "workspace_id": "parakita",
+    "content": "Dental plaque is a structured bacterial biofilm on tooth surfaces; the bacterial products it releases trigger the gingival inflammation that begins gum disease.",
+    "title": "Dental plaque biofilm and periodontal disease",
+    "authors": [
+      "Kinane",
+      "Stathopoulou",
+      "Papapanou"
+    ],
+    "year": 2017,
+    "doi": "10.1038/nrdp.2017.38",
+    "source_type": "systematic_review",
+    "credibility": 5,
+    "topic_tags": [
+      "plaque",
+      "periodontitis",
+      "biofilm"
+    ]
+  },
+  {
+    "id": "c-pg-02",
+    "workspace_id": "parakita",
+    "content": "If plaque is not removed, gingivitis can progress to periodontitis, in which the inflammatory response destroys the periodontal ligament and alveolar bone supporting the teeth.",
+    "title": "From gingivitis to periodontitis",
+    "authors": [
+      "Page",
+      "Kornman"
+    ],
+    "year": 2015,
+    "doi": "10.1111/prd.12103",
+    "source_type": "review",
+    "credibility": 5,
+    "topic_tags": [
+      "gingivitis",
+      "periodontitis"
+    ]
+  },
+  {
+    "id": "c-pg-03",
+    "workspace_id": "parakita",
+    "content": "Daily mechanical plaque control - toothbrushing combined with interdental cleaning - is the cornerstone of preventing and controlling gingival inflammation.",
+    "title": "Mechanical plaque control for gingival health",
+    "authors": [
+      "Chapple",
+      "Van der Weijden"
+    ],
+    "year": 2015,
+    "doi": "10.1111/jcpe.12366",
+    "source_type": "guideline",
+    "credibility": 5,
+    "topic_tags": [
+      "prevention",
+      "plaque control"
+    ]
+  },
+  {
+    "id": "c-pg-04",
+    "workspace_id": "parakita",
+    "content": "Professional scaling and root planing removes plaque and calculus below the gumline and significantly reduces probing depths and bleeding in patients with periodontitis.",
+    "title": "Efficacy of scaling and root planing",
+    "authors": [
+      "Cobb"
+    ],
+    "year": 2002,
+    "doi": "10.1902/annals.2003.8.1.9",
+    "source_type": "systematic_review",
+    "credibility": 5,
+    "topic_tags": [
+      "treatment",
+      "scaling"
+    ]
+  },
+  {
+    "id": "c-pg-05",
+    "workspace_id": "parakita",
+    "content": "Smoking is a major modifiable risk factor that increases the severity of periodontitis and impairs the response to periodontal treatment.",
+    "title": "Smoking and periodontal disease",
+    "authors": [
+      "Leite",
+      "Nascimento"
+    ],
+    "year": 2018,
+    "doi": "10.1111/jcpe.12951",
+    "source_type": "systematic_review",
+    "credibility": 4,
+    "topic_tags": [
+      "risk",
+      "smoking"
+    ]
+  },
+  {
+    "id": "c-pg-06",
+    "workspace_id": "parakita",
+    "content": "Bleeding while brushing is an early sign of gingival inflammation and should not be dismissed as normal; it usually reverses with improved plaque control.",
+    "title": "Bleeding gums as an early sign of gingivitis",
+    "authors": [
+      "Trombelli",
+      "Farina"
+    ],
+    "year": 2013,
+    "doi": "10.1111/jcpe.12089",
+    "source_type": "guideline",
+    "credibility": 4,
+    "topic_tags": [
+      "warning sign",
+      "gingivitis"
+    ]
+  },
+  {
+    "id": "c-sn-01",
+    "workspace_id": "parakita",
+    "content": "Dentin hypersensitivity is a short, sharp pain from exposed dentin in response to stimuli such as cold, heat or sweetness, that cannot be attributed to any other dental defect.",
+    "title": "Dentin hypersensitivity: consensus definition",
+    "authors": [
+      "Holland",
+      "Addy",
+      "Gillam"
+    ],
+    "year": 2003,
+    "doi": "10.1111/j.1600-051X.1997.tb00476.x",
+    "source_type": "guideline",
+    "credibility": 5,
+    "topic_tags": [
+      "sensitivity",
+      "definition"
+    ]
+  },
+  {
+    "id": "c-sn-02",
+    "workspace_id": "parakita",
+    "content": "Sensitivity occurs when enamel loss or gum recession exposes dentinal tubules, allowing fluid movement that stimulates nerves in the pulp - the hydrodynamic theory.",
+    "title": "Mechanisms of dentin hypersensitivity",
+    "authors": [
+      "West",
+      "Lussi",
+      "Seong"
+    ],
+    "year": 2013,
+    "doi": "10.1007/s00784-012-0887-x",
+    "source_type": "review",
+    "credibility": 4,
+    "topic_tags": [
+      "mechanism",
+      "tubules"
+    ]
+  },
+  {
+    "id": "c-sn-03",
+    "workspace_id": "parakita",
+    "content": "Aggressive horizontal brushing with a hard brush and abrasive pastes can wear enamel and expose dentin, contributing to sensitivity.",
+    "title": "Toothbrushing, abrasion and dentine wear",
+    "authors": [
+      "Addy"
+    ],
+    "year": 2005,
+    "doi": "10.1111/j.1601-5037.2005.00136.x",
+    "source_type": "review",
+    "credibility": 4,
+    "topic_tags": [
+      "cause",
+      "brushing"
+    ]
+  },
+  {
+    "id": "c-sn-04",
+    "workspace_id": "parakita",
+    "content": "Desensitizing toothpastes containing potassium nitrate or stannous fluoride reduce dentin hypersensitivity compared with control in clinical trials.",
+    "title": "Efficacy of desensitizing toothpastes",
+    "authors": [
+      "Cummins"
+    ],
+    "year": 2010,
+    "doi": "10.1038/sj.bdj.2010.546",
+    "source_type": "systematic_review",
+    "credibility": 5,
+    "topic_tags": [
+      "treatment",
+      "toothpaste"
+    ]
+  },
+  {
+    "id": "c-sn-05",
+    "workspace_id": "parakita",
+    "content": "Reducing acidic foods and drinks and not brushing immediately after acid exposure helps limit enamel erosion and sensitivity.",
+    "title": "Dietary acids, erosion and sensitivity",
+    "authors": [
+      "Lussi",
+      "Carvalho"
+    ],
+    "year": 2014,
+    "doi": "10.1159/000360380",
+    "source_type": "guideline",
+    "credibility": 4,
+    "topic_tags": [
+      "prevention",
+      "diet"
+    ]
+  },
+  {
+    "id": "c-sn-06",
+    "workspace_id": "parakita",
+    "content": "Persistent or severe sensitivity may signal a cracked tooth, caries or a failing restoration and warrants evaluation by a dentist.",
+    "title": "When to refer tooth sensitivity",
+    "authors": [
+      "Gillam"
+    ],
+    "year": 2017,
+    "doi": "10.1007/978-3-319-14577-8",
+    "source_type": "guideline",
+    "credibility": 4,
+    "topic_tags": [
+      "warning",
+      "referral"
+    ]
+  },
+  {
+    "id": "c-fc-01",
+    "workspace_id": "edutech",
+    "content": "In a flipped classroom, direct instruction is delivered before class (often via video) so class time can be used for active, collaborative problem-solving.",
+    "title": "Defining the flipped classroom",
+    "authors": [
+      "Bishop",
+      "Verleger"
+    ],
+    "year": 2013,
+    "doi": "10.18260/1-2--22585",
+    "source_type": "review",
+    "credibility": 4,
+    "topic_tags": [
+      "definition",
+      "flipped"
+    ]
+  },
+  {
+    "id": "c-fc-02",
+    "workspace_id": "edutech",
+    "content": "Meta-analyses report a small-to-moderate positive effect of flipped classrooms on student achievement compared with traditional lecturing.",
+    "title": "A meta-analysis of the effects of flipped classrooms",
+    "authors": [
+      "Van Alten",
+      "Phielix",
+      "Janssen",
+      "Kester"
+    ],
+    "year": 2019,
+    "doi": "10.1016/j.edurev.2019.05.003",
+    "source_type": "systematic_review",
+    "credibility": 5,
+    "topic_tags": [
+      "achievement",
+      "meta-analysis"
+    ]
+  },
+  {
+    "id": "c-fc-03",
+    "workspace_id": "edutech",
+    "content": "Flipped designs increase the share of class time spent on active learning and student-instructor interaction.",
+    "title": "Active learning in flipped courses",
+    "authors": [
+      "Jensen",
+      "Kummer",
+      "Godoy"
+    ],
+    "year": 2015,
+    "doi": "10.1187/cbe.14-08-0129",
+    "source_type": "review",
+    "credibility": 4,
+    "topic_tags": [
+      "active learning"
+    ]
+  },
+  {
+    "id": "c-fc-04",
+    "workspace_id": "edutech",
+    "content": "Benefits depend on students completing pre-class preparation; accountability mechanisms such as short quizzes improve outcomes.",
+    "title": "Pre-class preparation and flipped learning",
+    "authors": [
+      "Hew",
+      "Lo"
+    ],
+    "year": 2018,
+    "doi": "10.1186/s12909-018-1144-z",
+    "source_type": "systematic_review",
+    "credibility": 4,
+    "topic_tags": [
+      "preparation"
+    ]
+  },
+  {
+    "id": "c-fc-05",
+    "workspace_id": "edutech",
+    "content": "Effect sizes vary widely with implementation quality, subject area and education level.",
+    "title": "Moderators of flipped-learning effectiveness",
+    "authors": [
+      "Cheng",
+      "Ritzhaupt",
+      "Antonenko"
+    ],
+    "year": 2019,
+    "doi": "10.1007/s11423-018-9633-7",
+    "source_type": "systematic_review",
+    "credibility": 4,
+    "topic_tags": [
+      "moderators"
+    ]
+  },
+  {
+    "id": "c-fc-06",
+    "workspace_id": "edutech",
+    "content": "Students often report higher engagement and satisfaction in well-designed flipped courses.",
+    "title": "Student perceptions of flipped learning",
+    "authors": [
+      "Akcayir",
+      "Akcayir"
+    ],
+    "year": 2018,
+    "doi": "10.1016/j.compedu.2018.07.021",
+    "source_type": "review",
+    "credibility": 3,
+    "topic_tags": [
+      "engagement"
+    ]
+  },
+  {
+    "id": "c-sr-01",
+    "workspace_id": "edutech",
+    "content": "The spacing effect: distributing study across multiple sessions produces better long-term retention than the same amount of massed study.",
+    "title": "The spacing effect: a temporal meta-analysis",
+    "authors": [
+      "Cepeda",
+      "Pashler",
+      "Vul",
+      "Wixted",
+      "Rohrer"
+    ],
+    "year": 2006,
+    "doi": "10.1037/0033-2909.132.3.354",
+    "source_type": "systematic_review",
+    "credibility": 5,
+    "topic_tags": [
+      "spacing",
+      "retention"
+    ]
+  },
+  {
+    "id": "c-sr-02",
+    "workspace_id": "edutech",
+    "content": "Retrieval practice - actively recalling information - strengthens memory more than simply restudying it, an effect known as the testing effect.",
+    "title": "Test-enhanced learning",
+    "authors": [
+      "Roediger",
+      "Karpicke"
+    ],
+    "year": 2006,
+    "doi": "10.1111/j.1467-9280.2006.01693.x",
+    "source_type": "systematic_review",
+    "credibility": 5,
+    "topic_tags": [
+      "retrieval practice"
+    ]
+  },
+  {
+    "id": "c-sr-03",
+    "workspace_id": "edutech",
+    "content": "The optimal gap between study sessions grows with the desired retention interval: longer gaps suit information that must be retained longer.",
+    "title": "Optimizing distributed practice",
+    "authors": [
+      "Cepeda",
+      "Vul",
+      "Rohrer",
+      "Wixted",
+      "Pashler"
+    ],
+    "year": 2008,
+    "doi": "10.1111/j.1467-9280.2008.02209.x",
+    "source_type": "review",
+    "credibility": 4,
+    "topic_tags": [
+      "scheduling"
+    ]
+  },
+  {
+    "id": "c-sr-04",
+    "workspace_id": "edutech",
+    "content": "Spaced-repetition software schedules reviews with algorithms (e.g. the Leitner system or SM-2) that expand intervals for well-remembered items.",
+    "title": "Spaced repetition systems for learning",
+    "authors": [
+      "Settles",
+      "Meeder"
+    ],
+    "year": 2016,
+    "doi": "10.18653/v1/P16-1174",
+    "source_type": "review",
+    "credibility": 3,
+    "topic_tags": [
+      "software"
+    ]
+  },
+  {
+    "id": "c-sr-05",
+    "workspace_id": "edutech",
+    "content": "The benefits of spacing and retrieval practice generalize across ages, subjects and materials, making them broadly applicable study strategies.",
+    "title": "Improving learning with cognitive strategies",
+    "authors": [
+      "Dunlosky",
+      "Rawson",
+      "Marsh",
+      "Nathan",
+      "Willingham"
+    ],
+    "year": 2013,
+    "doi": "10.1177/1529100612453266",
+    "source_type": "systematic_review",
+    "credibility": 5,
+    "topic_tags": [
+      "generalization"
+    ]
+  },
+  {
+    "id": "c-sr-06",
+    "workspace_id": "edutech",
+    "content": "Interleaving different problem types during spaced practice further improves discrimination and transfer in problem-solving domains.",
+    "title": "Interleaved practice improves learning",
+    "authors": [
+      "Rohrer",
+      "Taylor"
+    ],
+    "year": 2007,
+    "doi": "10.1007/s11251-007-9015-8",
+    "source_type": "review",
+    "credibility": 4,
+    "topic_tags": [
+      "interleaving"
+    ]
   }
 ]

@@ -283,9 +283,9 @@
     "category": "scientific",
     "genre": "article",
     "priority": 4,
-    "related_chunk_count": 4,
-    "status": "backlog",
-    "scenario": "backlog"
+    "related_chunk_count": 6,
+    "status": "active",
+    "scenario": "happy"
   },
   {
     "id": "d-025",
@@ -847,9 +847,9 @@
     "category": "public_info",
     "genre": "article",
     "priority": 3,
-    "related_chunk_count": 1,
-    "status": "backlog",
-    "scenario": "backlog"
+    "related_chunk_count": 6,
+    "status": "active",
+    "scenario": "happy"
   },
   {
     "id": "d-072",
@@ -1255,9 +1255,9 @@
     "category": "scientific",
     "genre": "article",
     "priority": 4,
-    "related_chunk_count": 0,
-    "status": "backlog",
-    "scenario": "backlog"
+    "related_chunk_count": 6,
+    "status": "active",
+    "scenario": "happy"
   },
   {
     "id": "e-006",
@@ -2398,5 +2398,17 @@
     "related_chunk_count": 4,
     "status": "backlog",
     "scenario": "backlog"
+  },
+  {
+    "id": "t-spaced",
+    "workspace_id": "edutech",
+    "title_id": "Spaced repetition untuk retensi belajar",
+    "title_en": "Spaced repetition for learning retention",
+    "category": "scientific",
+    "genre": "article",
+    "priority": 2,
+    "related_chunk_count": 6,
+    "status": "active",
+    "scenario": "happy"
   }
 ]
