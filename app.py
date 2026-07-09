@@ -136,7 +136,8 @@ hr {{ border: none; border-top: 1px solid {LINE}; margin: 1.1rem 0; }}
 .card {{ border: 1px solid {LINE}; background: {BG2}; }}
 
 section[data-testid="stSidebar"] {{ background: {BG2}; border-right: 1px solid {LINE}; }}
-[data-testid="stMetricValue"] {{ font-weight: 900; }}
+[data-testid="stMetricValue"] {{ font-weight: 900; font-size: 1.45rem; line-height: 1.2; }}
+[data-testid="stMetricLabel"] {{ font-size: .72rem; letter-spacing: .04em; }}
 [data-testid="stExpander"] {{ border-color: {LINE} !important; background: {BG2}; }}
 .stDataFrame, [data-testid="stTable"] {{ border: 1px solid {LINE}; }}
 .stTabs [data-baseweb="tab-list"] {{ border-bottom: 1px solid {LINE}; }}
