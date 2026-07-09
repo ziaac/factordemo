@@ -102,6 +102,7 @@ def iter_pipeline(
     live_factchecker: Optional[Callable[..., list[dict]]] = None,
     live_retriever: Optional[Callable[..., tuple]] = None,
     live_imager: Optional[Callable[..., Optional[str]]] = None,
+    live_translator: Optional[Callable[..., str]] = None,
 ) -> Iterator[Run]:
     """Drive the run through the state machine, yielding `run` after each step.
 
@@ -260,11 +261,22 @@ def iter_pipeline(
     # --- TRANSLATING ------------------------------------------------------ #
     run.state = "TRANSLATING"
     trans = canned.get("translation_en", "")
+    live_draft = run.artifacts.get("draft", "")
+    note = "Transcreated to EN, preserving citation markers."
     if trans == "SAME_AS_SOURCE":
-        trans = canned.get("draft_id", "")
+        # English-only workspace: translator is a no-op — mirror the (live) draft.
+        trans = live_draft or canned.get("draft_id", "")
         run.artifacts["translation_note"] = "Workspace is English-only; translator is a no-op."
+    elif live_translator is not None and live_draft:
+        # Translate the ACTUAL live draft so EN stays consistent with the ID source.
+        try:
+            trans = live_translator(live_draft)
+            run.artifacts.setdefault("live_used", []).append("Translator")
+        except Exception as exc:
+            run.artifacts.setdefault("live_warnings", []).append(
+                f"Translator LIVE failed ({exc}); used seed translation.")
     run.artifacts["translation_en"] = trans
-    run.events.append(_mk_event("TRANSLATING", "ok", "Transcreated to EN, preserving citation markers."))
+    run.events.append(_mk_event("TRANSLATING", "ok", note))
     yield run
 
     # --- TRANSLATION_QA (Gate 5) ----------------------------------------- #

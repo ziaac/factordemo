@@ -232,6 +232,16 @@ def _factchecker_prompt(topic, workspace, seed, canned, draft: str, pack=None) -
     return system, user
 
 
+def _translator_prompt(draft: str) -> tuple[str, str]:
+    system = (
+        "You are FACTOR's Translator agent. Translate the article below from Indonesian "
+        "into natural, fluent English. PRESERVE every inline citation marker of the exact "
+        "form [[chunk:ID]] unchanged and in the same place, and keep the Markdown structure "
+        "(## headings, lists). Output ONLY the translated article — no notes, no preamble."
+    )
+    return system, draft
+
+
 def _parse_claims(raw: str) -> list[dict]:
     raw = raw.strip()
     if raw.startswith("```"):
@@ -284,6 +294,11 @@ def amd_factchecker(topic, workspace, seed, canned, draft: str, pack=None) -> li
     return _parse_claims(_amd_chat(system, user, 0.2))
 
 
+def amd_translator(draft: str) -> str:
+    system, user = _translator_prompt(draft)
+    return _amd_chat(system, user, 0.2)
+
+
 # --------------------------------------------------------------------------- #
 # Fireworks AI backend (gpt-oss-120b)
 # --------------------------------------------------------------------------- #
@@ -295,3 +310,8 @@ def fireworks_writer(topic, workspace, seed, canned, pack=None) -> str:
 def fireworks_factchecker(topic, workspace, seed, canned, draft: str, pack=None) -> list[dict]:
     system, user = _factchecker_prompt(topic, workspace, seed, canned, draft, pack)
     return _parse_claims(_fireworks_chat(system, user, 0.2))
+
+
+def fireworks_translator(draft: str) -> str:
+    system, user = _translator_prompt(draft)
+    return _fireworks_chat(system, user, 0.2)

@@ -527,13 +527,15 @@ def _animate_run(run, topic, ws, seed):
     if eng == "amd":
         retr = retrieval.research_pack if retrieval.available() else None
         imgr = imagegen.generate if imagegen.available() else None
+        trl = live.amd_translator
     elif eng == "fireworks":
         retr = retrieval.fireworks_research_pack if live.fireworks_available() else None
         imgr = None
+        trl = live.fireworks_translator
     else:
-        retr = imgr = None
+        retr = imgr = trl = None
     for r in mock.iter_pipeline(run, topic, ws, seed, live_writer=lw, live_factchecker=lf,
-                                live_retriever=retr, live_imager=imgr):
+                                live_retriever=retr, live_imager=imgr, live_translator=trl):
         last = r.events[-1]
         with placeholder.container():
             render_stepper(r)
