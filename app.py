@@ -431,6 +431,40 @@ def _nav_to(page: str):
     st.session_state.nav = page
 
 
+def request_nav(page: str):
+    """Navigate from outside a callback (e.g. after an auto-publish run).
+
+    Stores the target; sidebar() applies it before the nav widget is created on
+    the next run, so we never mutate a live widget key mid-run.
+    """
+    st.session_state._pending_nav = page
+
+
+def _audit_models(eng: str) -> dict[str, str]:
+    """Model label per step for the audit trail, matching the active engine.
+
+    Only Researcher, Writer, Fact-checker, Translator and Image call a live
+    model in this demo; the rest are simulated/canned and labelled as such.
+    """
+    if eng == "amd":
+        llm = f"Gemma · {live.amd_model()}"
+        emb = "bge-m3" if retrieval.available() else "seed corpus"
+        img = "SDXL-Turbo · AMD" if imagegen.available() else "placeholder"
+    elif eng == "fireworks":
+        llm = "Fireworks · gpt-oss-120b"
+        emb = "qwen3-embedding-8b" if live.fireworks_available() else "seed corpus"
+        img = "placeholder"
+    else:
+        return {"IMAGE_GEN": "placeholder"}  # mock: keep STEP_META tiers, fix image
+    sim = "simulated"
+    return {
+        "PLANNING": sim, "OUTLINING": sim, "BIAS_REVIEW": sim, "REVISING": sim,
+        "TRANSLATION_QA": sim, "META_SEO": sim,
+        "RESEARCHING": emb, "DRAFTING": llm, "FACT_CHECKING": llm,
+        "TRANSLATING": llm, "IMAGE_GEN": img,
+    }
+
+
 # Ordered workflow steps shown in the sidebar nav.
 NAV_STEPS = ["Workspace", "Run pipeline", "Article", "Dashboard"]
 NAV_LABELS = {
@@ -446,6 +480,9 @@ NAV_LABELS = {
 # --------------------------------------------------------------------------- #
 def sidebar():
     seed = st.session_state.seed
+    # Apply any programmatic navigation request before the nav widget is created.
+    if "_pending_nav" in st.session_state:
+        st.session_state.nav = st.session_state.pop("_pending_nav")
     with st.sidebar:
         st.markdown('<div class="swiss-rule-top"></div>', unsafe_allow_html=True)
         st.markdown("### FACTOR")
@@ -595,6 +632,7 @@ def _record_history(run):
 def _animate_run(run, topic, ws, seed):
     placeholder = st.empty()
     eng = active_engine()
+    mock.set_active_models(_audit_models(eng))
     lw, lf = engine_backends(eng)
     if eng == "amd":
         retr = retrieval.research_pack if retrieval.available() else None
@@ -631,9 +669,10 @@ def page_run():
 
     page_header(
         "Step 2 · Pipeline", "Run pipeline",
-        "Pick a topic, then press <b>Run pipeline</b>. Ten agents advance through the 16-state "
-        "machine and all 8 anti-hallucination gates — grounded draft → independent fact-check → "
-        "bias → translation → image → your approval at Gate 7.")
+        "Pick a topic and a publishing mode, then press <b>Run pipeline</b>. Ten agents advance "
+        "through the 16-state machine and all 8 gates — grounded draft → independent fact-check → "
+        "bias → translation → image → <b>human review</b> at Gate 7, or <b>auto-publish</b> straight "
+        "to the database.")
 
     def _tag(t):
         if getattr(t, "scenario", "") == "backlog":
@@ -647,6 +686,14 @@ def page_run():
     tid = st.selectbox("Topic", options=[t.id for t in topics],
                        format_func=lambda i: labels[i])
     topic = seed["topics_by_id"][tid]
+
+    pub_mode = st.radio(
+        "Publishing mode",
+        ["Human review (approve at Gate 7)", "Auto-publish to database"],
+        horizontal=True, key="pub_mode",
+        help="Human review pauses at Gate 7 for your Approve/Reject. Auto-publish marks Gate 7 "
+             "as auto-approved, posts straight to the database, and opens the Article.")
+    auto_publish = pub_mode.startswith("Auto")
 
     col_a, col_b = st.columns([1, 3])
     with col_a:
@@ -665,7 +712,11 @@ def page_run():
         run = mock.start_run(topic, ws)
         _animate_run(run, topic, ws, seed)
         st.session_state.current_run = run
-        if run.outcome in ("rejected",):
+        if run.outcome == "awaiting_review" and auto_publish:
+            mock.finish_publish(run, True, auto=True)
+            _record_history(run)
+            request_nav("Article")      # jump straight to the published article
+        elif run.outcome == "rejected":
             _record_history(run)
         st.rerun()
 

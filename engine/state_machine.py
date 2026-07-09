@@ -50,7 +50,7 @@ STEP_META: dict[str, dict[str, str]] = {
     "TRANSLATING":    {"agent": "Translator",    "model": "LLM · standard","gate": ""},
     "TRANSLATION_QA": {"agent": "Translator QA", "model": "LLM · standard","gate": "Gate 5 · cross-lingual consistency"},
     "META_SEO":       {"agent": "Meta / SEO",    "model": "LLM · fast"    , "gate": "Gate 6 · schema validation"},
-    "IMAGE_GEN":      {"agent": "Image",         "model": "imagen-3",         "gate": ""},
+    "IMAGE_GEN":      {"agent": "Image",         "model": "SDXL-Turbo",       "gate": ""},
     "HUMAN_REVIEW":   {"agent": "Human editor",  "model": "-",                "gate": "Gate 7 · human review"},
     "PUBLISHING":     {"agent": "Publisher",     "model": "-",                "gate": ""},
     "PUBLISHED":      {"agent": "Publisher",     "model": "-",                "gate": "Gate 8 · post-publish audit"},

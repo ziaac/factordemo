@@ -67,13 +67,23 @@ _STEP_SIM: dict[str, tuple[int, int, float]] = {
 }
 
 
+# Per-run model labels for the audit trail, set by the app to match the active
+# engine (e.g. Gemma-3-27B / gpt-oss-120b / SDXL). Falls back to STEP_META.
+_ACTIVE_MODELS: dict[str, str] = {}
+
+
+def set_active_models(models: dict[str, str] | None) -> None:
+    global _ACTIVE_MODELS
+    _ACTIVE_MODELS = dict(models or {})
+
+
 def _mk_event(step: str, status: str, note: str = "", key: str | None = None) -> RunEvent:
     in_tok, out_tok, cost = _STEP_SIM.get(key or step, (0, 0, 0.0))
     latency = random.randint(600, 2200)
     return RunEvent(
         step=step,
         status=status,
-        model=sm.STEP_META.get(step, {}).get("model", "-"),
+        model=_ACTIVE_MODELS.get(step) or sm.STEP_META.get(step, {}).get("model", "-"),
         input_tokens=in_tok,
         output_tokens=out_tok,
         latency_ms=latency,
@@ -304,7 +314,7 @@ def iter_pipeline(
             if data_uri:
                 image["image_data"] = data_uri
                 image["gen_model"] = "SDXL · AMD Radeon W7900"
-                note = "Generated featured image on AMD MI300X (SDXL/ROCm)."
+                note = "Generated featured image on AMD Radeon W7900 (SDXL/ROCm)."
                 run.artifacts.setdefault("live_used", []).append("Image (SDXL)")
             else:
                 run.artifacts.setdefault("live_warnings", []).append(
@@ -326,10 +336,19 @@ def iter_pipeline(
     return
 
 
-def finish_publish(run: Run, approve: bool) -> Run:
-    """Complete a run after the human editor decides at HUMAN_REVIEW."""
+def finish_publish(run: Run, approve: bool, auto: bool = False) -> Run:
+    """Complete a run after the human editor decides at HUMAN_REVIEW.
+
+    `auto=True` marks Gate 7 as auto-approved (no human review) — used by the
+    "Auto-publish to database" mode.
+    """
     if approve:
-        run.events.append(_mk_event("HUMAN_REVIEW", "approved", "Editor approved."))
+        if auto:
+            run.events.append(_mk_event("HUMAN_REVIEW", "auto",
+                                        "Auto-publish mode: Gate 7 bypassed (no human review)."))
+        else:
+            run.events.append(_mk_event("HUMAN_REVIEW", "approved", "Editor approved."))
+        run.artifacts["auto_published"] = auto
         run.state = "PUBLISHING"
         run.events.append(_mk_event("PUBLISHING", "ok", "Transactional insert into CMS (articles + translations + citations)."))
         run.state = "PUBLISHED"
