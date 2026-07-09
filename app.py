@@ -135,6 +135,29 @@ hr {{ border: none; border-top: 1px solid {LINE}; margin: 1.1rem 0; }}
 .aidisc {{ border-left: 3px solid {ACCENT}; padding: .3rem 0 .3rem .8rem; color:{MUTE}; }}
 .card {{ border: 1px solid {LINE}; background: {BG2}; }}
 
+/* "Agent working" indicator, shown next to the pipeline while a step runs */
+.agent-working {{
+    display: flex; align-items: center; gap: .7rem;
+    border: 1px solid {ACCENT}; border-left-width: 3px;
+    background: rgba(255,69,58,.08); padding: .55rem .85rem; margin: .5rem 0;
+}}
+.agent-working b {{ text-transform: uppercase; letter-spacing: .04em; font-size: .8rem; }}
+.agent-working .aw-note {{ color: {MUTE}; font-weight: 400; font-size: .85rem; }}
+.spinner {{
+    width: 15px; height: 15px; flex: 0 0 auto; border-radius: 50%;
+    border: 3px solid {LINE}; border-top-color: {ACCENT};
+    animation: awspin .8s linear infinite;
+}}
+@keyframes awspin {{ to {{ transform: rotate(360deg); }} }}
+.agent-fail {{ border-left: 3px solid {ACCENT}; padding: .45rem .85rem; margin: .5rem 0;
+    color: {INK}; background: rgba(255,69,58,.06); }}
+
+/* Floating 'next step' button, always reachable without scrolling */
+.st-key-stickynext {{
+    position: fixed; right: 26px; bottom: 84px; z-index: 1000; width: auto;
+}}
+.st-key-stickynext button {{ box-shadow: 0 6px 22px rgba(0,0,0,.55); white-space: nowrap; }}
+
 section[data-testid="stSidebar"] {{ background: {BG2}; border-right: 1px solid {LINE}; }}
 [data-testid="stMetricValue"] {{ font-weight: 900; font-size: 1.45rem; line-height: 1.2; }}
 [data-testid="stMetricLabel"] {{ font-size: .72rem; letter-spacing: .04em; }}
@@ -393,6 +416,12 @@ def page_header(kick: str, title: str, subtitle: str | None = None):
         st.markdown(f'<div class="page-sub">{subtitle}</div>', unsafe_allow_html=True)
 
 
+def sticky_next(label: str, target: str):
+    """Floating bottom-right 'next step' button so users can advance without scrolling."""
+    with st.container(key="stickynext"):
+        st.button(label, type="primary", on_click=_nav_to, args=(target,))
+
+
 def _nav_to(page: str):
     """on_click callback: switch the sidebar workflow nav to `page`.
 
@@ -544,12 +573,8 @@ def page_workspace():
             "Cred": "■" * c.credibility + "□" * (5 - c.credibility),
         })
     st.dataframe(srows, use_container_width=True, hide_index=True)
-
-    st.markdown("---")
-    nxt, hint = st.columns([1, 3])
-    nxt.button("Next: ② Run pipeline ▸", type="primary", use_container_width=True,
-               on_click=_nav_to, args=("Run pipeline",))
-    hint.caption("Ready to generate? Pick a topic on the next step and watch all 8 gates run.")
+    st.caption("Ready to generate? Use the floating button (bottom-right) or the sidebar to go to ② Run pipeline.")
+    sticky_next("② Run pipeline ▸", "Run pipeline")
 
 
 # --------------------------------------------------------------------------- #
@@ -586,8 +611,15 @@ def _animate_run(run, topic, ws, seed):
         last = r.events[-1]
         with placeholder.container():
             render_stepper(r)
-            symbol = "✕" if last.status == "gate_failed" else "→"
-            st.markdown(f"**{symbol} {sm.step_label(last.step)}** — {last.note}")
+            if last.status == "gate_failed":
+                st.markdown(f'<div class="agent-fail">✕ <b>{sm.step_label(last.step)}</b> — '
+                            f'{last.note}</div>', unsafe_allow_html=True)
+            else:
+                st.markdown(
+                    f'<div class="agent-working"><span class="spinner"></span>'
+                    f'<span><b>Working · {sm.step_label(last.step)}</b>'
+                    f'<span class="aw-note"> — {last.note}</span></span></div>',
+                    unsafe_allow_html=True)
         time.sleep(random.uniform(0.5, 1.3))
     placeholder.empty()
 
@@ -671,8 +703,7 @@ def page_run():
             st.rerun()
     elif run.outcome == "published":
         st.success("Published — the bilingual article is ready.")
-        st.button("Next: ③ View article ▸", type="primary",
-                  on_click=_nav_to, args=("Article",))
+        sticky_next("③ View article ▸", "Article")
     elif run.outcome == "rejected":
         st.error("Rejected by editor at Gate 7.")
 
@@ -980,6 +1011,7 @@ def page_article():
     idx = st.selectbox("Published article", options=list(labels.keys()),
                        format_func=lambda i: labels[i], index=len(published) - 1)
     h = published[idx]
+    sticky_next("④ Dashboard ▸", "Dashboard")
     run = h["run"]
     ws = seed["workspaces_by_id"][run.workspace_id]
     a = run.artifacts
