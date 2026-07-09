@@ -91,7 +91,16 @@ label, .stCaption, [data-testid="stCaptionContainer"],
 .hp-flow .pill {{ color: #FFFFFF !important; }}
 
 h1, h2, h3, h4 {{ letter-spacing: -0.02em; font-weight: 900; }}
-h1 {{ font-size: 2.4rem; line-height: 1.02; }}
+h1 {{ font-size: 1.8rem; line-height: 1.12; margin-bottom: .15rem; }}
+
+/* Guiding subtitle under a page title */
+.page-sub {{
+    font-size: .92rem; color: {MUTE}; line-height: 1.5;
+    max-width: 72ch; margin: .1rem 0 1.1rem 0;
+}}
+.page-sub b {{ color: {INK}; }}
+/* Numbered workflow nav in the sidebar */
+section[data-testid="stSidebar"] .stRadio label {{ font-size: .9rem; }}
 
 hr {{ border: none; border-top: 1px solid {LINE}; margin: 1.1rem 0; }}
 
@@ -375,6 +384,33 @@ def kicker(text: str):
     st.markdown(f'<div class="swiss-kicker">{text}</div>', unsafe_allow_html=True)
 
 
+def page_header(kick: str, title: str, subtitle: str | None = None):
+    """Consistent page intro: kicker + title + a one-line 'what to do' subtitle."""
+    kicker(kick)
+    st.markdown(f"# {title}")
+    if subtitle:
+        st.markdown(f'<div class="page-sub">{subtitle}</div>', unsafe_allow_html=True)
+
+
+def _nav_to(page: str):
+    """on_click callback: switch the sidebar workflow nav to `page`.
+
+    Must run as a callback (before widgets are instantiated) — Streamlit forbids
+    setting a widget-keyed value after its widget is created in the same run.
+    """
+    st.session_state.nav = page
+
+
+# Ordered workflow steps shown in the sidebar nav.
+NAV_STEPS = ["Workspace", "Run pipeline", "Article", "Dashboard"]
+NAV_LABELS = {
+    "Workspace": "① Workspace",
+    "Run pipeline": "② Run pipeline",
+    "Article": "③ Article",
+    "Dashboard": "④ Dashboard",
+}
+
+
 # --------------------------------------------------------------------------- #
 # Sidebar
 # --------------------------------------------------------------------------- #
@@ -431,8 +467,9 @@ def sidebar():
                        "st.secrets/env to enable a live engine.")
 
         st.markdown("---")
-        page = st.radio("View", ["Workspace", "Run pipeline", "Article", "Dashboard"],
-                        label_visibility="collapsed")
+        st.markdown('<div class="swiss-kicker">Workflow · 4 steps</div>', unsafe_allow_html=True)
+        page = st.radio("Workflow", NAV_STEPS, format_func=lambda p: NAV_LABELS[p],
+                        label_visibility="collapsed", key="nav")
         st.markdown("---")
         cta1, cta2 = st.columns(2)
         if cta1.button("⌂ Home", use_container_width=True):
@@ -455,8 +492,11 @@ def page_workspace():
     topics = [t for t in seed["topics"] if t.workspace_id == ws.id]
     chunks = [c for c in seed["chunks"] if c.workspace_id == ws.id]
 
-    kicker("Topic Workspace")
-    st.markdown(f"# {ws.name}")
+    page_header(
+        "Step 1 · Topic Workspace", ws.name,
+        "A <b>workspace</b> = your topic + your curated sources. Review the domain, credibility "
+        "policy, corpus and topic backlog below — then continue to <b>② Run pipeline</b> to "
+        "generate an article. Switch workspaces anytime from the sidebar.")
     c1, c2, c3 = st.columns(3)
     c1.metric("Domain", ws.domain.split("(")[0].strip())
     c2.metric("Languages", " → ".join(l.upper() for l in ws.languages))
@@ -504,6 +544,12 @@ def page_workspace():
         })
     st.dataframe(srows, use_container_width=True, hide_index=True)
 
+    st.markdown("---")
+    nxt, hint = st.columns([1, 3])
+    nxt.button("Next: ② Run pipeline ▸", type="primary", use_container_width=True,
+               on_click=_nav_to, args=("Run pipeline",))
+    hint.caption("Ready to generate? Pick a topic on the next step and watch all 8 gates run.")
+
 
 # --------------------------------------------------------------------------- #
 # Page: Run pipeline
@@ -550,8 +596,11 @@ def page_run():
     ws = seed["workspaces_by_id"][st.session_state.workspace_id]
     topics = [t for t in seed["topics"] if t.workspace_id == ws.id]
 
-    kicker("Pipeline")
-    st.markdown("# Run pipeline")
+    page_header(
+        "Step 2 · Pipeline", "Run pipeline",
+        "Pick a topic, then press <b>Run pipeline</b>. Ten agents advance through the 16-state "
+        "machine and all 8 anti-hallucination gates — grounded draft → independent fact-check → "
+        "bias → translation → image → your approval at Gate 7.")
 
     def _tag(t):
         if getattr(t, "scenario", "") == "backlog":
@@ -620,7 +669,9 @@ def page_run():
             _record_history(run)
             st.rerun()
     elif run.outcome == "published":
-        st.success("Published. See the **Article** view for the final bilingual output.")
+        st.success("Published — the bilingual article is ready.")
+        st.button("Next: ③ View article ▸", type="primary",
+                  on_click=_nav_to, args=("Article",))
     elif run.outcome == "rejected":
         st.error("Rejected by editor at Gate 7.")
 
@@ -911,12 +962,16 @@ def _cms_preview_html(run, ws, loc: str, seed: dict) -> str:
 def page_article():
     seed = st.session_state.seed
     published = [h for h in st.session_state.history if h["run"].outcome == "published"]
-    kicker("Output")
-    st.markdown("# Article")
+    page_header(
+        "Step 3 · Output", "Article",
+        "The final <b>bilingual</b> article (Indonesian source + English translation), with inline "
+        "citations, references, featured image and CMS-ready SEO metadata — exactly what gets "
+        "injected into your CMS.")
 
     if not published:
-        st.info("No published article yet. Run a topic through **Run pipeline** and approve it "
-                "at Gate 7.")
+        st.info("No published article yet — run a topic and approve it at Gate 7 first.")
+        st.button("◂ Back to ② Run pipeline", type="primary",
+                  on_click=_nav_to, args=("Run pipeline",))
         return
 
     labels = {i: f'{h["topic_title"]}  ·  {h["workspace_id"]}'
@@ -976,12 +1031,16 @@ def page_article():
 # Page: Dashboard
 # --------------------------------------------------------------------------- #
 def page_dashboard():
-    kicker("Metrics")
-    st.markdown("# Dashboard")
+    page_header(
+        "Step 4 · Metrics", "Dashboard",
+        "Session overview — runs, gate outcomes, revisions, and estimated tokens/cost per "
+        "article. Accumulates as you run more pipelines.")
     hist = st.session_state.history
 
     if not hist:
-        st.info("No runs yet this session. Metrics accumulate as you run pipelines.")
+        st.info("No runs yet this session — metrics accumulate as you run pipelines.")
+        st.button("◂ Go to ② Run pipeline", type="primary",
+                  on_click=_nav_to, args=("Run pipeline",))
         return
 
     runs = [h["run"] for h in hist]
