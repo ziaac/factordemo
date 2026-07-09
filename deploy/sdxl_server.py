@@ -15,7 +15,7 @@ class Hd(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         self._s(200, {"status":"ok","model":MODEL}) if self.path=="/health" else self._s(404,{"error":"nf"})
     def do_POST(self):
-        if self.path != "/generate": return self._s(404, {"error":"nf"})
+        if not self.path.endswith("/generate"): return self._s(404, {"error":"nf"})
         if TOKEN and self.headers.get("Authorization","") != "Bearer "+TOKEN: return self._s(401, {"error":"unauthorized"})
         n = int(self.headers.get("Content-Length", 0) or 0)
         d = json.loads(self.rfile.read(n) or b"{}")
@@ -28,4 +28,5 @@ class Hd(http.server.BaseHTTPRequestHandler):
         except Exception as e:
             self._s(500, {"error": str(e)})
 class TS(socketserver.ThreadingMixIn, http.server.HTTPServer): daemon_threads=True
-print("serving :8000", flush=True); TS(("0.0.0.0",8000), Hd).serve_forever()
+PORT = int(os.environ.get("PORT", "8000"))
+print(f"serving :{PORT}", flush=True); TS(("0.0.0.0", PORT), Hd).serve_forever()

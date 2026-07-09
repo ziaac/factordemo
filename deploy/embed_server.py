@@ -27,4 +27,5 @@ class Hd(http.server.BaseHTTPRequestHandler):
         except Exception as e:
             self._s(500, {"error": str(e)})
 class TS(socketserver.ThreadingMixIn, http.server.HTTPServer): daemon_threads=True
-print("serving :8000", flush=True); TS(("0.0.0.0",8000), Hd).serve_forever()
+PORT = int(os.environ.get("PORT", "8000"))
+print(f"serving :{PORT}", flush=True); TS(("0.0.0.0", PORT), Hd).serve_forever()

@@ -147,7 +147,8 @@ def iter_pipeline(
     if live_retriever is not None:
         try:
             pack, _related, avg = live_retriever(topic, workspace, seed)
-            src = "AMD · bge-m3"
+            reason = pack[0].get("reason", "") if pack and isinstance(pack[0], dict) else ""
+            src = reason[reason.rfind("(") + 1:-1] if reason.endswith(")") and "(" in reason else "live embeddings"
             run.artifacts["retrieval"] = src
             run.artifacts.setdefault("live_used", []).append("Researcher (embeddings)")
         except Exception as exc:
@@ -290,7 +291,7 @@ def iter_pipeline(
             data_uri = live_imager(image["prompt"])
             if data_uri:
                 image["image_data"] = data_uri
-                image["gen_model"] = "SDXL · AMD MI300X"
+                image["gen_model"] = "SDXL · AMD Radeon W7900"
                 note = "Generated featured image on AMD MI300X (SDXL/ROCm)."
                 run.artifacts.setdefault("live_used", []).append("Image (SDXL)")
             else:

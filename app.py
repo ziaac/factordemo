@@ -234,7 +234,10 @@ def init_state():
     st.session_state.setdefault("workspace_id", st.session_state.seed["workspaces"][0].id)
     st.session_state.setdefault("current_run", None)
     st.session_state.setdefault("history", [])          # finished runs (dicts)
-    st.session_state.setdefault("engine", "amd" if live.amd_available() else "mock")
+    st.session_state.setdefault(
+        "engine",
+        "amd" if live.amd_available() else ("fireworks" if live.fireworks_available() else "mock"),
+    )
     st.session_state.setdefault("selected_topic", None)
 
 
@@ -245,15 +248,19 @@ def reset_demo():
 
 
 # --- Inference engine selection -------------------------------------------- #
-ENGINE_LABELS = {"mock": "MOCK", "amd": "AMD · MI300X", "live": "CLAUDE LIVE"}
+ENGINE_LABELS = {
+    "mock": "MOCK",
+    "amd": "AMD · Radeon W7900",
+    "fireworks": "FIREWORKS · gpt-oss-120b",
+}
 
 
 def available_engines() -> list[str]:
     opts = ["mock"]
     if live.amd_available():
         opts.append("amd")
-    if live.live_available():
-        opts.append("live")
+    if live.fireworks_available():
+        opts.append("fireworks")
     return opts
 
 
@@ -266,8 +273,8 @@ def engine_backends(eng: str):
     """Return (writer_fn, factchecker_fn) for the chosen engine; (None, None) = mock."""
     if eng == "amd":
         return live.amd_writer, live.amd_factchecker
-    if eng == "live":
-        return live.live_writer, live.live_factchecker
+    if eng == "fireworks":
+        return live.fireworks_writer, live.fireworks_factchecker
     return None, None
 
 
@@ -398,27 +405,29 @@ def sidebar():
                            format_func=lambda e: ENGINE_LABELS[e],
                            index=opts.index(eng))
             st.session_state.engine = eng
-        color = ACCENT if eng in ("amd", "live") else INK
-        textcol = "#FFFFFF" if eng in ("amd", "live") else BG
+        color = ACCENT if eng in ("amd", "fireworks") else INK
+        textcol = "#FFFFFF" if eng in ("amd", "fireworks") else BG
         st.markdown(
             f'<span class="pill" style="background:{color};color:{textcol};border-color:{color}">'
             f'ENGINE · {ENGINE_LABELS[eng]}</span>', unsafe_allow_html=True)
         if eng == "amd":
             extra = []
             if retrieval.available():
-                extra.append("Researcher (bge-m3 embeddings)")
+                extra.append("Researcher (bge-m3)")
             if imagegen.available():
                 extra.append("Image (SDXL)")
             more = (" + " + " + ".join(extra)) if extra else ""
-            st.caption(f"On an **AMD Instinct MI300X** (ROCm): Writer + Fact-checker "
-                       f"(`{live.amd_model()}`){more}. Remaining steps stay mock; failures fall back.")
-        elif eng == "live":
-            st.caption("Writer + Fact-checker run via the hosted LLM API. Other steps stay mock; "
-                       "failures fall back to mock.")
-        elif live.amd_available() or live.live_available():
+            st.caption(f"On an **AMD Radeon PRO W7900** (RDNA3 · ROCm): Writer + Fact-checker "
+                       f"(`{live.amd_model()}` via llama.cpp){more}. Remaining steps stay mock; "
+                       f"failures fall back.")
+        elif eng == "fireworks":
+            extra = " + Researcher (qwen3-embedding-8b)" if live.fireworks_available() else ""
+            st.caption(f"On **Fireworks AI**: Writer + Fact-checker (`gpt-oss-120b`){extra}. "
+                       f"Image + remaining steps stay mock; failures fall back.")
+        elif live.amd_available() or live.fireworks_available():
             st.caption("MOCK: deterministic canned output, no API calls. Switch engine above to run live.")
         else:
-            st.caption("MOCK only. Set AMD_BASE_URL (vLLM/MI300X) or ANTHROPIC_API_KEY in "
+            st.caption("MOCK only. Set AMD_BASE_URL (AMD GPU) or FIREWORKS_API_KEY in "
                        "st.secrets/env to enable a live engine.")
 
         st.markdown("---")
@@ -515,8 +524,14 @@ def _animate_run(run, topic, ws, seed):
     placeholder = st.empty()
     eng = active_engine()
     lw, lf = engine_backends(eng)
-    retr = retrieval.research_pack if (eng == "amd" and retrieval.available()) else None
-    imgr = imagegen.generate if (eng == "amd" and imagegen.available()) else None
+    if eng == "amd":
+        retr = retrieval.research_pack if retrieval.available() else None
+        imgr = imagegen.generate if imagegen.available() else None
+    elif eng == "fireworks":
+        retr = retrieval.fireworks_research_pack if live.fireworks_available() else None
+        imgr = None
+    else:
+        retr = imgr = None
     for r in mock.iter_pipeline(run, topic, ws, seed, live_writer=lw, live_factchecker=lf,
                                 live_retriever=retr, live_imager=imgr):
         last = r.events[-1]
@@ -686,14 +701,14 @@ def _render_step_expanders(run, ws):
     if "image" in a and a["image"]:
         img = a["image"]
         real = img.get("image_data")
-        title = "⑧ Image — SDXL on AMD MI300X" if real else "⑧ Image — prompt + placeholder"
+        title = "⑧ Image — SDXL on AMD W7900" if real else "⑧ Image — prompt + placeholder"
         with st.expander(title):
             st.caption("Prompt")
             st.code(img.get("prompt", ""), language=None)
             if real:
                 st.markdown(f'<img src="{real}" style="width:100%;max-width:640px;'
                             f'border:1px solid {LINE}">', unsafe_allow_html=True)
-                st.caption(f"Generated on {img.get('gen_model','AMD MI300X')} · alt: {img.get('alt_en','')}")
+                st.caption(f"Generated on {img.get('gen_model','AMD W7900 · SDXL')} · alt: {img.get('alt_en','')}")
             else:
                 st.markdown(
                     f'<div style="border:1px solid {LINE};background:{BG2};height:120px;display:flex;'
@@ -808,7 +823,7 @@ def _cms_preview_html(run, ws, loc: str, seed: dict) -> str:
     if real_img:
         featured = (f'<div class="hero"><img src="{real_img}" alt="{html.escape(alt)}" '
                     f'style="width:100%;height:280px;object-fit:cover;display:block">'
-                    f'<div class="hero-cap">Featured image · generated on AMD MI300X (SDXL/ROCm)</div></div>')
+                    f'<div class="hero-cap">Featured image · generated on AMD Radeon W7900 (SDXL/ROCm)</div></div>')
     else:
         featured = f'''
     <div class="hero">
@@ -1053,10 +1068,10 @@ def page_landing():
           </p>
           <div style="margin-top:.9rem">
             <span class="pill" style="background:{ACCENT};color:#FFFFFF;border-color:{ACCENT}">
-              ● LIVE ON AMD INSTINCT MI300X</span>
-            <span class="pill">ROCm + vLLM</span>
-            <span class="pill">GEMMA 3 · EMBEDDINGGEMMA</span>
-            <span class="pill">192 GB HBM3</span>
+              ● LIVE ON AMD RADEON PRO W7900</span>
+            <span class="pill">ROCm · gfx1100</span>
+            <span class="pill">GEMMA 3 · BGE-M3 · SDXL</span>
+            <span class="pill">+ FIREWORKS AI</span>
           </div>
         </div>
         """,
@@ -1104,9 +1119,10 @@ def page_landing():
             <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Zero API · data never leaves</div>
             <div style="font-size:.86rem;color:{MUTE};line-height:1.5">
               Every model runs on your own AMD GPU — nothing is sent to a third party.<br><br>
-              <b>GPU:</b> AMD Instinct <b>MI300X</b> · 192 GB HBM3 · ROCm + vLLM<br>
-              <b>LLM:</b> Google <b>Gemma 3</b> <i>(scales to Gemma-3-27B / a 70B on one GPU)</i><br>
-              <b>Embeddings:</b> <b>EmbeddingGemma</b> &nbsp;·&nbsp; <b>Images:</b> SDXL — same GPU<br>
+              <b>GPU:</b> AMD Radeon PRO <b>W7900</b> (48 GB · gfx1100) — live now;
+              also proven on AMD Instinct <b>MI300X</b> (192 GB HBM3)<br>
+              <b>LLM:</b> Google <b>Gemma 3</b> via llama.cpp <i>(ROCm/HIP; scales to Gemma-3-27B / 70B on a bigger GPU)</i><br>
+              <b>Embeddings:</b> <b>bge-m3</b> &nbsp;·&nbsp; <b>Images:</b> SDXL — same GPU<br>
               <b>Cost:</b> fixed GPU, <b>no per-token charge</b>
             </div>
         </div>""",
@@ -1193,10 +1209,13 @@ def page_landing():
     st.markdown(
         f'<div style="font-size:.9rem;color:{MUTE};line-height:1.55">'
         f'This demo drives the <b>full pipeline and all 8 gates</b> end-to-end. In the '
-        f'<b style="color:{INK}">AMD · MI300X</b> engine, the <b>Writer</b> and <b>Fact-checker</b> run on '
-        f'<b style="color:{INK}">Google Gemma 3</b>, the <b>Researcher</b> retrieves with '
-        f'<b style="color:{INK}">EmbeddingGemma</b>, and the <b>Image</b> agent uses SDXL — all '
-        f'<b style="color:{INK}">live on an AMD Instinct MI300X</b> (ROCm). Grounded, correctly-cited '
+        f'<b style="color:{INK}">AMD · Radeon W7900</b> engine, the <b>Writer</b> and <b>Fact-checker</b> run on '
+        f'<b style="color:{INK}">Google Gemma 3</b> (llama.cpp), the <b>Researcher</b> retrieves with '
+        f'<b style="color:{INK}">bge-m3</b>, and the <b>Image</b> agent uses SDXL — all '
+        f'<b style="color:{INK}">live on an AMD Radeon PRO W7900</b> (RDNA3 · ROCm), the GPU provided by the '
+        f'hackathon; the full stack is also proven on an <b>AMD Instinct MI300X</b>. A '
+        f'<b style="color:{INK}">Fireworks AI</b> engine (gpt-oss-120b + qwen3-embedding-8b) is available too. '
+        f'Grounded, correctly-cited '
         f'output; real cosine retrieval; real featured images. The corpus and topic backlog shown here are a curated <b>seed set</b>; '
         f'wiring to a live corpus (Google Drive + journals → pgvector) and publishing into a CMS database are '
         f'the next build (≈1–2 weeks for a real vertical slice). <i>Inference on AMD is real; the data '
@@ -1223,9 +1242,9 @@ def page_landing():
     with b2:
         eng = active_engine()
         if eng == "amd":
-            mode = f"AMD Instinct MI300X · ROCm + vLLM ({live.amd_model()})"
-        elif eng == "live":
-            mode = "hosted LLM API (Writer + Fact-checker)"
+            mode = f"AMD Radeon PRO W7900 · ROCm + llama.cpp ({live.amd_model()})"
+        elif eng == "fireworks":
+            mode = "Fireworks AI · gpt-oss-120b (Writer + Fact-checker)"
         else:
             mode = "MOCK (deterministic & free — no API calls)"
         st.caption(f"Engine: **{mode}**. This is a simulation — no database, no Redis, no Node. "
