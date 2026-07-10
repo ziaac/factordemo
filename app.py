@@ -543,6 +543,7 @@ def _reject_run():
 
 def _start_run():
     st.session_state.running = True
+    st.session_state._want_scroll = True   # scroll to the stepper on the result render too
 
 
 def sticky_footer(*specs):
@@ -904,6 +905,8 @@ def page_run():
                 "state machine advance.")
         return
 
+    if st.session_state.pop("_want_scroll", False):
+        _scroll_to_stepper()      # keep the process box in view after the rerun
     st.markdown("---")
     render_stepper(run)
 
