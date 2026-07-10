@@ -1611,16 +1611,6 @@ def page_landing():
     s3.markdown(f'**③ Weak corpus**  \nToo few sources → <span style="color:{ACCENT}">Gate 1</span> '
                 "aborts before any draft.", unsafe_allow_html=True)
 
-    st.markdown("---")
-    eng = active_engine()
-    if eng == "amd":
-        mode = f"AMD Radeon PRO W7900 · ROCm + llama.cpp ({live.amd_model()})"
-    elif eng == "fireworks":
-        mode = "Fireworks AI · gpt-oss-120b (Writer + Fact-checker)"
-    else:
-        mode = "MOCK (deterministic & free — no API calls)"
-    st.caption(f"Engine: **{mode}**. This is a simulation — no database, no Redis, no Node. "
-               "Production stack is TypeScript / BullMQ / PostgreSQL.")
     sticky_footer(("Enter Demo ▸", _enter_demo, "primary"))
 
 
