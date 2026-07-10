@@ -76,15 +76,17 @@ label, .stCaption, [data-testid="stCaptionContainer"],
     text-transform: uppercase; letter-spacing: .08em; font-size: .74rem; font-weight: 800;
     color: {CTA}; margin: .1rem 0 .35rem 0;
 }}
-/* A selectbox always holds a value, so it renders in the 'selected' state:
-   accent border + subtle tint, matching a chosen radio chip. Border is on the
-   baseweb root so no inner child can cover it. */
-div[data-baseweb="select"] {{
+/* A selectbox always holds a value, so render it in the 'selected' state:
+   red accent border + subtle tint, matching a chosen radio chip.
+   NOTE: this Streamlit build renders selectboxes as a React-Aria ComboBox
+   (.react-aria-ComboBox), not a baseweb select — target that control box. */
+[data-testid="stSelectbox"] .react-aria-ComboBox > div {{
     border: 2px solid {ACCENT} !important; border-radius: 0 !important;
     background: rgba(255,69,58,.10) !important; min-height: 3rem;
 }}
-div[data-baseweb="select"] > div {{ border: none !important; background: transparent !important; }}
-div[data-baseweb="select"]:hover {{ background: rgba(255,69,58,.16) !important; }}
+[data-testid="stSelectbox"] .react-aria-ComboBox > div:hover {{
+    background: rgba(255,69,58,.18) !important;
+}}
 /* Radio groups rendered as bordered chips (engine + publishing mode) */
 .st-key-pick_engine div[role="radiogroup"], .st-key-pick_pub div[role="radiogroup"] {{
     gap: .5rem; flex-wrap: wrap; margin-top: .1rem;
@@ -661,7 +663,8 @@ def page_workspace():
     ws_id = st.selectbox(
         "Topic Workspace", options=list(names.keys()),
         format_func=lambda i: names[i], label_visibility="collapsed",
-        index=list(names.keys()).index(st.session_state.workspace_id))
+        index=list(names.keys()).index(st.session_state.workspace_id),
+        key="ws_select")
     if ws_id != st.session_state.workspace_id:
         st.session_state.workspace_id = ws_id
         st.session_state.selected_topic = None
@@ -671,11 +674,10 @@ def page_workspace():
     topics = [t for t in seed["topics"] if t.workspace_id == ws.id]
     chunks = [c for c in seed["chunks"] if c.workspace_id == ws.id]
 
-    st.markdown(f"# {ws.name}")
     st.markdown(
-        '<div class="page-sub">A <b>workspace</b> = your topic + your curated sources. Review the '
-        'domain, credibility policy, corpus and topic backlog below — then continue to '
-        '<b>② Run pipeline</b> to generate an article.</div>', unsafe_allow_html=True)
+        '<div class="page-sub" style="margin-top:.6rem">The selected workspace = your topic + your '
+        'curated sources. Review the domain, credibility policy, corpus and topic backlog below — '
+        'then continue to <b>② Run pipeline</b> to generate an article.</div>', unsafe_allow_html=True)
     c1, c2, c3 = st.columns(3)
     c1.metric("Domain", ws.domain.split("(")[0].strip())
     c2.metric("Languages", " → ".join(l.upper() for l in ws.languages))
