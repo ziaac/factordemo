@@ -451,11 +451,11 @@ def _enter_demo():
 
 
 def _reset_cb():
-    """Reset the whole session and drop the user back on the Run pipeline page."""
+    """Reset the whole session and return the user to Step 1 (Workspace)."""
     for k in ("current_run", "history", "selected_topic", "cms_mode", "running"):
         st.session_state.pop(k, None)
     st.session_state.entered = True
-    st.session_state.nav = "Run pipeline"
+    st.session_state.nav = "Workspace"
 
 
 def _engine_caption(eng: str) -> str:
