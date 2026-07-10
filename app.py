@@ -36,6 +36,9 @@ INK    = "#ECECEE"   # primary text
 MUTE   = "#9A9AA4"   # secondary text
 FAINT  = "#5A5A64"   # tertiary / disabled
 LINE   = "#2A2A31"   # hairline borders / rules
+LABEL  = "#9AA0AC"   # readable section labels (kickers) — was red, hard to read
+CTA    = "#FF7A6E"   # softer, more legible coral for call-to-action prompts
+FIELD  = "#3A3B44"   # visible resting border for form fields
 
 VERDICT_COLORS = {
     "supported": "#3FB950",   # green
@@ -70,18 +73,27 @@ label, .stCaption, [data-testid="stCaptionContainer"],
 
 /* Prominent selection widgets — draw the user to pick first */
 .pick-label {{
-    text-transform: uppercase; letter-spacing: .1em; font-size: .72rem; font-weight: 800;
-    color: {ACCENT}; margin: .1rem 0 .35rem 0;
+    text-transform: uppercase; letter-spacing: .08em; font-size: .74rem; font-weight: 800;
+    color: {CTA}; margin: .1rem 0 .35rem 0;
 }}
-.stSelectbox [data-baseweb="select"] > div {{ border-width: 2px !important; min-height: 3rem; }}
+/* All selectboxes get a clearly visible, bordered field */
+.stSelectbox [data-baseweb="select"] > div {{
+    border: 2px solid {FIELD} !important; min-height: 3rem;
+}}
 .stSelectbox [data-baseweb="select"] > div:hover {{ border-color: {ACCENT} !important; }}
-.st-key-pick_engine div[role="radiogroup"] {{ gap: .5rem; flex-wrap: wrap; margin-top: .1rem; }}
-.st-key-pick_engine div[role="radiogroup"] > label {{
-    border: 1.5px solid {LINE}; background: {BG2}; padding: .5rem .9rem; margin: 0;
+/* Radio groups rendered as bordered chips (engine + publishing mode) */
+.st-key-pick_engine div[role="radiogroup"], .st-key-pick_pub div[role="radiogroup"] {{
+    gap: .5rem; flex-wrap: wrap; margin-top: .1rem;
+}}
+.st-key-pick_engine div[role="radiogroup"] > label, .st-key-pick_pub div[role="radiogroup"] > label {{
+    border: 1.5px solid {FIELD}; background: {BG2}; padding: .5rem .9rem; margin: 0;
     transition: border-color .12s, background .12s;
 }}
-.st-key-pick_engine div[role="radiogroup"] > label:hover {{ border-color: {ACCENT}; }}
-.st-key-pick_engine div[role="radiogroup"] > label:has(input:checked) {{
+.st-key-pick_engine div[role="radiogroup"] > label:hover, .st-key-pick_pub div[role="radiogroup"] > label:hover {{
+    border-color: {ACCENT};
+}}
+.st-key-pick_engine div[role="radiogroup"] > label:has(input:checked),
+.st-key-pick_pub div[role="radiogroup"] > label:has(input:checked) {{
     border-color: {ACCENT}; background: rgba(255,69,58,.14);
 }}
 
@@ -122,8 +134,8 @@ section[data-testid="stSidebar"] .stRadio label {{ font-size: .9rem; }}
 hr {{ border: none; border-top: 1px solid {LINE}; margin: 1.1rem 0; }}
 
 .swiss-kicker {{
-    text-transform: uppercase; letter-spacing: .22em; font-size: .68rem;
-    font-weight: 700; color: {ACCENT}; margin: 0 0 .2rem 0;
+    text-transform: uppercase; letter-spacing: .14em; font-size: .7rem;
+    font-weight: 700; color: {LABEL}; margin: 0 0 .2rem 0;
 }}
 .swiss-rule-top {{ border-top: 3px solid {ACCENT}; padding-top: .5rem; }}
 
@@ -779,7 +791,7 @@ def page_run():
         if st.session_state.get("engine") not in opts:
             st.session_state.engine = opts[0]
         with st.container(key="pick_engine"):
-            st.markdown('<div class="pick-label">Choose your inference engine</div>',
+            st.markdown('<div class="pick-label">▸ Choose your inference engine</div>',
                         unsafe_allow_html=True)
             st.radio("Inference engine", opts, format_func=lambda e: ENGINE_LABELS[e],
                      horizontal=True, key="engine", label_visibility="collapsed")
@@ -799,12 +811,14 @@ def page_run():
                        format_func=lambda i: labels[i], label_visibility="collapsed")
     topic = seed["topics_by_id"][tid]
 
-    pub_mode = st.radio(
-        "Publishing mode",
-        ["Human review (approve at Gate 7)", "Auto-publish to database"],
-        horizontal=True, key="pub_mode",
-        help="Human review pauses at Gate 7 for your Approve/Reject. Auto-publish marks Gate 7 "
-             "as auto-approved, posts straight to the database, and opens the Article.")
+    with st.container(key="pick_pub"):
+        st.markdown('<div class="pick-label">▸ Choose a publishing mode</div>', unsafe_allow_html=True)
+        pub_mode = st.radio(
+            "Publishing mode",
+            ["Human review (approve at Gate 7)", "Auto-publish to database"],
+            horizontal=True, key="pub_mode", label_visibility="collapsed",
+            help="Human review pauses at Gate 7 for your Approve/Reject. Auto-publish marks Gate 7 "
+                 "as auto-approved, posts straight to the database, and opens the Article.")
     auto_publish = pub_mode.startswith("Auto")
 
     running = st.session_state.get("running", False)
