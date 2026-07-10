@@ -282,6 +282,7 @@ def init_state():
     )
     st.session_state.setdefault("selected_topic", None)
     st.session_state.setdefault("cms_mode", False)
+    st.session_state.setdefault("running", False)
 
 
 def reset_demo():
@@ -438,6 +439,30 @@ def _toggle_cms():
     st.session_state.cms_mode = not st.session_state.get("cms_mode", False)
 
 
+def _view_reader():
+    st.session_state.cms_mode = False
+    st.session_state.nav = "Article"
+
+
+def _view_cms():
+    st.session_state.cms_mode = True
+    st.session_state.nav = "Article"
+
+
+def _approve_run():
+    run = st.session_state.get("current_run")
+    if run is not None and run.outcome == "awaiting_review":
+        mock.finish_publish(run, True)
+        _record_history(run)
+
+
+def _reject_run():
+    run = st.session_state.get("current_run")
+    if run is not None and run.outcome == "awaiting_review":
+        mock.finish_publish(run, False)
+        _record_history(run)
+
+
 def sticky_footer(*specs):
     """Full-width translucent bar with compact, centered buttons.
 
@@ -522,18 +547,8 @@ def sidebar():
         st.markdown('<div class="swiss-rule-top"></div>', unsafe_allow_html=True)
         st.markdown("### FACTOR")
         st.caption("Factual Agentic Content Orchestrator")
-
-        names = {w.id: w.name for w in seed["workspaces"]}
-        ws_id = st.selectbox(
-            "Topic Workspace",
-            options=list(names.keys()),
-            format_func=lambda i: names[i],
-            index=list(names.keys()).index(st.session_state.workspace_id),
-        )
-        if ws_id != st.session_state.workspace_id:
-            st.session_state.workspace_id = ws_id
-            st.session_state.selected_topic = None
-            st.rerun()
+        cur_ws = seed["workspaces_by_id"][st.session_state.workspace_id]
+        st.caption(f"Workspace: **{cur_ws.name}** — change it on the ① Workspace page.")
 
         st.markdown("---")
         opts = available_engines()
@@ -590,15 +605,27 @@ def sidebar():
 # --------------------------------------------------------------------------- #
 def page_workspace():
     seed = st.session_state.seed
+    names = {w.id: w.name for w in seed["workspaces"]}
+
+    kicker("Step 1 · Topic Workspace")
+    ws_id = st.selectbox(
+        "Choose a Topic Workspace", options=list(names.keys()),
+        format_func=lambda i: names[i],
+        index=list(names.keys()).index(st.session_state.workspace_id))
+    if ws_id != st.session_state.workspace_id:
+        st.session_state.workspace_id = ws_id
+        st.session_state.selected_topic = None
+        st.rerun()
+
     ws = seed["workspaces_by_id"][st.session_state.workspace_id]
     topics = [t for t in seed["topics"] if t.workspace_id == ws.id]
     chunks = [c for c in seed["chunks"] if c.workspace_id == ws.id]
 
-    page_header(
-        "Step 1 · Topic Workspace", ws.name,
-        "A <b>workspace</b> = your topic + your curated sources. Review the domain, credibility "
-        "policy, corpus and topic backlog below — then continue to <b>② Run pipeline</b> to "
-        "generate an article. Switch workspaces anytime from the sidebar.")
+    st.markdown(f"# {ws.name}")
+    st.markdown(
+        '<div class="page-sub">A <b>workspace</b> = your topic + your curated sources. Review the '
+        'domain, credibility policy, corpus and topic backlog below — then continue to '
+        '<b>② Run pipeline</b> to generate an article.</div>', unsafe_allow_html=True)
     c1, c2, c3 = st.columns(3)
     c1.metric("Domain", ws.domain.split("(")[0].strip())
     c2.metric("Languages", " → ".join(l.upper() for l in ws.languages))
@@ -709,11 +736,6 @@ def page_run():
         "through the 16-state machine and all 8 gates — grounded draft → independent fact-check → "
         "bias → translation → image → <b>human review</b> at Gate 7, or <b>auto-publish</b> straight "
         "to the database.")
-    # The Article button unlocks only once a pipeline run has been published.
-    _foot = [("◂ ① Workspace", "Workspace", "secondary")]
-    if any(h["run"].outcome == "published" for h in st.session_state.history):
-        _foot.append(("③ Article ▸", "Article", "primary"))
-    sticky_footer(*_foot)
 
     def _tag(t):
         if getattr(t, "scenario", "") == "backlog":
@@ -736,9 +758,14 @@ def page_run():
              "as auto-approved, posts straight to the database, and opens the Article.")
     auto_publish = pub_mode.startswith("Auto")
 
+    running = st.session_state.get("running", False)
+    cur = st.session_state.get("current_run")
+    done_here = cur is not None and cur.topic_id == tid
+    run_label = "⏳ Running…" if running else ("↻ Re-run pipeline" if done_here else "Run pipeline ▸")
+
     col_a, col_b = st.columns([1, 3])
     with col_a:
-        run_clicked = st.button("Run pipeline ▸", type="primary", use_container_width=True)
+        run_clicked = st.button(run_label, type="primary", use_container_width=True, disabled=running)
     with col_b:
         if topic.scenario == "revision":
             st.caption("Scenario: **revision** — v1 draft contains an overclaim → Gate 3 "
@@ -749,19 +776,39 @@ def page_run():
         else:
             st.caption("Scenario: **happy path** — grounded draft clears every gate.")
 
-    if run_clicked:
+    # Phase 1: a click just flips the running flag and reruns, so the button
+    # renders disabled/loading before the (blocking) pipeline animation starts.
+    if run_clicked and not running:
+        st.session_state.running = True
+        st.rerun()
+
+    # Phase 2: actually drive the pipeline while the button shows "Running…".
+    if running:
         run = mock.start_run(topic, ws)
         _animate_run(run, topic, ws, seed)
         st.session_state.current_run = run
+        st.session_state.running = False
         if run.outcome == "awaiting_review" and auto_publish:
-            mock.finish_publish(run, True, auto=True)
+            mock.finish_publish(run, True, auto=True)   # Gate 7 auto-approved
             _record_history(run)
-            request_nav("Article")      # jump straight to the published article
         elif run.outcome == "rejected":
             _record_history(run)
         st.rerun()
 
+    # --- Footer adapts to the run's state / publishing mode ------------------ #
     run = st.session_state.current_run
+    done = run is not None and run.topic_id == tid
+    foot = [("◂ ① Workspace", "Workspace", "secondary")]
+    if done and run.outcome == "awaiting_review":            # Human review chosen
+        foot += [("✕ Reject", _reject_run, "secondary"),
+                 ("✓ Approve & publish", _approve_run, "primary")]
+    elif done and run.outcome == "published":                # published (auto or approved)
+        foot += [("▤ Reader Mode", _view_reader, "secondary"),
+                 ("▦ CMS Mode", _view_cms, "primary")]
+    elif any(h["run"].outcome == "published" for h in st.session_state.history):
+        foot.append(("③ Article ▸", "Article", "primary"))
+    sticky_footer(*foot)
+
     if run is None or run.topic_id != tid:
         st.info("Select a topic and press **Run pipeline** to watch the state machine advance.")
         return
@@ -779,24 +826,17 @@ def page_run():
 
     _render_step_expanders(run, ws)
 
-    # Human review gate --------------------------------------------------- #
+    # Human review gate --- actions live in the sticky footer ------------- #
     if run.outcome == "awaiting_review":
         st.markdown("---")
         kicker("Gate 7 · Human review")
-        st.markdown("You are the editor. Approve to publish, or reject.")
-        c1, c2, _ = st.columns([1, 1, 3])
-        if c1.button("✓ Approve", type="primary"):
-            mock.finish_publish(run, True)
-            _record_history(run)
-            st.rerun()
-        if c2.button("✕ Reject"):
-            mock.finish_publish(run, False)
-            _record_history(run)
-            st.rerun()
+        st.markdown("You are the editor — use **✓ Approve & publish** or **✕ Reject** in the footer.")
     elif run.outcome == "published":
-        st.success("Published — the bilingual article is ready. Open ③ Article from the footer.")
+        auto = run.artifacts.get("auto_published")
+        st.success(("Auto-published to the database. " if auto else "Published. ")
+                   + "Open it via **Reader Mode** or **CMS Mode** in the footer.")
     elif run.outcome == "rejected":
-        st.error("Rejected by editor at Gate 7.")
+        st.error("Rejected by editor at Gate 7. Press **Re-run pipeline** to try again.")
 
     _render_audit(run)
 
