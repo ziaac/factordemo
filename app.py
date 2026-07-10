@@ -751,6 +751,29 @@ def _record_history(run):
     st.session_state.history.append(entry)
 
 
+def _scroll_to_stepper():
+    """Scroll the page to the pipeline stepper (QUEUED pill) when a run starts,
+    so the animated process box is visible without manual scrolling. Retries
+    because the stepper streams in during the animation."""
+    components.html(
+        """
+        <script>
+        (function(){
+          function go(n){
+            try {
+              const d = window.parent.document;
+              const pill = [...d.querySelectorAll('.pill')]
+                .find(p => (p.textContent||'').trim().toUpperCase() === 'QUEUED');
+              if (pill) { pill.scrollIntoView({behavior:'smooth', block:'start'}); return; }
+            } catch(e){}
+            if (n > 0) setTimeout(function(){ go(n-1); }, 200);
+          }
+          go(25);
+        })();
+        </script>
+        """, height=0)
+
+
 def _animate_run(run, topic, ws, seed):
     placeholder = st.empty()
     eng = active_engine()
@@ -863,6 +886,7 @@ def page_run():
 
     # Drive the pipeline while the footer button shows "Running…".
     if running:
+        _scroll_to_stepper()          # bring the process box into view
         run = mock.start_run(topic, ws)
         _animate_run(run, topic, ws, seed)
         st.session_state.current_run = run
