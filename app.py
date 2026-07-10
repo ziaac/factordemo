@@ -552,6 +552,7 @@ def _change_options():
     """Unlock the Topic / Engine / Publishing pickers after a successful run,
     so the user can adjust them and press Run pipeline again."""
     st.session_state.options_locked = False
+    st.session_state._scroll_top = True   # bring the pickers back into view
 
 
 def sticky_footer(*specs):
@@ -783,6 +784,25 @@ def _scroll_to_stepper():
         """, height=0)
 
 
+def _scroll_to_top():
+    """Smoothly scroll the app back to the top (used after 'Change options')."""
+    components.html(
+        """
+        <script>
+        (function(){
+          try{
+            const d = window.parent.document;
+            const c = d.querySelector('section.main')
+                   || d.querySelector('[data-testid="stAppViewContainer"]')
+                   || d.scrollingElement;
+            if (c) c.scrollTo({top:0, behavior:'smooth'});
+            window.parent.scrollTo({top:0, behavior:'smooth'});
+          }catch(e){}
+        })();
+        </script>
+        """, height=0)
+
+
 def _animate_run(run, topic, ws, seed):
     placeholder = st.empty()
     eng = active_engine()
@@ -821,12 +841,12 @@ def page_run():
     ws = seed["workspaces_by_id"][st.session_state.workspace_id]
     topics = [t for t in seed["topics"] if t.workspace_id == ws.id]
 
-    page_header(
-        "Step 2 · Pipeline", "Run pipeline",
-        "Pick a topic and a publishing mode, then press <b>Run pipeline</b>. Ten agents advance "
-        "through the 16-state machine and all 8 gates — grounded draft → independent fact-check → "
-        "bias → translation → image → <b>human review</b> at Gate 7, or <b>auto-publish</b> straight "
-        "to the database.")
+    page_header("Step 2 · Pipeline", "Run pipeline")
+
+    # Return to top when the user unlocks the pickers via "Change options",
+    # so all frozen options come back into view.
+    if st.session_state.pop("_scroll_top", False):
+        _scroll_to_top()
 
     # Inference engine — chosen here; shown (read-only) in the sidebar.
     # key="engine" ties the widget directly to session state so the sidebar,
