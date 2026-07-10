@@ -68,6 +68,23 @@ label, .stCaption, [data-testid="stCaptionContainer"],
     background: {BG2} !important; border-color: {LINE} !important; color: {INK} !important;
 }}
 
+/* Prominent selection widgets — draw the user to pick first */
+.pick-label {{
+    text-transform: uppercase; letter-spacing: .1em; font-size: .72rem; font-weight: 800;
+    color: {ACCENT}; margin: .1rem 0 .35rem 0;
+}}
+.stSelectbox [data-baseweb="select"] > div {{ border-width: 2px !important; min-height: 3rem; }}
+.stSelectbox [data-baseweb="select"] > div:hover {{ border-color: {ACCENT} !important; }}
+.st-key-pick_engine div[role="radiogroup"] {{ gap: .5rem; flex-wrap: wrap; margin-top: .1rem; }}
+.st-key-pick_engine div[role="radiogroup"] > label {{
+    border: 1.5px solid {LINE}; background: {BG2}; padding: .5rem .9rem; margin: 0;
+    transition: border-color .12s, background .12s;
+}}
+.st-key-pick_engine div[role="radiogroup"] > label:hover {{ border-color: {ACCENT}; }}
+.st-key-pick_engine div[role="radiogroup"] > label:has(input:checked) {{
+    border-color: {ACCENT}; background: rgba(255,69,58,.14);
+}}
+
 /* Flat, orthogonal — no rounded corners */
 .stButton>button, .stSelectbox div, .stExpander, div[data-testid="stExpander"],
 [data-baseweb="select"] > div {{ border-radius: 0 !important; }}
@@ -623,9 +640,11 @@ def page_workspace():
     names = {w.id: w.name for w in seed["workspaces"]}
 
     kicker("Step 1 · Topic Workspace")
+    st.markdown('<div class="pick-label">▸ Start here — choose a workspace</div>',
+                unsafe_allow_html=True)
     ws_id = st.selectbox(
-        "Choose a Topic Workspace", options=list(names.keys()),
-        format_func=lambda i: names[i],
+        "Topic Workspace", options=list(names.keys()),
+        format_func=lambda i: names[i], label_visibility="collapsed",
         index=list(names.keys()).index(st.session_state.workspace_id))
     if ws_id != st.session_state.workspace_id:
         st.session_state.workspace_id = ws_id
@@ -752,12 +771,18 @@ def page_run():
         "bias → translation → image → <b>human review</b> at Gate 7, or <b>auto-publish</b> straight "
         "to the database.")
 
-    # Inference engine — chosen here; shown read-only in the sidebar.
+    # Inference engine — chosen here; shown (read-only) in the sidebar.
+    # key="engine" ties the widget directly to session state so the sidebar,
+    # which renders first, always reflects the same choice (no one-render lag).
     opts = available_engines()
     if len(opts) > 1:
-        eng = st.radio("Inference engine", opts, index=opts.index(active_engine()),
-                       format_func=lambda e: ENGINE_LABELS[e], horizontal=True, key="engine_radio")
-        st.session_state.engine = eng
+        if st.session_state.get("engine") not in opts:
+            st.session_state.engine = opts[0]
+        with st.container(key="pick_engine"):
+            st.markdown('<div class="pick-label">Choose your inference engine</div>',
+                        unsafe_allow_html=True)
+            st.radio("Inference engine", opts, format_func=lambda e: ENGINE_LABELS[e],
+                     horizontal=True, key="engine", label_visibility="collapsed")
     st.caption(_engine_caption(active_engine()))
 
     def _tag(t):
@@ -769,8 +794,9 @@ def page_run():
     # corpus-ready / scenario topics first, then backlog
     topics = sorted(topics, key=lambda t: (getattr(t, "scenario", "") == "backlog", t.title_en))
     labels = {t.id: f"{t.title_id}{_tag(t)}" for t in topics}
+    st.markdown('<div class="pick-label">▸ Select a topic to run</div>', unsafe_allow_html=True)
     tid = st.selectbox("Topic", options=[t.id for t in topics],
-                       format_func=lambda i: labels[i])
+                       format_func=lambda i: labels[i], label_visibility="collapsed")
     topic = seed["topics_by_id"][tid]
 
     pub_mode = st.radio(
