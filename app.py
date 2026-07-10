@@ -152,11 +152,19 @@ hr {{ border: none; border-top: 1px solid {LINE}; margin: 1.1rem 0; }}
 .agent-fail {{ border-left: 3px solid {ACCENT}; padding: .45rem .85rem; margin: .5rem 0;
     color: {INK}; background: rgba(255,69,58,.06); }}
 
-/* Floating 'next step' button, always reachable without scrolling */
-.st-key-stickynext {{
-    position: fixed; right: 26px; bottom: 84px; z-index: 1000; width: auto;
+/* Full-width sticky footer nav bar (translucent) */
+.st-key-stickybar {{
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000000;
+    background: rgba(11,11,13,0.72);
+    -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
+    border-top: 1px solid {LINE};
+    padding: .4rem 1.2rem .45rem;
 }}
-.st-key-stickynext button {{ box-shadow: 0 6px 22px rgba(0,0,0,.55); white-space: nowrap; }}
+.st-key-stickybar [data-testid="stHorizontalBlock"] {{ align-items: center; gap: .6rem; }}
+.st-key-stickybar .stButton > button {{ white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,.45); }}
+/* keep page + sidebar content clear of the fixed bar */
+.block-container {{ padding-bottom: 5.5rem !important; }}
+section[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {{ padding-bottom: 5rem; }}
 
 section[data-testid="stSidebar"] {{ background: {BG2}; border-right: 1px solid {LINE}; }}
 [data-testid="stMetricValue"] {{ font-weight: 900; font-size: 1.45rem; line-height: 1.2; }}
@@ -272,6 +280,7 @@ def init_state():
         "amd" if live.amd_available() else ("fireworks" if live.fireworks_available() else "mock"),
     )
     st.session_state.setdefault("selected_topic", None)
+    st.session_state.setdefault("cms_mode", False)
 
 
 def reset_demo():
@@ -416,10 +425,37 @@ def page_header(kick: str, title: str, subtitle: str | None = None):
         st.markdown(f'<div class="page-sub">{subtitle}</div>', unsafe_allow_html=True)
 
 
-def sticky_next(label: str, target: str):
-    """Floating bottom-right 'next step' button so users can advance without scrolling."""
-    with st.container(key="stickynext"):
-        st.button(label, type="primary", on_click=_nav_to, args=(target,))
+def _go_home():
+    st.session_state.entered = False
+
+
+def _enter_demo():
+    st.session_state.entered = True
+
+
+def _toggle_cms():
+    st.session_state.cms_mode = not st.session_state.get("cms_mode", False)
+
+
+def _footer_btn(col, spec, key, kind):
+    """spec = (label, action); action is a nav-target string or a callable callback."""
+    if not spec:
+        return
+    label, action = spec
+    if callable(action):
+        col.button(label, key=key, type=kind, use_container_width=True, on_click=action)
+    else:
+        col.button(label, key=key, type=kind, use_container_width=True,
+                   on_click=_nav_to, args=(action,))
+
+
+def sticky_footer(left=None, center=None, right=None):
+    """Full-width translucent bottom bar with context-aware prev / (extra) / next buttons."""
+    with st.container(key="stickybar"):
+        c1, c2, c3 = st.columns(3)
+        _footer_btn(c1, left, "sf_left", "secondary")
+        _footer_btn(c2, center, "sf_center", "secondary")
+        _footer_btn(c3, right, "sf_right", "primary")
 
 
 def _nav_to(page: str):
@@ -610,8 +646,7 @@ def page_workspace():
             "Cred": "■" * c.credibility + "□" * (5 - c.credibility),
         })
     st.dataframe(srows, use_container_width=True, hide_index=True)
-    st.caption("Ready to generate? Use the floating button (bottom-right) or the sidebar to go to ② Run pipeline.")
-    sticky_next("② Run pipeline ▸", "Run pipeline")
+    sticky_footer(left=("⌂ Home", _go_home), right=("② Run pipeline ▸", "Run pipeline"))
 
 
 # --------------------------------------------------------------------------- #
@@ -673,6 +708,7 @@ def page_run():
         "through the 16-state machine and all 8 gates — grounded draft → independent fact-check → "
         "bias → translation → image → <b>human review</b> at Gate 7, or <b>auto-publish</b> straight "
         "to the database.")
+    sticky_footer(left=("◂ ① Workspace", "Workspace"), right=("③ Article ▸", "Article"))
 
     def _tag(t):
         if getattr(t, "scenario", "") == "backlog":
@@ -753,8 +789,7 @@ def page_run():
             _record_history(run)
             st.rerun()
     elif run.outcome == "published":
-        st.success("Published — the bilingual article is ready.")
-        sticky_next("③ View article ▸", "Article")
+        st.success("Published — the bilingual article is ready. Open ③ Article from the footer.")
     elif run.outcome == "rejected":
         st.error("Rejected by editor at Gate 7.")
 
@@ -1053,8 +1088,7 @@ def page_article():
 
     if not published:
         st.info("No published article yet — run a topic and approve it at Gate 7 first.")
-        st.button("◂ Back to ② Run pipeline", type="primary",
-                  on_click=_nav_to, args=("Run pipeline",))
+        sticky_footer(left=("◂ ② Run pipeline", "Run pipeline"))
         return
 
     labels = {i: f'{h["topic_title"]}  ·  {h["workspace_id"]}'
@@ -1062,11 +1096,16 @@ def page_article():
     idx = st.selectbox("Published article", options=list(labels.keys()),
                        format_func=lambda i: labels[i], index=len(published) - 1)
     h = published[idx]
-    sticky_next("④ Dashboard ▸", "Dashboard")
     run = h["run"]
     ws = seed["workspaces_by_id"][run.workspace_id]
     a = run.artifacts
     genre = run.genre
+
+    cms = st.session_state.get("cms_mode", False)
+    sticky_footer(
+        left=("◂ ② Run pipeline", "Run pipeline"),
+        center=(("◱ Show Reader Mode" if cms else "◲ Show Web / CMS Mode"), _toggle_cms),
+        right=("④ Dashboard ▸", "Dashboard"))
 
     label = (f'<span class="pill" style="background:{ACCENT};color:{BG};border-color:{ACCENT}">'
              f'AI-ASSISTED</span> <span class="pill">{genre.upper()}</span> '
@@ -1076,10 +1115,9 @@ def page_article():
     locales = ws.languages
     tab_labels = {"id": "Indonesian", "en": "English"}
 
-    view = st.radio("View", ["Reader", "CMS preview"], horizontal=True,
-                    label_visibility="collapsed")
-    if view == "CMS preview":
-        st.caption("Full article detail as it would render on the connected CMS.")
+    if cms:
+        st.caption("Web / CMS mode — full article as it would render on the connected CMS/website. "
+                   "Use the footer button to switch back to Reader mode.")
         loc = st.radio("Language", locales, horizontal=True,
                        format_func=lambda l: tab_labels[l], label_visibility="collapsed")
         components.html(_cms_preview_html(run, ws, loc, seed), height=1500, scrolling=True)
@@ -1119,12 +1157,11 @@ def page_dashboard():
         "Step 4 · Metrics", "Dashboard",
         "Session overview — runs, gate outcomes, revisions, and estimated tokens/cost per "
         "article. Accumulates as you run more pipelines.")
+    sticky_footer(left=("◂ ③ Article", "Article"), right=("↻ Run another", "Run pipeline"))
     hist = st.session_state.history
 
     if not hist:
         st.info("No runs yet this session — metrics accumulate as you run pipelines.")
-        st.button("◂ Go to ② Run pipeline", type="primary",
-                  on_click=_nav_to, args=("Run pipeline",))
         return
 
     runs = [h["run"] for h in hist]
@@ -1379,21 +1416,16 @@ def page_landing():
                 "aborts before any draft.", unsafe_allow_html=True)
 
     st.markdown("---")
-    b1, b2 = st.columns([1, 3])
-    with b1:
-        if st.button("Enter demo ▸", type="primary", use_container_width=True):
-            st.session_state.entered = True
-            st.rerun()
-    with b2:
-        eng = active_engine()
-        if eng == "amd":
-            mode = f"AMD Radeon PRO W7900 · ROCm + llama.cpp ({live.amd_model()})"
-        elif eng == "fireworks":
-            mode = "Fireworks AI · gpt-oss-120b (Writer + Fact-checker)"
-        else:
-            mode = "MOCK (deterministic & free — no API calls)"
-        st.caption(f"Engine: **{mode}**. This is a simulation — no database, no Redis, no Node. "
-                   "Production stack is TypeScript / BullMQ / PostgreSQL.")
+    eng = active_engine()
+    if eng == "amd":
+        mode = f"AMD Radeon PRO W7900 · ROCm + llama.cpp ({live.amd_model()})"
+    elif eng == "fireworks":
+        mode = "Fireworks AI · gpt-oss-120b (Writer + Fact-checker)"
+    else:
+        mode = "MOCK (deterministic & free — no API calls)"
+    st.caption(f"Engine: **{mode}**. This is a simulation — no database, no Redis, no Node. "
+               "Production stack is TypeScript / BullMQ / PostgreSQL.")
+    sticky_footer(right=("Enter Demo ▸", _enter_demo))
 
 
 # --------------------------------------------------------------------------- #
