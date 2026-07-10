@@ -1436,7 +1436,7 @@ def page_landing():
     ]:
         col.markdown(
             f"""<div style="border-top:1px solid {LINE};padding-top:.5rem;min-height:150px">
-                <div class="swiss-kicker" style="color:{ACCENT}">{t}</div>
+                <div class="swiss-kicker" style="color:{LABEL}">{t}</div>
                 <div style="font-size:.82rem;color:{MUTE};line-height:1.45">{d}</div>
             </div>""",
             unsafe_allow_html=True,
