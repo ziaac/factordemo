@@ -332,11 +332,12 @@ def init_state():
     st.session_state.setdefault("selected_topic", None)
     st.session_state.setdefault("cms_mode", False)
     st.session_state.setdefault("running", False)
+    st.session_state.setdefault("options_locked", False)   # freeze pickers after a successful run
     st.session_state.setdefault("nav", "Workspace")
 
 
 def reset_demo():
-    for k in ("current_run", "history", "selected_topic"):
+    for k in ("current_run", "history", "selected_topic", "options_locked"):
         st.session_state.pop(k, None)
     init_state()
 
@@ -488,7 +489,8 @@ def _enter_demo():
 
 def _reset_cb():
     """Reset the whole session and return the user to Step 1 (Workspace)."""
-    for k in ("current_run", "history", "selected_topic", "cms_mode", "running"):
+    for k in ("current_run", "history", "selected_topic", "cms_mode", "running",
+              "options_locked"):
         st.session_state.pop(k, None)
     st.session_state.entered = True
     st.session_state.nav = "Workspace"
@@ -544,6 +546,12 @@ def _reject_run():
 def _start_run():
     st.session_state.running = True
     st.session_state._want_scroll = True   # scroll to the stepper on the result render too
+
+
+def _change_options():
+    """Unlock the Topic / Engine / Publishing pickers after a successful run,
+    so the user can adjust them and press Run pipeline again."""
+    st.session_state.options_locked = False
 
 
 def sticky_footer(*specs):
@@ -823,6 +831,7 @@ def page_run():
     # Inference engine — chosen here; shown (read-only) in the sidebar.
     # key="engine" ties the widget directly to session state so the sidebar,
     # which renders first, always reflects the same choice (no one-render lag).
+    locked = st.session_state.get("options_locked", False)   # frozen after a successful run
     opts = available_engines()
     if len(opts) > 1:
         if st.session_state.get("engine") not in opts:
@@ -831,7 +840,8 @@ def page_run():
             st.markdown('<div class="pick-label">▸ Choose your inference engine</div>',
                         unsafe_allow_html=True)
             st.radio("Inference engine", opts, format_func=lambda e: ENGINE_LABELS[e],
-                     horizontal=True, key="engine", label_visibility="collapsed")
+                     horizontal=True, key="engine", label_visibility="collapsed",
+                     disabled=locked)
     st.caption(_engine_caption(active_engine()))
 
     def _tag(t):
@@ -845,7 +855,8 @@ def page_run():
     labels = {t.id: f"{t.title_id}{_tag(t)}" for t in topics}
     st.markdown('<div class="pick-label">▸ Select a topic to run</div>', unsafe_allow_html=True)
     tid = st.selectbox("Topic", options=[t.id for t in topics],
-                       format_func=lambda i: labels[i], label_visibility="collapsed")
+                       format_func=lambda i: labels[i], label_visibility="collapsed",
+                       key="topic_select", disabled=locked)
     topic = seed["topics_by_id"][tid]
 
     with st.container(key="pick_pub"):
@@ -853,10 +864,14 @@ def page_run():
         pub_mode = st.radio(
             "Publishing mode",
             ["Human review (approve at Gate 7)", "Auto-publish to database"],
-            horizontal=True, key="pub_mode", label_visibility="collapsed",
+            horizontal=True, key="pub_mode", label_visibility="collapsed", disabled=locked,
             help="Human review pauses at Gate 7 for your Approve/Reject. Auto-publish marks Gate 7 "
                  "as auto-approved, posts straight to the database, and opens the Article.")
     auto_publish = pub_mode.startswith("Auto")
+
+    if locked:
+        st.caption("🔒 Topic · engine · publishing are frozen for this run — press "
+                   "**⚙ Change options** in the bottom bar to edit them and run again.")
 
     if topic.scenario == "revision":
         st.caption("Scenario: **revision** — v1 draft contains an overclaim → Gate 3 rejects → "
@@ -872,17 +887,25 @@ def page_run():
     done_here = cur is not None and cur.topic_id == tid
 
     # --- Sticky footer: Workspace back + the Run button (+ outcome actions) --- #
+    # After a SUCCESSFUL run the pickers are frozen (locked): we surface a
+    # "Change options" button first instead of Re-run, so the user deliberately
+    # unlocks Topic/Engine/Publishing before running again. After a FAILED run
+    # (rejected) the pickers stay editable and we offer a direct Retry.
     foot = [("◂ ① Workspace", "Workspace", "secondary")]
     if running:
         foot.append(("⏳ Running…", None, "primary"))                    # disabled while animating
+    elif locked:                                                         # success → pickers frozen
+        foot.append(("⚙ Change options", _change_options, "primary"))
+        if done_here and cur.outcome == "awaiting_review":               # human review chosen
+            foot += [("✕ Reject", _reject_run, "secondary"),
+                     ("✓ Approve & publish", _approve_run, "primary")]
+        elif done_here and cur.outcome == "published":                   # published (auto/approved)
+            foot += [("▤ Reader Mode", _view_reader, "secondary"),
+                     ("▦ CMS Mode", _view_cms, "primary")]
+    elif done_here and cur.outcome == "rejected":                        # failure → quick retry
+        foot.append(("↻ Retry pipeline", _start_run, "primary"))
     else:
         foot.append(("↻ Re-run pipeline" if done_here else "▶ Run pipeline", _start_run, "primary"))
-    if done_here and cur.outcome == "awaiting_review":                   # human review chosen
-        foot += [("✕ Reject", _reject_run, "secondary"),
-                 ("✓ Approve & publish", _approve_run, "primary")]
-    elif done_here and cur.outcome == "published":                       # published (auto/approved)
-        foot += [("▤ Reader Mode", _view_reader, "secondary"),
-                 ("▦ CMS Mode", _view_cms, "primary")]
     sticky_footer(*foot)
 
     # Drive the pipeline while the footer button shows "Running…".
@@ -897,6 +920,9 @@ def page_run():
             _record_history(run)
         elif run.outcome == "rejected":
             _record_history(run)
+        # Freeze the pickers only on a successful run; a failed (rejected) run
+        # leaves them editable so the user can pick a different topic and retry.
+        st.session_state.options_locked = run.outcome != "rejected"
         st.rerun()
 
     run = st.session_state.current_run
@@ -930,7 +956,8 @@ def page_run():
         st.success(("Auto-published to the database. " if auto else "Published. ")
                    + "Open it via **Reader Mode** or **CMS Mode** in the footer.")
     elif run.outcome == "rejected":
-        st.error("Rejected by editor at Gate 7. Press **Re-run pipeline** to try again.")
+        st.error("Rejected by editor at Gate 7. Pickers stay editable — change the topic or "
+                 "settings, or press **↻ Retry pipeline** to run the same topic again.")
 
     _render_audit(run)
 
