@@ -792,11 +792,10 @@ def _scroll_to_top():
         (function(){
           try{
             const d = window.parent.document;
-            const c = d.querySelector('section.main')
-                   || d.querySelector('[data-testid="stAppViewContainer"]')
+            const c = d.querySelector('[data-testid="stMain"]')
+                   || d.querySelector('section.stMain')
                    || d.scrollingElement;
             if (c) c.scrollTo({top:0, behavior:'smooth'});
-            window.parent.scrollTo({top:0, behavior:'smooth'});
           }catch(e){}
         })();
         </script>
