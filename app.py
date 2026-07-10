@@ -216,7 +216,8 @@ section[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {{ padding
 .sb-meta b {{ color: {INK}; font-size: .95rem; }}
 
 section[data-testid="stSidebar"] {{ background: {BG2}; border-right: 1px solid {LINE}; }}
-[data-testid="stMetricValue"] {{ font-weight: 900; font-size: 1.45rem; line-height: 1.2; }}
+[data-testid="stMetricValue"] {{ font-weight: 900; font-size: 1.4rem; line-height: 1.15;
+    white-space: normal !important; overflow: visible !important; }}
 [data-testid="stMetricLabel"] {{ font-size: .72rem; letter-spacing: .04em; }}
 [data-testid="stExpander"] {{ border-color: {LINE} !important; background: {BG2}; }}
 .stDataFrame, [data-testid="stTable"] {{ border: 1px solid {LINE}; }}
@@ -540,6 +541,10 @@ def _reject_run():
         _record_history(run)
 
 
+def _start_run():
+    st.session_state.running = True
+
+
 def sticky_footer(*specs):
     """Full-width translucent bar with compact, centered buttons.
 
@@ -553,7 +558,9 @@ def sticky_footer(*specs):
     with st.container(key="stickybar"):
         cols = st.columns(len(specs))
         for i, (col, (label, action, kind)) in enumerate(zip(cols, specs)):
-            if callable(action):
+            if action is None:                       # non-actionable (e.g. "Running…")
+                col.button(label, key=f"sf_{i}", type=kind, disabled=True)
+            elif callable(action):
                 col.button(label, key=f"sf_{i}", type=kind, on_click=action)
             else:
                 col.button(label, key=f"sf_{i}", type=kind, on_click=_nav_to, args=(action,))
@@ -678,7 +685,7 @@ def page_workspace():
         '<div class="page-sub" style="margin-top:.6rem">The selected workspace = your topic + your '
         'curated sources. Review the domain, credibility policy, corpus and topic backlog below — '
         'then continue to <b>② Run pipeline</b> to generate an article.</div>', unsafe_allow_html=True)
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3 = st.columns([2, 1, 1])
     c1.metric("Domain", ws.domain.split("(")[0].strip())
     c2.metric("Languages", " → ".join(l.upper() for l in ws.languages))
     c3.metric("Corpus chunks", len(chunks))
@@ -827,31 +834,34 @@ def page_run():
                  "as auto-approved, posts straight to the database, and opens the Article.")
     auto_publish = pub_mode.startswith("Auto")
 
+    if topic.scenario == "revision":
+        st.caption("Scenario: **revision** — v1 draft contains an overclaim → Gate 3 rejects → "
+                   "REVISING → v2 passes.")
+    elif topic.scenario == "weak_corpus":
+        st.caption("Scenario: **weak corpus** — below the Gate 1 threshold; the run is aborted "
+                   "before any draft is written.")
+    else:
+        st.caption("Scenario: **happy path** — grounded draft clears every gate.")
+
     running = st.session_state.get("running", False)
     cur = st.session_state.get("current_run")
     done_here = cur is not None and cur.topic_id == tid
-    run_label = "⏳ Running…" if running else ("↻ Re-run pipeline" if done_here else "Run pipeline ▸")
 
-    col_a, col_b = st.columns([1, 3])
-    with col_a:
-        run_clicked = st.button(run_label, type="primary", use_container_width=True, disabled=running)
-    with col_b:
-        if topic.scenario == "revision":
-            st.caption("Scenario: **revision** — v1 draft contains an overclaim → Gate 3 "
-                       "rejects → REVISING → v2 passes.")
-        elif topic.scenario == "weak_corpus":
-            st.caption("Scenario: **weak corpus** — below the Gate 1 threshold; the run is "
-                       "aborted before any draft is written.")
-        else:
-            st.caption("Scenario: **happy path** — grounded draft clears every gate.")
+    # --- Sticky footer: Workspace back + the Run button (+ outcome actions) --- #
+    foot = [("◂ ① Workspace", "Workspace", "secondary")]
+    if running:
+        foot.append(("⏳ Running…", None, "primary"))                    # disabled while animating
+    else:
+        foot.append(("↻ Re-run pipeline" if done_here else "▶ Run pipeline", _start_run, "primary"))
+    if done_here and cur.outcome == "awaiting_review":                   # human review chosen
+        foot += [("✕ Reject", _reject_run, "secondary"),
+                 ("✓ Approve & publish", _approve_run, "primary")]
+    elif done_here and cur.outcome == "published":                       # published (auto/approved)
+        foot += [("▤ Reader Mode", _view_reader, "secondary"),
+                 ("▦ CMS Mode", _view_cms, "primary")]
+    sticky_footer(*foot)
 
-    # Phase 1: a click just flips the running flag and reruns, so the button
-    # renders disabled/loading before the (blocking) pipeline animation starts.
-    if run_clicked and not running:
-        st.session_state.running = True
-        st.rerun()
-
-    # Phase 2: actually drive the pipeline while the button shows "Running…".
+    # Drive the pipeline while the footer button shows "Running…".
     if running:
         run = mock.start_run(topic, ws)
         _animate_run(run, topic, ws, seed)
@@ -864,22 +874,10 @@ def page_run():
             _record_history(run)
         st.rerun()
 
-    # --- Footer adapts to the run's state / publishing mode ------------------ #
     run = st.session_state.current_run
-    done = run is not None and run.topic_id == tid
-    foot = [("◂ ① Workspace", "Workspace", "secondary")]
-    if done and run.outcome == "awaiting_review":            # Human review chosen
-        foot += [("✕ Reject", _reject_run, "secondary"),
-                 ("✓ Approve & publish", _approve_run, "primary")]
-    elif done and run.outcome == "published":                # published (auto or approved)
-        foot += [("▤ Reader Mode", _view_reader, "secondary"),
-                 ("▦ CMS Mode", _view_cms, "primary")]
-    elif any(h["run"].outcome == "published" for h in st.session_state.history):
-        foot.append(("③ Article ▸", "Article", "primary"))
-    sticky_footer(*foot)
-
     if run is None or run.topic_id != tid:
-        st.info("Select a topic and press **Run pipeline** to watch the state machine advance.")
+        st.info("Choose a topic, then press **▶ Run pipeline** in the bottom bar to watch the "
+                "state machine advance.")
         return
 
     st.markdown("---")
