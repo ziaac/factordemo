@@ -847,22 +847,9 @@ def page_run():
     if st.session_state.pop("_scroll_top", False):
         _scroll_to_top()
 
-    # Inference engine — chosen here; shown (read-only) in the sidebar.
-    # key="engine" ties the widget directly to session state so the sidebar,
-    # which renders first, always reflects the same choice (no one-render lag).
     locked = st.session_state.get("options_locked", False)   # frozen after a successful run
-    opts = available_engines()
-    if len(opts) > 1:
-        if st.session_state.get("engine") not in opts:
-            st.session_state.engine = opts[0]
-        with st.container(key="pick_engine"):
-            st.markdown('<div class="pick-label">▸ Choose your inference engine</div>',
-                        unsafe_allow_html=True)
-            st.radio("Inference engine", opts, format_func=lambda e: ENGINE_LABELS[e],
-                     horizontal=True, key="engine", label_visibility="collapsed",
-                     disabled=locked)
-    st.caption(_engine_caption(active_engine()))
 
+    # 1) Topic ------------------------------------------------------------- #
     def _tag(t):
         if getattr(t, "scenario", "") == "backlog":
             return "  ·  ○ backlog (no corpus yet)"
@@ -878,6 +865,22 @@ def page_run():
                        key="topic_select", disabled=locked)
     topic = seed["topics_by_id"][tid]
 
+    # 2) Inference engine — chosen here; shown (read-only) in the sidebar.
+    # key="engine" ties the widget directly to session state so the sidebar,
+    # which renders first, always reflects the same choice (no one-render lag).
+    opts = available_engines()
+    if len(opts) > 1:
+        if st.session_state.get("engine") not in opts:
+            st.session_state.engine = opts[0]
+        with st.container(key="pick_engine"):
+            st.markdown('<div class="pick-label">▸ Choose your inference engine</div>',
+                        unsafe_allow_html=True)
+            st.radio("Inference engine", opts, format_func=lambda e: ENGINE_LABELS[e],
+                     horizontal=True, key="engine", label_visibility="collapsed",
+                     disabled=locked)
+    st.caption(_engine_caption(active_engine()))
+
+    # 3) Publishing mode --------------------------------------------------- #
     with st.container(key="pick_pub"):
         st.markdown('<div class="pick-label">▸ Choose a publishing mode</div>', unsafe_allow_html=True)
         pub_mode = st.radio(
