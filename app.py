@@ -38,7 +38,7 @@ FAINT  = "#5A5A64"   # tertiary / disabled
 LINE   = "#2A2A31"   # hairline borders / rules
 LABEL  = "#9AA0AC"   # readable section labels (kickers) — was red, hard to read
 CTA    = "#FF7A6E"   # softer, more legible coral for call-to-action prompts
-FIELD  = "#3A3B44"   # visible resting border for form fields
+FIELD  = "#52535F"   # clearly visible resting border for form fields
 
 VERDICT_COLORS = {
     "supported": "#3FB950",   # green
