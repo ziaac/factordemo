@@ -160,7 +160,8 @@ hr {{ border: none; border-top: 1px solid {LINE}; margin: 1.1rem 0; }}
     border-top: 1px solid {LINE};
     padding: .4rem 1.2rem .45rem;
 }}
-.st-key-stickybar [data-testid="stHorizontalBlock"] {{ align-items: center; gap: .6rem; }}
+.st-key-stickybar [data-testid="stHorizontalBlock"] {{ justify-content: center; align-items: center; gap: .55rem; flex-wrap: wrap; }}
+.st-key-stickybar [data-testid="stColumn"] {{ width: auto !important; flex: 0 0 auto !important; min-width: 0 !important; }}
 .st-key-stickybar .stButton > button {{ white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,.45); }}
 /* keep page + sidebar content clear of the fixed bar */
 .block-container {{ padding-bottom: 5.5rem !important; }}
@@ -437,25 +438,23 @@ def _toggle_cms():
     st.session_state.cms_mode = not st.session_state.get("cms_mode", False)
 
 
-def _footer_btn(col, spec, key, kind):
-    """spec = (label, action); action is a nav-target string or a callable callback."""
-    if not spec:
+def sticky_footer(*specs):
+    """Full-width translucent bar with compact, centered buttons.
+
+    Each spec is (label, action, kind); action is a nav-target string or a
+    callable callback. Only the specs passed are rendered — callers decide which
+    buttons are unlocked yet, so a step's button appears only once reachable.
+    """
+    specs = [s for s in specs if s]
+    if not specs:
         return
-    label, action = spec
-    if callable(action):
-        col.button(label, key=key, type=kind, use_container_width=True, on_click=action)
-    else:
-        col.button(label, key=key, type=kind, use_container_width=True,
-                   on_click=_nav_to, args=(action,))
-
-
-def sticky_footer(left=None, center=None, right=None):
-    """Full-width translucent bottom bar with context-aware prev / (extra) / next buttons."""
     with st.container(key="stickybar"):
-        c1, c2, c3 = st.columns(3)
-        _footer_btn(c1, left, "sf_left", "secondary")
-        _footer_btn(c2, center, "sf_center", "secondary")
-        _footer_btn(c3, right, "sf_right", "primary")
+        cols = st.columns(len(specs))
+        for i, (col, (label, action, kind)) in enumerate(zip(cols, specs)):
+            if callable(action):
+                col.button(label, key=f"sf_{i}", type=kind, on_click=action)
+            else:
+                col.button(label, key=f"sf_{i}", type=kind, on_click=_nav_to, args=(action,))
 
 
 def _nav_to(page: str):
@@ -646,7 +645,9 @@ def page_workspace():
             "Cred": "■" * c.credibility + "□" * (5 - c.credibility),
         })
     st.dataframe(srows, use_container_width=True, hide_index=True)
-    sticky_footer(left=("⌂ Home", _go_home), right=("② Run pipeline ▸", "Run pipeline"))
+    # Workspace is always selected (default) → the next step is unlocked.
+    sticky_footer(("⌂ Home", _go_home, "secondary"),
+                  ("② Pick a topic & run ▸", "Run pipeline", "primary"))
 
 
 # --------------------------------------------------------------------------- #
@@ -708,7 +709,11 @@ def page_run():
         "through the 16-state machine and all 8 gates — grounded draft → independent fact-check → "
         "bias → translation → image → <b>human review</b> at Gate 7, or <b>auto-publish</b> straight "
         "to the database.")
-    sticky_footer(left=("◂ ① Workspace", "Workspace"), right=("③ Article ▸", "Article"))
+    # The Article button unlocks only once a pipeline run has been published.
+    _foot = [("◂ ① Workspace", "Workspace", "secondary")]
+    if any(h["run"].outcome == "published" for h in st.session_state.history):
+        _foot.append(("③ Article ▸", "Article", "primary"))
+    sticky_footer(*_foot)
 
     def _tag(t):
         if getattr(t, "scenario", "") == "backlog":
@@ -1088,7 +1093,7 @@ def page_article():
 
     if not published:
         st.info("No published article yet — run a topic and approve it at Gate 7 first.")
-        sticky_footer(left=("◂ ② Run pipeline", "Run pipeline"))
+        sticky_footer(("◂ ② Run a pipeline first", "Run pipeline", "primary"))
         return
 
     labels = {i: f'{h["topic_title"]}  ·  {h["workspace_id"]}'
@@ -1103,9 +1108,9 @@ def page_article():
 
     cms = st.session_state.get("cms_mode", False)
     sticky_footer(
-        left=("◂ ② Run pipeline", "Run pipeline"),
-        center=(("◱ Show Reader Mode" if cms else "◲ Show Web / CMS Mode"), _toggle_cms),
-        right=("④ Dashboard ▸", "Dashboard"))
+        ("◂ ② Run pipeline", "Run pipeline", "secondary"),
+        (("◱ Show Reader Mode" if cms else "◲ Show Web / CMS Mode"), _toggle_cms, "secondary"),
+        ("④ Dashboard ▸", "Dashboard", "primary"))
 
     label = (f'<span class="pill" style="background:{ACCENT};color:{BG};border-color:{ACCENT}">'
              f'AI-ASSISTED</span> <span class="pill">{genre.upper()}</span> '
@@ -1157,8 +1162,12 @@ def page_dashboard():
         "Step 4 · Metrics", "Dashboard",
         "Session overview — runs, gate outcomes, revisions, and estimated tokens/cost per "
         "article. Accumulates as you run more pipelines.")
-    sticky_footer(left=("◂ ③ Article", "Article"), right=("↻ Run another", "Run pipeline"))
     hist = st.session_state.history
+    if any(h["run"].outcome == "published" for h in hist):
+        sticky_footer(("◂ ③ Article", "Article", "secondary"),
+                      ("↻ Run another", "Run pipeline", "primary"))
+    else:
+        sticky_footer(("◂ ② Run a pipeline", "Run pipeline", "primary"))
 
     if not hist:
         st.info("No runs yet this session — metrics accumulate as you run pipelines.")
@@ -1425,7 +1434,7 @@ def page_landing():
         mode = "MOCK (deterministic & free — no API calls)"
     st.caption(f"Engine: **{mode}**. This is a simulation — no database, no Redis, no Node. "
                "Production stack is TypeScript / BullMQ / PostgreSQL.")
-    sticky_footer(right=("Enter Demo ▸", _enter_demo))
+    sticky_footer(("Enter Demo ▸", _enter_demo, "primary"))
 
 
 # --------------------------------------------------------------------------- #
