@@ -325,10 +325,9 @@ def init_state():
     st.session_state.setdefault("workspace_id", st.session_state.seed["workspaces"][0].id)
     st.session_state.setdefault("current_run", None)
     st.session_state.setdefault("history", [])          # finished runs (dicts)
-    st.session_state.setdefault(
-        "engine",
-        "amd" if live.amd_available() else ("fireworks" if live.fireworks_available() else "mock"),
-    )
+    # Default to MOCK: deterministic, no API/GPU dependency, so a cold-opened
+    # demo never fails on the first run. Live engines are one click away.
+    st.session_state.setdefault("engine", "mock")
     st.session_state.setdefault("selected_topic", None)
     st.session_state.setdefault("cms_mode", False)
     st.session_state.setdefault("running", False)
@@ -870,12 +869,17 @@ def page_run():
     # which renders first, always reflects the same choice (no one-render lag).
     opts = available_engines()
     if len(opts) > 1:
-        if st.session_state.get("engine") not in opts:
-            st.session_state.engine = opts[0]
+        cur_eng = st.session_state.get("engine")
+        if cur_eng not in opts:
+            st.session_state.engine = cur_eng = opts[0]
         with st.container(key="pick_engine"):
             st.markdown('<div class="pick-label">▸ Choose your inference engine</div>',
                         unsafe_allow_html=True)
-            st.radio("Inference engine", opts, format_func=lambda e: ENGINE_LABELS[e],
+            # index= keeps the chip in sync with session_state on the FIRST render
+            # (a keyed radio alone falls back to option 0 on the initial paint,
+            # which desynced the chip from the sidebar/caption).
+            st.radio("Inference engine", opts, index=opts.index(cur_eng),
+                     format_func=lambda e: ENGINE_LABELS[e],
                      horizontal=True, key="engine", label_visibility="collapsed",
                      disabled=locked)
     st.caption(_engine_caption(active_engine()))
