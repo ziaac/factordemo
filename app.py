@@ -167,6 +167,19 @@ hr {{ border: none; border-top: 1px solid {LINE}; margin: 1.1rem 0; }}
 .block-container {{ padding-bottom: 5.5rem !important; }}
 section[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {{ padding-bottom: 5rem; }}
 
+/* Read-only workflow progress in the sidebar */
+.wf-list {{ margin: .15rem 0 .1rem 0; }}
+.wf-step {{ font-size: .92rem; padding: .3rem 0 .3rem .1rem; color: {MUTE}; }}
+.wf-step .wf-mark {{ display: inline-block; width: 1.3rem; text-align: center; }}
+.wf-done {{ color: {INK}; }}
+.wf-done .wf-mark {{ color: {ACCENT}; }}
+.wf-current {{ color: {INK}; font-weight: 800; border-left: 3px solid {ACCENT};
+    padding-left: .55rem; margin-left: -.65rem; }}
+.wf-current .wf-mark {{ color: {ACCENT}; }}
+.wf-todo {{ color: {FAINT}; }}
+.sb-meta {{ font-size: .82rem; color: {MUTE}; line-height: 1.4; margin: .25rem 0 0 0; }}
+.sb-meta b {{ color: {INK}; font-size: .95rem; }}
+
 section[data-testid="stSidebar"] {{ background: {BG2}; border-right: 1px solid {LINE}; }}
 [data-testid="stMetricValue"] {{ font-weight: 900; font-size: 1.45rem; line-height: 1.2; }}
 [data-testid="stMetricLabel"] {{ font-size: .72rem; letter-spacing: .04em; }}
@@ -283,6 +296,7 @@ def init_state():
     st.session_state.setdefault("selected_topic", None)
     st.session_state.setdefault("cms_mode", False)
     st.session_state.setdefault("running", False)
+    st.session_state.setdefault("nav", "Workspace")
 
 
 def reset_demo():
@@ -433,6 +447,34 @@ def _go_home():
 
 def _enter_demo():
     st.session_state.entered = True
+    st.session_state.nav = "Workspace"
+
+
+def _reset_cb():
+    """Reset the whole session and drop the user back on the Run pipeline page."""
+    for k in ("current_run", "history", "selected_topic", "cms_mode", "running"):
+        st.session_state.pop(k, None)
+    st.session_state.entered = True
+    st.session_state.nav = "Run pipeline"
+
+
+def _engine_caption(eng: str) -> str:
+    if eng == "amd":
+        extra = []
+        if retrieval.available():
+            extra.append("Researcher (bge-m3)")
+        if imagegen.available():
+            extra.append("Image (SDXL)")
+        more = (" + " + " + ".join(extra)) if extra else ""
+        return (f"On an **AMD Radeon PRO W7900** (RDNA3 · ROCm): Writer + Fact-checker "
+                f"(`{live.amd_model()}` via llama.cpp){more}. Remaining steps stay mock; failures fall back.")
+    if eng == "fireworks":
+        extra = " + Researcher (qwen3-embedding-8b)" if live.fireworks_available() else ""
+        return (f"On **Fireworks AI**: Writer + Fact-checker (`gpt-oss-120b`){extra}. "
+                f"Image + remaining steps stay mock; failures fall back.")
+    if live.amd_available() or live.fireworks_available():
+        return "MOCK: deterministic canned output, no API calls. Pick a live engine to run on AMD / Fireworks."
+    return "MOCK only. Set AMD_BASE_URL (AMD GPU) or FIREWORKS_API_KEY in st.secrets/env to enable a live engine."
 
 
 def _toggle_cms():
@@ -491,13 +533,6 @@ def _nav_to(page: str):
     st.session_state.nav = page
 
 
-def request_nav(page: str):
-    """Navigate from outside a callback (e.g. after an auto-publish run).
-
-    Stores the target; sidebar() applies it before the nav widget is created on
-    the next run, so we never mutate a live widget key mid-run.
-    """
-    st.session_state._pending_nav = page
 
 
 def _audit_models(eng: str) -> dict[str, str]:
@@ -539,65 +574,45 @@ NAV_LABELS = {
 # Sidebar
 # --------------------------------------------------------------------------- #
 def sidebar():
+    """Read-only status panel. All navigation happens via the sticky footer."""
     seed = st.session_state.seed
-    # Apply any programmatic navigation request before the nav widget is created.
-    if "_pending_nav" in st.session_state:
-        st.session_state.nav = st.session_state.pop("_pending_nav")
     with st.sidebar:
+        a1, a2 = st.columns(2)
+        a1.button("⌂ Home", key="sb_home", use_container_width=True, on_click=_go_home)
+        a2.button("↻ Reset", key="sb_reset", use_container_width=True, on_click=_reset_cb)
+
         st.markdown('<div class="swiss-rule-top"></div>', unsafe_allow_html=True)
         st.markdown("### FACTOR")
         st.caption("Factual Agentic Content Orchestrator")
         cur_ws = seed["workspaces_by_id"][st.session_state.workspace_id]
-        st.caption(f"Workspace: **{cur_ws.name}** — change it on the ① Workspace page.")
+        st.markdown(f'<div class="sb-meta">Workspace<br><b>{cur_ws.name}</b></div>',
+                    unsafe_allow_html=True)
 
         st.markdown("---")
-        opts = available_engines()
+        st.markdown('<div class="swiss-kicker">Workflow</div>', unsafe_allow_html=True)
+        nav = st.session_state.get("nav", "Workspace")
+        cur_i = NAV_STEPS.index(nav) if nav in NAV_STEPS else 0
+        rows = []
+        for i, s in enumerate(NAV_STEPS):
+            cls, mark = (("wf-done", "✓") if i < cur_i else
+                         ("wf-current", "●") if i == cur_i else ("wf-todo", "○"))
+            rows.append(f'<div class="wf-step {cls}"><span class="wf-mark">{mark}</span>{NAV_LABELS[s]}</div>')
+        st.markdown('<div class="wf-list">' + "".join(rows) + "</div>", unsafe_allow_html=True)
+
+        st.markdown("---")
+        st.markdown('<div class="swiss-kicker">Inference engine</div>', unsafe_allow_html=True)
         eng = active_engine()
-        if len(opts) > 1:
-            eng = st.radio("Inference engine", opts,
-                           format_func=lambda e: ENGINE_LABELS[e],
-                           index=opts.index(eng))
-            st.session_state.engine = eng
         color = ACCENT if eng in ("amd", "fireworks") else INK
         textcol = "#FFFFFF" if eng in ("amd", "fireworks") else BG
         st.markdown(
             f'<span class="pill" style="background:{color};color:{textcol};border-color:{color}">'
-            f'ENGINE · {ENGINE_LABELS[eng]}</span>', unsafe_allow_html=True)
-        if eng == "amd":
-            extra = []
-            if retrieval.available():
-                extra.append("Researcher (bge-m3)")
-            if imagegen.available():
-                extra.append("Image (SDXL)")
-            more = (" + " + " + ".join(extra)) if extra else ""
-            st.caption(f"On an **AMD Radeon PRO W7900** (RDNA3 · ROCm): Writer + Fact-checker "
-                       f"(`{live.amd_model()}` via llama.cpp){more}. Remaining steps stay mock; "
-                       f"failures fall back.")
-        elif eng == "fireworks":
-            extra = " + Researcher (qwen3-embedding-8b)" if live.fireworks_available() else ""
-            st.caption(f"On **Fireworks AI**: Writer + Fact-checker (`gpt-oss-120b`){extra}. "
-                       f"Image + remaining steps stay mock; failures fall back.")
-        elif live.amd_available() or live.fireworks_available():
-            st.caption("MOCK: deterministic canned output, no API calls. Switch engine above to run live.")
-        else:
-            st.caption("MOCK only. Set AMD_BASE_URL (AMD GPU) or FIREWORKS_API_KEY in "
-                       "st.secrets/env to enable a live engine.")
+            f'{ENGINE_LABELS[eng]}</span>', unsafe_allow_html=True)
+        st.caption(_engine_caption(eng))
+        st.caption("Change it on the ② Run pipeline page.")
 
         st.markdown("---")
-        st.markdown('<div class="swiss-kicker">Workflow · 4 steps</div>', unsafe_allow_html=True)
-        page = st.radio("Workflow", NAV_STEPS, format_func=lambda p: NAV_LABELS[p],
-                        label_visibility="collapsed", key="nav")
-        st.markdown("---")
-        cta1, cta2 = st.columns(2)
-        if cta1.button("⌂ Home", use_container_width=True):
-            st.session_state.entered = False
-            st.rerun()
-        if cta2.button("↺ Reset", use_container_width=True):
-            reset_demo()
-            st.rerun()
-        st.caption("Simulation only — no DB, no Redis, no Node. "
-                   "Production stack is TypeScript/BullMQ/Postgres.")
-    return page
+        st.caption("Read-only status — navigate with the buttons in the bottom bar. "
+                   "Simulation only: no DB, no Redis, no Node (production = TypeScript / BullMQ / Postgres).")
 
 
 # --------------------------------------------------------------------------- #
@@ -736,6 +751,14 @@ def page_run():
         "through the 16-state machine and all 8 gates — grounded draft → independent fact-check → "
         "bias → translation → image → <b>human review</b> at Gate 7, or <b>auto-publish</b> straight "
         "to the database.")
+
+    # Inference engine — chosen here; shown read-only in the sidebar.
+    opts = available_engines()
+    if len(opts) > 1:
+        eng = st.radio("Inference engine", opts, index=opts.index(active_engine()),
+                       format_func=lambda e: ENGINE_LABELS[e], horizontal=True, key="engine_radio")
+        st.session_state.engine = eng
+    st.caption(_engine_caption(active_engine()))
 
     def _tag(t):
         if getattr(t, "scenario", "") == "backlog":
@@ -1488,7 +1511,8 @@ def main():
         page_landing()
         return
 
-    page = sidebar()
+    sidebar()
+    page = st.session_state.get("nav", "Workspace")
     if page == "Workspace":
         page_workspace()
     elif page == "Run pipeline":
