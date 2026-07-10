@@ -76,14 +76,15 @@ label, .stCaption, [data-testid="stCaptionContainer"],
     text-transform: uppercase; letter-spacing: .08em; font-size: .74rem; font-weight: 800;
     color: {CTA}; margin: .1rem 0 .35rem 0;
 }}
-/* All selectboxes get a clearly visible, bordered field at rest (not just hover).
-   Border on the baseweb root so no inner child can cover it. */
+/* A selectbox always holds a value, so it renders in the 'selected' state:
+   accent border + subtle tint, matching a chosen radio chip. Border is on the
+   baseweb root so no inner child can cover it. */
 div[data-baseweb="select"] {{
-    border: 2px solid {FIELD} !important; border-radius: 0 !important;
-    background: {BG2} !important; min-height: 3rem;
+    border: 2px solid {ACCENT} !important; border-radius: 0 !important;
+    background: rgba(255,69,58,.10) !important; min-height: 3rem;
 }}
 div[data-baseweb="select"] > div {{ border: none !important; background: transparent !important; }}
-div[data-baseweb="select"]:hover {{ border-color: {ACCENT} !important; }}
+div[data-baseweb="select"]:hover {{ background: rgba(255,69,58,.16) !important; }}
 /* Radio groups rendered as bordered chips (engine + publishing mode) */
 .st-key-pick_engine div[role="radiogroup"], .st-key-pick_pub div[role="radiogroup"] {{
     gap: .5rem; flex-wrap: wrap; margin-top: .1rem;
