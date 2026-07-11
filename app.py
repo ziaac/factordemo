@@ -549,8 +549,12 @@ def _start_run():
 
 def _change_options():
     """Unlock the Topic / Engine / Publishing pickers after a successful run,
-    so the user can adjust them and press Run pipeline again."""
+    so the user can adjust them and press Run pipeline again. Also clears the
+    finished run so everything below the pickers (stepper, agent outputs, audit,
+    review gate) resets to the pristine 'choose a topic' state."""
     st.session_state.options_locked = False
+    st.session_state.current_run = None
+    st.session_state.cms_mode = False
     st.session_state._scroll_top = True   # bring the pickers back into view
 
 
