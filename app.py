@@ -484,6 +484,7 @@ def _go_home():
 def _enter_demo():
     st.session_state.entered = True
     st.session_state.nav = "Workspace"
+    st.session_state._scroll_top = True   # land on the workspace selector, not mid-page
 
 
 def _reset_cb():
@@ -493,6 +494,7 @@ def _reset_cb():
         st.session_state.pop(k, None)
     st.session_state.entered = True
     st.session_state.nav = "Workspace"
+    st.session_state._scroll_top = True   # land on the workspace selector
 
 
 def _engine_caption(eng: str) -> str:
@@ -676,6 +678,10 @@ def sidebar():
 def page_workspace():
     seed = st.session_state.seed
     names = {w.id: w.name for w in seed["workspaces"]}
+
+    # Entering the demo (or resetting) lands the view on the workspace selector.
+    if st.session_state.pop("_scroll_top", False):
+        _scroll_to_top()
 
     kicker("Step 1 · Topic Workspace")
     st.markdown('<div class="pick-label">▸ Start here — choose a workspace</div>',
