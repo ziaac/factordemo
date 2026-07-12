@@ -1461,7 +1461,7 @@ def page_landing():
             FACTOR<span style="color:{ACCENT}">.</span>
           </h1>
           <p style="font-size:1.7rem;line-height:1.25;max-width:34ch;font-weight:600;margin:.4rem 0 0 0;color:{INK}">
-            A self-hosted, agentic pipeline that produces
+            A self-hostable, agentic pipeline that produces
             <b>hallucination-free</b> content — every claim grounded in a verified source.
           </p>
           <div style="margin-top:.9rem">
