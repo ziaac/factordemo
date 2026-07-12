@@ -81,9 +81,19 @@ MODEL=google/gemma-3-4b-it ./deploy/vllm_mi300x.sh
 # see .streamlit/secrets.toml.example
 ```
 
-Containerized (linux/amd64 judging VM):
+Containerized — the repo is **public** and ships a [`Dockerfile`](Dockerfile):
 
 ```bash
+docker build -t factor-demo .
+docker run -p 8501:8501 factor-demo            # MOCK mode, no keys
+
+# …or with the live AMD engine:
+docker run -p 8501:8501 \
+  -e AMD_BASE_URL=http://<amd-host>:8000/v1 -e AMD_MODEL=gemma-3-27b-it -e AMD_API_KEY=... \
+  -e AMD_EMBED_URL=http://<amd-host>:7860/v1 -e AMD_IMAGE_URL=http://<amd-host>:8501 \
+  factor-demo
+
+# for the linux/amd64 judging VM:
 docker buildx build --platform linux/amd64 -t <registry>/factor-demo:latest --push .
 ```
 
