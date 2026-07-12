@@ -728,8 +728,8 @@ def page_workspace():
         else:
             status = "Blocked · Gate 1"
         rows.append({
-            "Topic": t.title_id,
-            "Topic (EN)": t.title_en,
+            "Topic": t.title_en,
+            "Topic (ID)": t.title_id,
             "Category": t.category,
             "Genre": t.genre,
             "Corpus support": support,
@@ -867,7 +867,7 @@ def page_run():
         return f"  ·  ● {t.related_chunk_count} chunks — ready"
     # corpus-ready / scenario topics first, then backlog
     topics = sorted(topics, key=lambda t: (getattr(t, "scenario", "") == "backlog", t.title_en))
-    labels = {t.id: f"{t.title_id}{_tag(t)}" for t in topics}
+    labels = {t.id: f"{t.title_en}{_tag(t)}" for t in topics}
     st.markdown('<div class="pick-label">▸ Select a topic to run</div>', unsafe_allow_html=True)
     tid = st.selectbox("Topic", options=[t.id for t in topics],
                        format_func=lambda i: labels[i], label_visibility="collapsed",
