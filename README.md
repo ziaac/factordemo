@@ -122,15 +122,30 @@ The organizer-provided **Radeon W7900** box is a JupyterLab container (ROCm, roo
 ```
 /workspace
 ├── demo/                  # this repo (app + engine + deploy)
-├── models/                # GGUF weights (e.g. gemma-3-27b-it-Q4_K_M.gguf)
-├── start_all.sh           # bring up the 3 servers  (deploy/start_all.sh)
+├── factor-venv/           # Python venv (ROCm torch, transformers, llama-cpp-python)
+├── models/                # GGUF weights (gemma-3-27b-it-Q4_K_M.gguf)
+├── hf-cache/              # HuggingFace cache (bge-m3, sdxl-turbo)
+├── GEMMA_PATH             # file: absolute path of the downloaded GGUF
+├── rebuild.sh             # build the whole env from scratch    (deploy/rebuild.sh)
+├── start_all.sh           # bring up the 3 servers              (deploy/start_all.sh)
 ├── factor_watchdog.sh     # keep-alive: restart if any port drops (deploy/factor_watchdog.sh)
-├── _arm_watchdog.py       # idempotent launcher for the watchdog (deploy/arm_watchdog.py)
-├── restart.sh             # one-shot recovery after a reboot     (deploy/restart.sh)
+├── _arm_watchdog.py       # idempotent launcher for the watchdog  (deploy/arm_watchdog.py)
+├── restart.sh             # one-shot recovery after a reboot      (deploy/restart.sh)
 └── start_all.log / watchdog.log
 ```
 
-**Serving recipe** — all three models on the single 48 GB GPU ([`deploy/start_all.sh`](deploy/start_all.sh)):
+**Build the environment from scratch** ([`deploy/rebuild.sh`](deploy/rebuild.sh)) — one command sets up
+everything on a fresh instance: a venv, **ROCm torch 2.7.1** (`rocm6.3` wheels), `sentence-transformers` +
+`diffusers`, **`llama-cpp-python` compiled with HIP** (`-DGGML_HIP=ON -DAMDGPU_TARGETS=gfx1100`), downloads the
+**Gemma-3-27B Q4_K_M GGUF** (~16 GB), and warms the **bge-m3** + **SDXL-Turbo** caches. HuggingFace assets are
+pulled via **`hf-mirror.com`** (`HF_ENDPOINT`) because the instance is on a China network.
+
+```bash
+bash deploy/rebuild.sh      # first-time setup (~10-20 min: compile + downloads)
+bash deploy/start_all.sh    # then bring the servers up
+```
+
+**Serving recipe** — all three models on the single 48 GB GPU ([`deploy/start_all.sh`](deploy/start_all.sh), run inside `factor-venv`):
 
 ```bash
 # chat — Gemma 3 27B via llama.cpp (ROCm/HIP)

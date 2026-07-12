@@ -4,8 +4,12 @@
 # OpenAI-compatible; all share the Bearer token below (mirror it in AMD_API_KEY / AMD_*_URL).
 set -u
 cd /workspace
+export HF_ENDPOINT=https://hf-mirror.com          # China-network instance
+export HF_HOME=/workspace/hf-cache
+source /workspace/factor-venv/bin/activate 2>/dev/null || true   # built by rebuild.sh
 TOKEN="${AMD_TOKEN:-factor-local}"
-MODEL_GGUF="${MODEL_GGUF:-/workspace/models/gemma-3-27b-it-Q4_K_M.gguf}"
+# rebuild.sh writes the downloaded weight path to /workspace/GEMMA_PATH
+MODEL_GGUF="${MODEL_GGUF:-$(cat /workspace/GEMMA_PATH 2>/dev/null || echo /workspace/models/gemma-3-27b-it-Q4_K_M.gguf)}"
 
 # chat — Gemma 3 27B via llama.cpp built with HIP (-DGGML_HIP=ON -DAMDGPU_TARGETS=gfx1100)
 curl -sf -o /dev/null http://127.0.0.1:8000/v1/models 2>/dev/null || \
