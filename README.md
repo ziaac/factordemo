@@ -1,6 +1,8 @@
 # FACTOR — Factual Agentic Content Orchestrator
 
-**A self-hostable, multi-agent AI pipeline that produces hallucination-free, fully-cited content.**
+**A self-hostable, multi-agent AI pipeline that produces hallucination-free, fully-cited content from
+your trusted sources — ready for your CMS or publishing platform, complete with rich text, metadata,
+citations, a featured image, and a translation.**
 
 Powered by **Google Gemma 3** (writing + independent fact-check + translation), **bge-m3** (semantic
 retrieval), and **SDXL-Turbo** (featured images) — running live on an

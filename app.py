@@ -1460,10 +1460,13 @@ def page_landing():
           <h1 style="font-size:4.2rem;line-height:.95;margin:.2rem 0 .4rem 0;color:{INK}">
             FACTOR<span style="color:{ACCENT}">.</span>
           </h1>
-          <p style="font-size:1.7rem;line-height:1.25;max-width:34ch;font-weight:600;margin:.4rem 0 0 0;color:{INK}">
-            A self-hostable, agentic pipeline that produces
-            <b>hallucination-free</b> content — every claim grounded in a verified source.
+          <p style="font-size:1.7rem;line-height:1.25;max-width:38ch;font-weight:600;margin:.4rem 0 0 0;color:{INK}">
+            A self-hostable, agentic pipeline that turns your trusted sources into
+            <b>hallucination-free</b>, fully-cited content — ready for your CMS.
           </p>
+          <div style="font-size:1rem;color:{MUTE};max-width:60ch;margin:.5rem 0 0 0">
+            Every article ships complete: rich text, metadata, citations, a featured image, and a translation.
+          </div>
           <div style="margin-top:.9rem">
             <span class="pill" style="background:{ACCENT};color:#FFFFFF;border-color:{ACCENT}">
               ● LIVE ON AMD RADEON PRO W7900</span>
