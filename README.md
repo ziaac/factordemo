@@ -161,11 +161,16 @@ PORT=8501 IMG_MODEL=stabilityai/sdxl-turbo IMG_API_KEY=factor-local python /work
 
 ## Status (honest)
 
-- ✅ **Real:** full pipeline + 8 gates (interactive); **Writer + Fact-checker + Researcher + Image
-  live on an AMD Radeon PRO W7900**; the same stack **proven on an AMD Instinct MI300X** (now offline).
-- 🚧 **Simulated for now:** the corpus and topic backlog are a curated seed set. Wiring a live
-  corpus (Google Drive + journals → pgvector) and CMS publishing is the next build.
-  See the whitepaper for the full architecture.
+- ✅ **Real:** the full pipeline + 8 gates run interactively, and **Writer, Fact-checker, Translator,
+  Researcher (embeddings), and Image run live on an AMD Radeon PRO W7900** (the same stack **proven
+  on an AMD Instinct MI300X**, now offline). Every run produces the complete deliverable end-to-end —
+  a **bilingual (EN → ID) article**, per-claim fact-check verdicts, inline **citations** traceable to
+  the source chunk, **meta/SEO JSON**, a featured image, and a **CMS-ready article preview** — all
+  shown in the UI.
+- 🚧 **Seed / not-yet-live:** only the **corpus and topic backlog** are a curated seed set (not yet
+  harvested live from Google Drive / open journals / OJS), and the final publish step renders that
+  **CMS preview instead of writing to a real database/CMS**. Wiring live corpus ingestion (→ pgvector)
+  and the actual CMS injection is the next build. See the whitepaper for the full architecture.
 
 ## More
 
