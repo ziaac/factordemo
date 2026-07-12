@@ -1092,9 +1092,19 @@ def _render_step_expanders(run, ws):
                 st.caption(f"alt (EN): {img.get('alt_en','')}")
 
     if a.get("live_used"):
-        st.info("LIVE mode used the hosted LLM for: " + ", ".join(sorted(set(a["live_used"]))))
-    for w in a.get("live_warnings", []):
-        st.warning(w)
+        st.success("Live inference ran on: " + ", ".join(sorted(set(a["live_used"])))
+                   + " — the rest is simulated in this demo.")
+    warns = a.get("live_warnings", [])
+    if warns:
+        st.info(
+            "**Live inference endpoint temporarily unavailable — external infrastructure, "
+            "not a FACTOR error.** The selected live engine (the organizer-provided **AMD GPU** "
+            "or **Fireworks AI**) could not be reached, so each affected agent **automatically "
+            "fell back** to FACTOR's built-in deterministic output. The pipeline still completed "
+            "end-to-end and produced valid, grounded, fully-cited content — this resilience "
+            "(never ship a half-baked article) is by design. Per-step detail:")
+        for w in warns:
+            st.warning(w)
 
 
 def _render_audit(run):

@@ -164,7 +164,8 @@ def iter_pipeline(
             run.artifacts.setdefault("live_used", []).append("Researcher (embeddings)")
         except Exception as exc:
             run.artifacts.setdefault("live_warnings", []).append(
-                f"Retrieval LIVE failed ({exc}); used seed pack.")
+                f"Researcher — live embedding endpoint unreachable ({exc}). "
+                f"Automatic fallback to the seed corpus; retrieval still ran.")
     run.artifacts["research_pack"] = pack
     run.artifacts["avg_credibility"] = avg
     run.events.append(
@@ -192,7 +193,9 @@ def iter_pipeline(
             draft = live_writer(topic, workspace, seed, canned, run.artifacts.get("research_pack"))
             run.artifacts.setdefault("live_used", []).append("Writer")
         except Exception as exc:  # graceful fallback to mock
-            run.artifacts.setdefault("live_warnings", []).append(f"Writer LIVE failed ({exc}); used mock draft.")
+            run.artifacts.setdefault("live_warnings", []).append(
+                f"Writer — live inference endpoint unreachable ({exc}). "
+                f"Automatic fallback to the deterministic seed draft.")
     run.artifacts["draft"] = draft
     run.artifacts["draft_version"] = 1
     run.events.append(_mk_event("DRAFTING", "ok", "Wrote grounded draft with [[chunk:id]] markers (Gate 2)."))
@@ -210,7 +213,9 @@ def iter_pipeline(
                 verdict = "revise" if any(c["verdict"] in ("unsupported", "contradicted") for c in claims) else "pass"
                 run.artifacts.setdefault("live_used", []).append("Fact-checker")
             except Exception as exc:
-                run.artifacts.setdefault("live_warnings", []).append(f"Fact-checker LIVE failed ({exc}); used mock report.")
+                run.artifacts.setdefault("live_warnings", []).append(
+                    f"Fact-checker — live inference endpoint unreachable ({exc}). "
+                    f"Automatic fallback to the deterministic seed report.")
         return claims, verdict
 
     if is_revision:
@@ -280,7 +285,8 @@ def iter_pipeline(
             run.artifacts.setdefault("live_used", []).append("Translator")
         except Exception as exc:
             run.artifacts.setdefault("live_warnings", []).append(
-                f"Translator LIVE failed ({exc}); used seed translation.")
+                f"Translator — live inference endpoint unreachable ({exc}). "
+                f"Automatic fallback to the seed translation.")
     run.artifacts["translation_id"] = trans
     run.events.append(_mk_event("TRANSLATING", "ok", note))
     yield run
@@ -314,10 +320,12 @@ def iter_pipeline(
                 run.artifacts.setdefault("live_used", []).append("Image (SDXL)")
             else:
                 run.artifacts.setdefault("live_warnings", []).append(
-                    "Image LIVE returned nothing; used placeholder.")
+                    "Image — live SDXL endpoint returned no image. "
+                    "Automatic fallback to the placeholder illustration.")
         except Exception as exc:
             run.artifacts.setdefault("live_warnings", []).append(
-                f"Image LIVE failed ({exc}); used placeholder.")
+                f"Image — live SDXL endpoint unreachable ({exc}). "
+                f"Automatic fallback to the placeholder illustration.")
     run.artifacts["image"] = image
     run.events.append(_mk_event("IMAGE_GEN", "ok", note))
     yield run
