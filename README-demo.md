@@ -76,7 +76,7 @@ live when their endpoints are configured. Every other step stays mock, and any l
 
 | Engine | When available | Behaviour |
 |--------|----------------|-----------|
-| **MOCK** (default) | always | Canonical outputs from the JSON seed. Deterministic, free, offline. Artificial 0.5–1.3 s/step so the pipeline feels alive. |
+| **MOCK** (default) | always | Canonical outputs from the JSON seed. Deterministic, free, offline. A short artificial delay per step so the pipeline feels alive. |
 | **AMD · Radeon W7900** ● live | `AMD_BASE_URL` set | Writer + Fact-checker + Translator on **Gemma 3** via **llama.cpp (ROCm/HIP)**; Researcher on **bge-m3** and Image on **SDXL-Turbo** when `AMD_EMBED_URL` / `AMD_IMAGE_URL` are set. OpenAI-compatible, called with stdlib `urllib`. |
 | **FIREWORKS · gpt-oss-120b** | `FIREWORKS_API_KEY` set | Writer + Fact-checker on **`gpt-oss-120b`**; Researcher on **`qwen3-embedding-8b`**. Image stays placeholder. |
 

@@ -35,7 +35,7 @@ Every model in the live demo runs on a single **Radeon PRO W7900**, OpenAI-compa
 ### ○ Proven, currently offline — AMD Instinct MI300X (CDNA 3, `gfx942`, 192 GB HBM3, ROCm 7.2.4)
 
 The full stack was first built and **verified end-to-end on an AMD Instinct MI300X** (recorded in
-the demo video): grounded, correctly-cited drafts + per-claim verdicts (~3 s/step), real cosine
+the demo video): grounded, correctly-cited drafts + per-claim verdicts, real cosine
 retrieval, and generated featured images. There it ran **Gemma 3** (`google/gemma-3-4b-it`) via
 **vLLM** plus **EmbeddingGemma** (`google/embeddinggemma-300m`) — generation *and* retrieval both on
 the Gemma family — and **SDXL-Turbo** for images.
@@ -141,7 +141,7 @@ everything on a fresh instance: a venv, **ROCm torch 2.7.1** (`rocm6.3` wheels),
 pulled via **`hf-mirror.com`** (`HF_ENDPOINT`) because the instance is on a China network.
 
 ```bash
-bash deploy/rebuild.sh      # first-time setup (~10-20 min: compile + downloads)
+bash deploy/rebuild.sh      # first-time setup (compile + downloads)
 bash deploy/start_all.sh    # then bring the servers up
 ```
 
@@ -164,8 +164,8 @@ PORT=8501 IMG_MODEL=stabilityai/sdxl-turbo IMG_API_KEY=factor-local python /work
 - ✅ **Real:** full pipeline + 8 gates (interactive); **Writer + Fact-checker + Researcher + Image
   live on an AMD Radeon PRO W7900**; the same stack **proven on an AMD Instinct MI300X** (now offline).
 - 🚧 **Simulated for now:** the corpus and topic backlog are a curated seed set. Wiring a live
-  corpus (Google Drive + journals → pgvector) and CMS publishing is the next build
-  (~1–2 weeks for a real vertical slice). See the whitepaper for the full architecture.
+  corpus (Google Drive + journals → pgvector) and CMS publishing is the next build.
+  See the whitepaper for the full architecture.
 
 ## More
 
