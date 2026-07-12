@@ -12,6 +12,21 @@ near-black canvas with light ink and a single refined red accent, Helvetica-styl
 
 ---
 
+## What this showcases (AMD Developer Hackathon · Track 3)
+
+- **AMD GPU Cloud** — the live demo serves every model from an AMD **Radeon PRO W7900** cloud
+  instance; the same stack was first proven on an **AMD Instinct MI300X** (AMD Developer Cloud,
+  now offline due to limited instance access).
+- **ROCm porting to AMD hardware** — chat on **llama.cpp built with HIP** for `gfx1100`, embeddings
+  (`sentence-transformers`) and images (`diffusers`) on **ROCm PyTorch**, and **vLLM** on the
+  MI300X (`gfx942`). No CUDA anywhere in the stack.
+- **Google Gemma** — generation runs on **Gemma 3**; on the MI300X, retrieval also ran on
+  **EmbeddingGemma**, so both cognition and retrieval stay in the Gemma family.
+- **Fireworks AI** — an alternative fully-hosted engine (`gpt-oss-120b` + `qwen3-embedding-8b`),
+  covering Track 3's "AMD GPUs and/or Fireworks AI credits" compute option.
+
+---
+
 ## What it demonstrates
 
 - **Topic Workspaces** — two seeded workspaces, **100 topic themes each** (200 total), prove the topic-agnostic design:
@@ -54,45 +69,61 @@ MOCK mode is fully functional and deterministic.
 
 ## Inference engines
 
-Pick the engine in the sidebar. The **Writer** and **Fact-checker** steps run on the
-chosen engine; every other step stays mock. Any live failure **falls back to mock with a
-warning** — it never crashes.
+Pick the engine on the **② Run pipeline** page. The **Writer** and **Fact-checker** steps run on
+the chosen engine; on the AMD engine the **Researcher** (retrieval) and **Image** steps also run
+live when their endpoints are configured. Every other step stays mock, and any live failure
+**falls back to mock with a warning** — it never crashes.
 
 | Engine | When available | Behaviour |
 |--------|----------------|-----------|
 | **MOCK** (default) | always | Canonical outputs from the JSON seed. Deterministic, free, offline. Artificial 0.5–1.3 s/step so the pipeline feels alive. |
-| **AMD · MI300X** | `AMD_BASE_URL` set | Writer + Fact-checker run on an **AMD Instinct MI300X (ROCm + vLLM)** via an OpenAI-compatible endpoint. Called with stdlib `urllib` (no extra dependency), `max_tokens ≤ 2000`. |
-| **CLAUDE LIVE** | `ANTHROPIC_API_KEY` set | Writer + Fact-checker call the hosted LLM API. |
+| **AMD · Radeon W7900** ● live | `AMD_BASE_URL` set | Writer + Fact-checker + Translator on **Gemma 3** via **llama.cpp (ROCm/HIP)**; Researcher on **bge-m3** and Image on **SDXL-Turbo** when `AMD_EMBED_URL` / `AMD_IMAGE_URL` are set. OpenAI-compatible, called with stdlib `urllib`. |
+| **FIREWORKS · gpt-oss-120b** | `FIREWORKS_API_KEY` set | Writer + Fact-checker on **`gpt-oss-120b`**; Researcher on **`qwen3-embedding-8b`**. Image stays placeholder. |
 
-### Running the AMD MI300X backend
+> The same AMD engine was first **proven end-to-end on an AMD Instinct MI300X** (`gfx942`,
+> 192 GB HBM3, ROCm 7.2.4) running Gemma 3 + EmbeddingGemma via **vLLM** — recorded in the demo
+> video. That box is offline now (limited organizer instance access), so live endpoints moved to
+> the Radeon W7900.
 
-FACTOR's "full self-hosted" profile runs open models on AMD GPUs. To serve one:
+### Serving the models on AMD
+
+**Radeon PRO W7900 (RDNA 3, `gfx1100`) — live now:**
 
 ```bash
-# on an AMD Instinct host (ROCm + Docker), e.g. AMD Developer Cloud:
-export VLLM_API_KEY=your-secret
-MODEL=Qwen/Qwen2.5-7B-Instruct ./deploy/vllm_mi300x.sh
-# 192 GB HBM3 fits much bigger single-GPU models:
-# MODEL=Qwen/Qwen2.5-72B-Instruct SERVED_NAME=qwen2.5-72b MAXLEN=16384 ./deploy/vllm_mi300x.sh
+# chat: llama-cpp-python built with HIP for ROCm
+CMAKE_ARGS="-DGGML_HIP=ON -DAMDGPU_TARGETS=gfx1100" pip install llama-cpp-python
+python -m llama_cpp.server --model <gemma-3.gguf> --n_gpu_layers -1 --chat_format gemma  # :8000
+python deploy/embed_server.py   # bge-m3   (embeddings)  :7860
+python deploy/sdxl_server.py    # SDXL     (images)      :8501
 ```
 
-Then point the app at it (env or `.streamlit/secrets.toml`, see `.streamlit/secrets.toml.example`):
+**Instinct MI300X (CDNA 3, `gfx942`) — proven, via vLLM:**
+
+```bash
+MODEL=google/gemma-3-4b-it ./deploy/vllm_mi300x.sh        # :8000 (OpenAI-compatible)
+# 192 GB HBM3 scales to a much bigger single-GPU model:
+# MODEL=google/gemma-3-27b-it SERVED_NAME=gemma-3-27b MAXLEN=16384 ./deploy/vllm_mi300x.sh
+```
+
+Then point the app at the endpoints (env or `.streamlit/secrets.toml`, see
+`.streamlit/secrets.toml.example`):
 
 ```toml
-AMD_BASE_URL = "http://YOUR_MI300X_HOST:8000/v1"
-AMD_MODEL    = "qwen2.5-7b-instruct"
-AMD_API_KEY  = "your-secret"
+AMD_BASE_URL  = "http://YOUR_AMD_HOST:8000/v1"
+AMD_MODEL     = "gemma-3-27b-it"
+AMD_API_KEY   = "your-secret"
+AMD_EMBED_URL = "http://YOUR_AMD_HOST:7860/v1"   # bge-m3 (W7900)
+AMD_IMAGE_URL = "http://YOUR_AMD_HOST:8501"      # SDXL   (W7900)
+# or the fully-hosted engine:
+# FIREWORKS_API_KEY = "fw-..."
 ```
-
-Verified on AMD Instinct MI300X (gfx942), ROCm 7.2.4 — Writer + Fact-checker
-returned grounded, correctly-cited output in ~3 s/step.
 
 ### Containerized (for graders / reproducible runs)
 
 ```bash
 docker buildx build --platform linux/amd64 -t <registry>/factor-demo:latest --push .
 docker run -p 8501:8501 \
-  -e AMD_BASE_URL=http://<mi300x-host>:8000/v1 -e AMD_MODEL=qwen2.5-7b-instruct \
+  -e AMD_BASE_URL=http://<amd-host>:8000/v1 -e AMD_MODEL=gemma-3-27b-it \
   -e AMD_API_KEY=... <registry>/factor-demo:latest
 ```
 
@@ -107,17 +138,19 @@ The flow is **push to GitHub → deploy on Streamlit Cloud**.
 3. **Main file path:** `app.py`  *(this folder is the repo root)*.
 4. *(Optional, for a live engine)* **Advanced settings → Secrets:**
    ```toml
-   # AMD MI300X engine:
-   AMD_BASE_URL = "http://YOUR_MI300X_HOST:8000/v1"
-   AMD_MODEL    = "qwen2.5-7b-instruct"
-   AMD_API_KEY  = "your-secret"
-   # or the hosted LLM API:
-   # ANTHROPIC_API_KEY = "sk-ant-..."
+   # AMD engine (Radeon W7900 / Instinct MI300X):
+   AMD_BASE_URL  = "http://YOUR_AMD_HOST:8000/v1"
+   AMD_MODEL     = "gemma-3-27b-it"
+   AMD_API_KEY   = "your-secret"
+   AMD_EMBED_URL = "http://YOUR_AMD_HOST:7860/v1"   # bge-m3
+   AMD_IMAGE_URL = "http://YOUR_AMD_HOST:8501"      # SDXL
+   # or the fully-hosted Fireworks engine:
+   # FIREWORKS_API_KEY = "fw-..."
    ```
 5. Deploy. The repo must be public, or your Streamlit account linked to the private repo.
 
-Everything uses relative paths and only `streamlit` + `anthropic` + stdlib, so it deploys
-without modification.
+Everything uses relative paths and only `streamlit` + stdlib in MOCK mode, so it deploys
+without modification; live engines are reached over stdlib `urllib`.
 
 ---
 
@@ -129,14 +162,19 @@ engine/
   models.py             # dataclasses: Workspace, Topic, Chunk, Run, Claim, RunEvent
   state_machine.py      # states, per-step agent/model/gate metadata, thresholds
   mock.py               # seed loader + deterministic pipeline generator
-  live.py               # live engines: AMD/vLLM (urllib) + hosted LLM API, with fallback
+  live.py               # live engines: AMD (llama.cpp/vLLM) + Fireworks, over urllib, with fallback
+  retrieval.py          # real semantic retrieval (bge-m3 / qwen3-embedding) with vector cache
+  imagegen.py           # SDXL image generation client (AMD)
 data/
   workspaces.json       # 2 workspaces
   topics.json           # 200 topic themes (100 dental + 100 IT-in-education); runnable + backlog
   chunks.json           # 25 source chunks with credibility metadata (dental + edutech)
   canned_runs.json      # canonical agent outputs per runnable topic (happy / revision)
 deploy/
-  vllm_mi300x.sh        # serve an open model with vLLM on AMD Instinct MI300X (ROCm)
+  vllm_mi300x.sh        # serve Gemma 3 with vLLM on AMD Instinct MI300X (ROCm)
+  amd_stack.sh          # bring up the full MI300X stack (chat + embed + image)
+  embed_server.py       # bge-m3 embeddings server (sentence-transformers, ROCm)
+  sdxl_server.py        # SDXL-Turbo image server (diffusers, ROCm)
 Dockerfile              # containerize the Streamlit app (linux/amd64)
 requirements.txt
 ```
