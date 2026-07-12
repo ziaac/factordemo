@@ -1097,13 +1097,12 @@ def _render_audit(run):
     rows = [{
         "Step": e.step, "Status": e.status, "Model": e.model,
         "In tok": e.input_tokens, "Out tok": e.output_tokens,
-        "Latency ms": e.latency_ms, "Cost $": round(e.cost_usd, 3),
+        "Latency ms": e.latency_ms,
     } for e in run.events]
     st.dataframe(rows, use_container_width=True, hide_index=True)
-    c1, c2, c3 = st.columns(3)
-    c1.metric("Total cost", f"${run.total_cost:.2f}")
-    c2.metric("Total tokens", f"{run.total_tokens:,}")
-    c3.metric("Revisions", run.revision_count)
+    c1, c2 = st.columns(2)
+    c1.metric("Total tokens", f"{run.total_tokens:,}")
+    c2.metric("Revisions", run.revision_count)
 
 
 # --------------------------------------------------------------------------- #
@@ -1351,7 +1350,7 @@ def page_article():
 def page_dashboard():
     page_header(
         "Step 4 · Metrics", "Dashboard",
-        "Session overview — runs, gate outcomes, revisions, and estimated tokens/cost per "
+        "Session overview — runs, gate outcomes, revisions, and estimated tokens per "
         "article. Accumulates as you run more pipelines.")
     hist = st.session_state.history
     if any(h["run"].outcome == "published" for h in hist):
@@ -1369,20 +1368,14 @@ def page_dashboard():
     published = sum(1 for r in runs if r.outcome == "published")
     revised = sum(1 for r in runs if r.revision_count > 0)
     rejected = sum(1 for r in runs if r.outcome == "rejected")
-    total_cost = sum(r.total_cost for r in runs)
     total_tokens = sum(r.total_tokens for r in runs)
 
-    c1, c2, c3, c4 = st.columns(4)
+    c1, c2, c3, c4, c5 = st.columns(5)
     c1.metric("Runs", n)
     c2.metric("Published", published)
     c3.metric("Revised", revised)
     c4.metric("Rejected", rejected)
-
-    c5, c6, c7 = st.columns(3)
-    c5.metric("Session cost", f"${total_cost:.2f}")
-    c6.metric("Avg cost / run", f"${(total_cost/n):.2f}" if n else "$0.00")
-    c7.metric("Total tokens", f"{total_tokens:,}")
-    st.caption("Cost figures are simulated from the whitepaper (~$0.85–1.00 per bilingual article).")
+    c5.metric("Total tokens", f"{total_tokens:,}")
 
     st.markdown("---")
     kicker("Gate pass-rate")
@@ -1419,7 +1412,7 @@ def page_dashboard():
                 "Topic": h["topic_title"],
                 "Step": e.step, "Status": e.status, "Model": e.model,
                 "Tokens": e.input_tokens + e.output_tokens,
-                "Latency ms": e.latency_ms, "Cost $": round(e.cost_usd, 3),
+                "Latency ms": e.latency_ms,
             })
     st.dataframe(arows, use_container_width=True, hide_index=True)
 
