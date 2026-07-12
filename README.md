@@ -63,6 +63,11 @@ Every factual claim in every piece must be traceable to a verified source. A pie
 cross-lingual QA → schema validation → human review → post-publish audit), with a capped
 revision loop. Topic-agnostic, multi-workspace, bilingual (EN → ID).
 
+**Hands-free by design.** The only required human step is the initial setup — choose a Topic
+Workspace and its topics (re-configurable anytime). From there FACTOR runs autonomously: it writes
+the title and the full article and auto-publishes several grounded pieces a day. Human approval at
+Gate 7 is optional, because all 8 gates run on every piece.
+
 ## Run it
 
 ```bash
