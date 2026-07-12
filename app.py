@@ -1472,36 +1472,47 @@ def page_landing():
             unsafe_allow_html=True,
         )
 
-    # --- Deployment profiles: hybrid vs FULL self-hosted ----------------- #
+    # --- Deployment profiles: AMD · Fireworks · Custom ------------------- #
     st.markdown("<div style='height:1.6rem'></div>", unsafe_allow_html=True)
-    st.markdown('<div class="hp-title">Runs on your own infrastructure — two profiles</div>',
+    st.markdown('<div class="hp-title">Three ways to run it — you choose the compute</div>',
                 unsafe_allow_html=True)
-    d1, d2 = st.columns(2)
+    d1, d2, d3 = st.columns(3)
     d1.markdown(
-        f"""<div style="border:1px solid {LINE};background:{BG2};padding:1rem 1.1rem;min-height:210px">
-            <div class="swiss-kicker" style="color:{INK}">Profile A · Hybrid</div>
-            <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Hosted LLM API for cognition</div>
-            <div style="font-size:.86rem;color:{MUTE};line-height:1.5">
-              Self-hosted app + corpus on your VPS (Dokploy / Traefik / Docker); a hosted LLM API runs the
-              10 agents. Fastest to launch.<br><br>
-              <b>VPS:</b> 6 vCPU · 16 GB · 100 GB SSD<br>
-              <b>Cost:</b> ≈ $0.85–1.00 per bilingual article<br>
-              <b>At 5/day:</b> ≈ $130–160 / month
+        f"""<div style="border:2px solid {ACCENT};background:{BG2};padding:1rem 1.1rem;min-height:250px">
+            <div class="swiss-kicker">Profile A · AMD &nbsp;·&nbsp; ● live</div>
+            <div style="font-size:1.1rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Full self-hosted · zero API</div>
+            <div style="font-size:.84rem;color:{MUTE};line-height:1.5">
+              Every model on your own AMD GPU — data never leaves.<br><br>
+              <b>GPU:</b> Radeon PRO <b>W7900</b> (48 GB · gfx1100) — live now on AMD GPU cloud;
+              proven on Instinct <b>MI300X</b> (192 GB, ROCm)<br>
+              <b>LLM:</b> <b>Gemma 3</b> (gemma-3-27b-it) via <b>llama.cpp</b> <i>(ROCm/HIP; scales to 70B on MI300X)</i><br>
+              <b>Embeddings:</b> bge-m3 &nbsp;·&nbsp; <b>Images:</b> SDXL — same GPU
             </div>
         </div>""",
         unsafe_allow_html=True,
     )
     d2.markdown(
-        f"""<div style="border:2px solid {ACCENT};background:{BG2};padding:1rem 1.1rem;min-height:210px">
-            <div class="swiss-kicker">Profile B · Full self-hosted on AMD &nbsp;·&nbsp; ● proven</div>
-            <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Zero API · data never leaves</div>
-            <div style="font-size:.86rem;color:{MUTE};line-height:1.5">
-              Every model runs on your own AMD GPU — nothing is sent to a third party.<br><br>
-              <b>GPU:</b> AMD Radeon PRO <b>W7900</b> (48 GB · gfx1100) — <b>live now</b> on AMD GPU cloud;
-              also proven on AMD Instinct <b>MI300X</b> (192 GB HBM3, ROCm)<br>
-              <b>LLM:</b> Google <b>Gemma 3</b> (<b>gemma-3-27b-it</b>) via <b>llama.cpp</b> <i>(ROCm/HIP; scales to 70B on the MI300X)</i><br>
-              <b>Embeddings:</b> <b>bge-m3</b> &nbsp;·&nbsp; <b>Images:</b> <b>SDXL</b> — same GPU<br>
-              <b>Cost:</b> fixed GPU, <b>no per-token charge</b>
+        f"""<div style="border:1px solid {LINE};background:{BG2};padding:1rem 1.1rem;min-height:250px">
+            <div class="swiss-kicker" style="color:{INK}">Profile B · Fireworks</div>
+            <div style="font-size:1.1rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Fully hosted · zero infra</div>
+            <div style="font-size:.84rem;color:{MUTE};line-height:1.5">
+              Cognition on <b>Fireworks AI</b> serverless — nothing to run yourself. Fastest to launch.<br><br>
+              <b>LLM:</b> <b>gpt-oss-120b</b> (Writer + Fact-checker)<br>
+              <b>Embeddings:</b> <b>qwen3-embedding-8b</b> (Researcher)<br>
+              Managed scaling; OpenAI-compatible.
+            </div>
+        </div>""",
+        unsafe_allow_html=True,
+    )
+    d3.markdown(
+        f"""<div style="border:1px solid {LINE};background:{BG2};padding:1rem 1.1rem;min-height:250px">
+            <div class="swiss-kicker" style="color:{INK}">Profile C · Custom</div>
+            <div style="font-size:1.1rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Bring your own · hybrid</div>
+            <div style="font-size:.84rem;color:{MUTE};line-height:1.5">
+              Self-host app + corpus + pipeline on your VPS (Dokploy / Traefik / Docker); plug in
+              <b>any OpenAI-compatible endpoint</b> for cognition. <b>Model-agnostic</b> — one env var.<br><br>
+              Mix freely: your own GPU, a hosted API, or a hybrid of both.<br>
+              <b>VPS:</b> 6 vCPU · 16 GB · 100 GB SSD
             </div>
         </div>""",
         unsafe_allow_html=True,
