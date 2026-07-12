@@ -1092,8 +1092,15 @@ def _render_step_expanders(run, ws):
                 st.caption(f"alt (EN): {img.get('alt_en','')}")
 
     if a.get("live_used"):
-        st.success("Live inference ran on: " + ", ".join(sorted(set(a["live_used"])))
-                   + " — the rest is simulated in this demo.")
+        ran = ", ".join(sorted(set(a["live_used"])))
+        eng = active_engine()
+        where = ("your AMD GPU (Radeon PRO W7900)" if eng == "amd"
+                 else "Fireworks AI" if eng == "fireworks"
+                 else "the live engine")
+        st.success(
+            f"**Ran live on {where}:** {ran}. "
+            "The lighter orchestration steps (Planner, Outliner, Bias review, Meta/SEO) "
+            "run as deterministic stubs in this demo — no external API is used for them.")
     warns = a.get("live_warnings", [])
     if warns:
         st.info(

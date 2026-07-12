@@ -7,6 +7,8 @@ content — powered by Google Gemma 3 running live on an
 
 > AMD Developer Hackathon (ACT II) · Track 3 — Unicorn / Open Innovation.
 
+**Live demo:** <https://factordemo.streamlit.app>  ·  **Entry point:** [`app.py`](app.py)  ·  **Agents & live engines:** [`engine/`](engine)
+
 ---
 
 ## AMD compute usage (how this project uses AMD)
@@ -84,6 +86,63 @@ Containerized (linux/amd64 judging VM):
 ```bash
 docker buildx build --platform linux/amd64 -t <registry>/factor-demo:latest --push .
 ```
+
+## Where the code lives (main path)
+
+| Path | What |
+|---|---|
+| [`app.py`](app.py) | **Entry point** — Streamlit UI, page routing, and the run loop that drives the pipeline. |
+| [`engine/state_machine.py`](engine/state_machine.py) | The 16-state machine, the 10 agents, per-step model/gate metadata, Gate-1 threshold. |
+| [`engine/mock.py`](engine/mock.py) | Deterministic pipeline generator (`iter_pipeline`) — seed → grounded run, with LIVE fallbacks. |
+| [`engine/live.py`](engine/live.py) | Live engines over stdlib `urllib`: **AMD** (llama.cpp/vLLM) + **Fireworks**; Writer / Fact-checker / Translator prompts. |
+| [`engine/retrieval.py`](engine/retrieval.py) | Real semantic retrieval (bge-m3 / qwen3-embedding) with a per-backend vector cache. |
+| [`engine/imagegen.py`](engine/imagegen.py) | SDXL featured-image client (AMD). |
+| [`data/`](data) | Seed corpus, topics, and canonical runs (JSON). |
+| [`deploy/`](deploy) | Scripts to **serve the models on AMD** and keep them alive (see Operations). |
+| [`docs/`](docs) | Technical whitepaper + design docs. |
+
+The pipeline on screen is produced by `mock.iter_pipeline()` in [`engine/mock.py`](engine/mock.py); live inference is layered on top by passing the callables in [`engine/live.py`](engine/live.py) — so the **main code path is: `app.py` → `engine/mock.py` → `engine/live.py`**.
+
+## External services & configuration
+
+The app runs fully in **MOCK** mode with **no keys**. Live engines are enabled purely by environment variables / Streamlit secrets — nothing is hard-coded, no secret is committed.
+
+| Service | Used for | Config keys |
+|---|---|---|
+| **AMD Radeon PRO W7900** (self-hosted · ROCm) | Writer, Fact-checker, Translator (Gemma 3 · llama.cpp), Researcher (bge-m3), Image (SDXL) | `AMD_BASE_URL`, `AMD_MODEL`, `AMD_API_KEY`, `AMD_EMBED_URL`, `AMD_IMAGE_URL` |
+| **Fireworks AI** (hosted, approved Track-3 compute) | Writer, Fact-checker (`gpt-oss-120b`), Researcher (`qwen3-embedding-8b`) | `FIREWORKS_API_KEY` |
+| **Streamlit Community Cloud** | Hosts the public demo | secrets set in the app dashboard |
+
+The three AMD servers are **OpenAI-compatible** and reached over stdlib `urllib`. On the organizer's instance they are exposed publicly through the AnRui **`/spaces/<instance>/<port>/`** proxy — ports **8000** (chat), **7860** (embeddings), **8501** (image) — authenticated with a Bearer token. Template values: [`.streamlit/secrets.toml.example`](.streamlit/secrets.toml.example).
+
+## Operations — serving the models on the AMD instance
+
+The organizer-provided **Radeon W7900** box is a JupyterLab container (ROCm, root, **no Docker**); everything persistent lives under **`/workspace`**:
+
+```
+/workspace
+├── demo/                  # this repo (app + engine + deploy)
+├── models/                # GGUF weights (e.g. gemma-3-27b-it-Q4_K_M.gguf)
+├── start_all.sh           # bring up the 3 servers  (deploy/start_all.sh)
+├── factor_watchdog.sh     # keep-alive: restart if any port drops (deploy/factor_watchdog.sh)
+├── _arm_watchdog.py       # idempotent launcher for the watchdog (deploy/arm_watchdog.py)
+├── restart.sh             # one-shot recovery after a reboot     (deploy/restart.sh)
+└── start_all.log / watchdog.log
+```
+
+**Serving recipe** — all three models on the single 48 GB GPU ([`deploy/start_all.sh`](deploy/start_all.sh)):
+
+```bash
+# chat — Gemma 3 27B via llama.cpp (ROCm/HIP)
+python -m llama_cpp.server --model /workspace/models/gemma-3-27b-it-Q4_K_M.gguf \
+  --n_gpu_layers -1 --n_ctx 8192 --host 0.0.0.0 --port 8000 --api_key factor-local --chat_format gemma &
+# embeddings — bge-m3
+EMBED_MODEL=BAAI/bge-m3 PORT=7860 EMBED_API_KEY=factor-local python /workspace/demo/deploy/embed_server.py &
+# image — SDXL-Turbo
+PORT=8501 IMG_MODEL=stabilityai/sdxl-turbo IMG_API_KEY=factor-local python /workspace/demo/deploy/sdxl_server.py &
+```
+
+**Resilience.** The organizer instance restarts often, so a small **watchdog** ([`deploy/factor_watchdog.sh`](deploy/factor_watchdog.sh)) polls all three ports every 30 s and re-runs `start_all.sh` if any becomes unreachable; it is armed automatically on kernel/server start via a Jupyter startup hook, and [`deploy/restart.sh`](deploy/restart.sh) brings everything back in one command after a reboot. This is why a transient GPU-endpoint outage only degrades a run to the deterministic fallback (the in-app *"external infrastructure, not a FACTOR error"* notice) instead of breaking it.
 
 ## Status (honest)
 
