@@ -1452,6 +1452,9 @@ def page_landing():
         """,
         unsafe_allow_html=True,
     )
+    st.caption("AMD Developer Hackathon · Track 3 — runs on **AMD GPU cloud**, a fully "
+               "**ROCm-ported** stack (llama.cpp/HIP · no CUDA), **Google Gemma 3** for cognition, "
+               "with **Fireworks AI** as an alternative hosted engine.")
 
     st.markdown("<div style='height:1.4rem'></div>", unsafe_allow_html=True)
     c1, c2, c3 = st.columns(3)
@@ -1494,10 +1497,10 @@ def page_landing():
             <div style="font-size:1.15rem;font-weight:900;margin:.1rem 0 .5rem 0;color:{INK}">Zero API · data never leaves</div>
             <div style="font-size:.86rem;color:{MUTE};line-height:1.5">
               Every model runs on your own AMD GPU — nothing is sent to a third party.<br><br>
-              <b>GPU:</b> AMD Radeon PRO <b>W7900</b> (48 GB · gfx1100) — live now;
-              also proven on AMD Instinct <b>MI300X</b> (192 GB HBM3)<br>
-              <b>LLM:</b> Google <b>Gemma 3</b> via llama.cpp <i>(ROCm/HIP; scales to Gemma-3-27B / 70B on a bigger GPU)</i><br>
-              <b>Embeddings:</b> <b>bge-m3</b> &nbsp;·&nbsp; <b>Images:</b> SDXL — same GPU<br>
+              <b>GPU:</b> AMD Radeon PRO <b>W7900</b> (48 GB · gfx1100) — <b>live now</b> on AMD GPU cloud;
+              also proven on AMD Instinct <b>MI300X</b> (192 GB HBM3, ROCm)<br>
+              <b>LLM:</b> Google <b>Gemma 3</b> (<b>gemma-3-27b-it</b>) via <b>llama.cpp</b> <i>(ROCm/HIP; scales to 70B on the MI300X)</i><br>
+              <b>Embeddings:</b> <b>bge-m3</b> &nbsp;·&nbsp; <b>Images:</b> <b>SDXL</b> — same GPU<br>
               <b>Cost:</b> fixed GPU, <b>no per-token charge</b>
             </div>
         </div>""",
