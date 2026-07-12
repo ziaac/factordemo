@@ -1579,14 +1579,14 @@ def page_landing():
             <div class="swiss-kicker" style="color:{MUTE}">Example workspace A</div>
             <div style="font-size:1.05rem;font-weight:900;color:{INK}">Dental &amp; Oral Health</div>
             <div style="font-size:.84rem;color:{MUTE};line-height:1.45">100 sample topics · YMYL medical grounding
-            (kariologi, periodonsia, endodonsia, ortodonti, pedodonti …). EN → ID.</div>
+            (cariology, periodontics, endodontics, orthodontics, paediatric dentistry …). EN → ID.</div>
         </div>""", unsafe_allow_html=True)
     w2.markdown(
         f"""<div style="border-top:1px solid {LINE};padding-top:.5rem;min-height:120px">
             <div class="swiss-kicker" style="color:{MUTE}">Example workspace B</div>
             <div style="font-size:1.05rem;font-weight:900;color:{INK}">IT in Education</div>
             <div style="font-size:.84rem;color:{MUTE};line-height:1.45">100 sample topics · EdTech
-            (e-learning, LMS, gamifikasi, AI dalam pendidikan, asesmen digital …). EN → ID.</div>
+            (e-learning, LMS, gamification, AI in education, digital assessment …). EN → ID.</div>
         </div>""", unsafe_allow_html=True)
     st.markdown(
         f'<div style="margin-top:.9rem;border-left:3px solid {ACCENT};padding-left:.9rem;font-size:.88rem;color:{MUTE}">'

@@ -94,18 +94,6 @@
       "notes": "No meaning drift between ID and EN; all four citation markers preserved; no facts added or dropped."
     },
     "meta": {
-      "id": {
-        "meta_title": "Cara Kerja Fluoride Mencegah Karies",
-        "meta_description": "Fluoride mencegah gigi berlubang lewat remineralisasi email dan menekan bakteri asam. Simak buktinya.",
-        "slug": "cara-kerja-fluoride-mencegah-karies",
-        "keywords": [
-          "fluoride",
-          "karies",
-          "remineralisasi",
-          "kesehatan gigi"
-        ],
-        "reading_time_min": 3
-      },
       "en": {
         "meta_title": "How Fluoride Prevents Cavities",
         "meta_description": "Fluoride prevents cavities by remineralizing enamel and suppressing acid-producing bacteria. See the evidence.",
@@ -115,6 +103,18 @@
           "cavities",
           "remineralization",
           "dental health"
+        ],
+        "reading_time_min": 3
+      },
+      "id": {
+        "meta_title": "Cara Kerja Fluoride Mencegah Karies",
+        "meta_description": "Fluoride mencegah gigi berlubang lewat remineralisasi email dan menekan bakteri asam. Simak buktinya.",
+        "slug": "cara-kerja-fluoride-mencegah-karies",
+        "keywords": [
+          "fluoride",
+          "karies",
+          "remineralisasi",
+          "kesehatan gigi"
         ],
         "reading_time_min": 3
       }
@@ -259,18 +259,6 @@
       "notes": "Corrected success-rate figure carried over faithfully to EN; no drift; four markers preserved."
     },
     "meta": {
-      "id": {
-        "meta_title": "Perawatan Saluran Akar: Kapan Diperlukan",
-        "meta_description": "Kenali indikasi, tingkat keberhasilan (83-93%), rasa sakit, dan alternatif perawatan saluran akar.",
-        "slug": "perawatan-saluran-akar-kapan-diperlukan",
-        "keywords": [
-          "saluran akar",
-          "endodontik",
-          "pulpitis",
-          "gigi"
-        ],
-        "reading_time_min": 4
-      },
       "en": {
         "meta_title": "Root Canal Treatment: When It Is Needed",
         "meta_description": "Understand the indications, success rate (83-93%), pain, and alternatives to root canal treatment.",
@@ -280,6 +268,18 @@
           "endodontics",
           "pulpitis",
           "tooth"
+        ],
+        "reading_time_min": 4
+      },
+      "id": {
+        "meta_title": "Perawatan Saluran Akar: Kapan Diperlukan",
+        "meta_description": "Kenali indikasi, tingkat keberhasilan (83-93%), rasa sakit, dan alternatif perawatan saluran akar.",
+        "slug": "perawatan-saluran-akar-kapan-diperlukan",
+        "keywords": [
+          "saluran akar",
+          "endodontik",
+          "pulpitis",
+          "gigi"
         ],
         "reading_time_min": 4
       }
@@ -389,18 +389,6 @@
       "notes": "All four markers preserved; the 'partial' claim's nuance retained in EN."
     },
     "meta": {
-      "id": {
-        "meta_title": "Manfaat Dental Sealant untuk Anak",
-        "meta_description": "Dental sealant melindungi geraham anak dari karies. Ketahui prosedur, perawatan, dan siapa yang paling terbantu.",
-        "slug": "manfaat-dental-sealant-untuk-anak",
-        "keywords": [
-          "dental sealant",
-          "karies anak",
-          "geraham",
-          "pencegahan"
-        ],
-        "reading_time_min": 3
-      },
       "en": {
         "meta_title": "The Benefits of Dental Sealants for Children",
         "meta_description": "Dental sealants protect children's molars from cavities. Learn the procedure, care, and who benefits most.",
@@ -410,6 +398,18 @@
           "child caries",
           "molars",
           "prevention"
+        ],
+        "reading_time_min": 3
+      },
+      "id": {
+        "meta_title": "Manfaat Dental Sealant untuk Anak",
+        "meta_description": "Dental sealant melindungi geraham anak dari karies. Ketahui prosedur, perawatan, dan siapa yang paling terbantu.",
+        "slug": "manfaat-dental-sealant-untuk-anak",
+        "keywords": [
+          "dental sealant",
+          "karies anak",
+          "geraham",
+          "pencegahan"
         ],
         "reading_time_min": 3
       }
@@ -518,18 +518,6 @@
       "notes": "All four markers preserved; the 'partial' nuance retained in EN; no claim drift."
     },
     "meta": {
-      "id": {
-        "meta_title": "Efektivitas Gamifikasi terhadap Motivasi Belajar",
-        "meta_description": "Bukti meta-analisis soal gamifikasi: efek pada motivasi, batasan poin/lencana, dan cara merancangnya dengan sehat.",
-        "slug": "efektivitas-gamifikasi-motivasi-belajar",
-        "keywords": [
-          "gamifikasi",
-          "motivasi belajar",
-          "pendidikan",
-          "edtech"
-        ],
-        "reading_time_min": 3
-      },
       "en": {
         "meta_title": "Effectiveness of Gamification on Learning Motivation",
         "meta_description": "Meta-analytic evidence on gamification: effects on motivation, the limits of points/badges, and how to design it well.",
@@ -538,6 +526,18 @@
           "gamification",
           "learning motivation",
           "education",
+          "edtech"
+        ],
+        "reading_time_min": 3
+      },
+      "id": {
+        "meta_title": "Efektivitas Gamifikasi terhadap Motivasi Belajar",
+        "meta_description": "Bukti meta-analisis soal gamifikasi: efek pada motivasi, batasan poin/lencana, dan cara merancangnya dengan sehat.",
+        "slug": "efektivitas-gamifikasi-motivasi-belajar",
+        "keywords": [
+          "gamifikasi",
+          "motivasi belajar",
+          "pendidikan",
           "edtech"
         ],
         "reading_time_min": 3
@@ -683,18 +683,6 @@
       "notes": "Corrected accuracy figure carried faithfully to EN; four markers preserved."
     },
     "meta": {
-      "id": {
-        "meta_title": "AI untuk Penilaian Esai Otomatis",
-        "meta_description": "Seberapa akurat AI menilai esai (kappa ~0,7-0,8), keterbatasan, isu bias, dan mengapa pengawasan manusia tetap perlu.",
-        "slug": "ai-penilaian-esai-otomatis",
-        "keywords": [
-          "penilaian esai otomatis",
-          "AI pendidikan",
-          "asesmen",
-          "bias"
-        ],
-        "reading_time_min": 4
-      },
       "en": {
         "meta_title": "AI for Automated Essay Scoring",
         "meta_description": "How accurate is AI essay scoring (kappa ~0.7-0.8), its limits, bias concerns, and why human oversight still matters.",
@@ -703,6 +691,18 @@
           "automated essay scoring",
           "AI in education",
           "assessment",
+          "bias"
+        ],
+        "reading_time_min": 4
+      },
+      "id": {
+        "meta_title": "AI untuk Penilaian Esai Otomatis",
+        "meta_description": "Seberapa akurat AI menilai esai (kappa ~0,7-0,8), keterbatasan, isu bias, dan mengapa pengawasan manusia tetap perlu.",
+        "slug": "ai-penilaian-esai-otomatis",
+        "keywords": [
+          "penilaian esai otomatis",
+          "AI pendidikan",
+          "asesmen",
           "bias"
         ],
         "reading_time_min": 4
@@ -814,18 +814,6 @@
       "notes": "No meaning drift ID<->EN; all citation markers preserved."
     },
     "meta": {
-      "id": {
-        "meta_title": "Peran Plak dalam Penyakit Gusi dan Cara Mencegahnya",
-        "meta_description": "Plak memicu radang gusi yang bisa berkembang jadi periodontitis. Simak cara mencegahnya.",
-        "slug": "peran-plak-penyakit-gusi",
-        "keywords": [
-          "plak",
-          "penyakit gusi",
-          "periodontitis",
-          "kesehatan gusi"
-        ],
-        "reading_time_min": 3
-      },
       "en": {
         "meta_title": "The Role of Plaque in Gum Disease and How to Prevent It",
         "meta_description": "Plaque triggers gum inflammation that can progress to periodontitis. Learn how to prevent it.",
@@ -835,6 +823,18 @@
           "gum disease",
           "periodontitis",
           "gum health"
+        ],
+        "reading_time_min": 3
+      },
+      "id": {
+        "meta_title": "Peran Plak dalam Penyakit Gusi dan Cara Mencegahnya",
+        "meta_description": "Plak memicu radang gusi yang bisa berkembang jadi periodontitis. Simak cara mencegahnya.",
+        "slug": "peran-plak-penyakit-gusi",
+        "keywords": [
+          "plak",
+          "penyakit gusi",
+          "periodontitis",
+          "kesehatan gusi"
         ],
         "reading_time_min": 3
       }
@@ -944,18 +944,6 @@
       "notes": "No meaning drift; all six markers preserved."
     },
     "meta": {
-      "id": {
-        "meta_title": "Gigi Sensitif: Penyebab dan Cara Mengatasinya",
-        "meta_description": "Kenali penyebab gigi sensitif dan cara mengatasinya, dari pasta desensitisasi sampai kebiasaan menyikat.",
-        "slug": "gigi-sensitif-penyebab-cara-mengatasi",
-        "keywords": [
-          "gigi sensitif",
-          "hipersensitivitas dentin",
-          "pasta desensitisasi",
-          "erosi email"
-        ],
-        "reading_time_min": 3
-      },
       "en": {
         "meta_title": "Tooth Sensitivity: Causes and How to Manage It",
         "meta_description": "Understand what causes tooth sensitivity and how to manage it, from desensitizing toothpaste to brushing habits.",
@@ -965,6 +953,18 @@
           "dentin hypersensitivity",
           "desensitizing toothpaste",
           "enamel erosion"
+        ],
+        "reading_time_min": 3
+      },
+      "id": {
+        "meta_title": "Gigi Sensitif: Penyebab dan Cara Mengatasinya",
+        "meta_description": "Kenali penyebab gigi sensitif dan cara mengatasinya, dari pasta desensitisasi sampai kebiasaan menyikat.",
+        "slug": "gigi-sensitif-penyebab-cara-mengatasi",
+        "keywords": [
+          "gigi sensitif",
+          "hipersensitivitas dentin",
+          "pasta desensitisasi",
+          "erosi email"
         ],
         "reading_time_min": 3
       }
@@ -1074,18 +1074,6 @@
       "notes": "No meaning drift; markers preserved; effect framed cautiously in both languages."
     },
     "meta": {
-      "id": {
-        "meta_title": "Flipped Classroom: Apakah Meningkatkan Hasil Belajar?",
-        "meta_description": "Bukti meta-analisis soal flipped classroom dan syarat agar efektif meningkatkan hasil belajar.",
-        "slug": "flipped-classroom-hasil-belajar",
-        "keywords": [
-          "flipped classroom",
-          "hasil belajar",
-          "pembelajaran aktif",
-          "edtech"
-        ],
-        "reading_time_min": 3
-      },
       "en": {
         "meta_title": "The Flipped Classroom: Does It Improve Learning Outcomes?",
         "meta_description": "Meta-analytic evidence on the flipped classroom and the conditions that make it effective.",
@@ -1094,6 +1082,18 @@
           "flipped classroom",
           "learning outcomes",
           "active learning",
+          "edtech"
+        ],
+        "reading_time_min": 3
+      },
+      "id": {
+        "meta_title": "Flipped Classroom: Apakah Meningkatkan Hasil Belajar?",
+        "meta_description": "Bukti meta-analisis soal flipped classroom dan syarat agar efektif meningkatkan hasil belajar.",
+        "slug": "flipped-classroom-hasil-belajar",
+        "keywords": [
+          "flipped classroom",
+          "hasil belajar",
+          "pembelajaran aktif",
           "edtech"
         ],
         "reading_time_min": 3
@@ -1204,18 +1204,6 @@
       "notes": "No meaning drift; all markers preserved."
     },
     "meta": {
-      "id": {
-        "meta_title": "Spaced Repetition untuk Retensi Belajar",
-        "meta_description": "Efek spacing dan retrieval practice: cara belajar sedikit tapi sering agar ingatan bertahan lama.",
-        "slug": "spaced-repetition-retensi-belajar",
-        "keywords": [
-          "spaced repetition",
-          "retrieval practice",
-          "efek spacing",
-          "strategi belajar"
-        ],
-        "reading_time_min": 3
-      },
       "en": {
         "meta_title": "Spaced Repetition for Learning Retention",
         "meta_description": "The spacing effect and retrieval practice: how studying a little, often makes memory last.",
@@ -1225,6 +1213,18 @@
           "retrieval practice",
           "spacing effect",
           "study strategies"
+        ],
+        "reading_time_min": 3
+      },
+      "id": {
+        "meta_title": "Spaced Repetition untuk Retensi Belajar",
+        "meta_description": "Efek spacing dan retrieval practice: cara belajar sedikit tapi sering agar ingatan bertahan lama.",
+        "slug": "spaced-repetition-retensi-belajar",
+        "keywords": [
+          "spaced repetition",
+          "retrieval practice",
+          "efek spacing",
+          "strategi belajar"
         ],
         "reading_time_min": 3
       }
