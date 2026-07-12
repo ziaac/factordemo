@@ -30,8 +30,8 @@ near-black canvas with light ink and a single refined red accent, Helvetica-styl
 ## What it demonstrates
 
 - **Topic Workspaces** — two seeded workspaces, **100 topic themes each** (200 total), prove the topic-agnostic design:
-  - **PARAKITA Dental Health** (Indonesian → English, dental/oral-health, YMYL medical grounding)
-  - **IT in Education** (Indonesian → English, EdTech: e-learning, LMS, gamification, AI in education, assessment)
+  - **PARAKITA Dental Health** (English → Indonesian, dental/oral-health, YMYL medical grounding)
+  - **IT in Education** (English → Indonesian, EdTech: e-learning, LMS, gamification, AI in education, assessment)
   - Topics are *themes/subjects* — the article and its title are the generated output. Topics without ingested corpus sit in the backlog (blocked at Gate 1) until their sources are added.
 - **The full state machine** advancing in real time:
   `QUEUED → PLANNING → RESEARCHING → OUTLINING → DRAFTING → FACT_CHECKING → BIAS_REVIEW →

@@ -3,16 +3,16 @@
     "id": "parakita",
     "name": "Dental & Oral Health",
     "domain": "Dental & oral health (YMYL)",
-    "languages": ["id", "en"],
+    "languages": ["en", "id"],
     "credibility_policy": "Every medical claim must cite a chunk with credibility >= 3. Guidelines & systematic reviews (credibility 5) are preferred over primary studies. Average corpus credibility per run must be >= 3.",
-    "description": "Example workspace (dental & oral health). Writes in Indonesian, then transcreates to English. Content type: health articles for the public, strictly grounded in curated dental journals. Swap in your own domain and sources to make it yours."
+    "description": "Example workspace (dental & oral health). Writes in English, then transcreates to Indonesian. Content type: health articles for the public, strictly grounded in curated dental journals. Swap in your own domain and sources to make it yours."
   },
   {
     "id": "edutech",
     "name": "IT in Education",
     "domain": "Information technology in education (EdTech)",
-    "languages": ["id", "en"],
+    "languages": ["en", "id"],
     "credibility_policy": "Every claim must cite a chunk with credibility >= 3. Peer-reviewed education research, systematic reviews, and official standards/guidelines (credibility 5) are preferred over vendor material and blogs. Average corpus credibility per run must be >= 3.",
-    "description": "Second FACTOR workspace, proving the topic-agnostic, multi-workspace design. Covers information technology in education (e-learning, LMS, gamification, AI in education, digital literacy, assessment, accessibility). Writes in Indonesian, then transcreates to English, strictly grounded in education research."
+    "description": "Second FACTOR workspace, proving the topic-agnostic, multi-workspace design. Covers information technology in education (e-learning, LMS, gamification, AI in education, digital literacy, assessment, accessibility). Writes in English, then transcreates to Indonesian, strictly grounded in education research."
   }
 ]

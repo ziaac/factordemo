@@ -54,7 +54,7 @@ Every factual claim in every piece must be traceable to a verified source. A pie
 16-state machine with **10 agents** and **8 anti-hallucination gates**
 (source-sufficiency → grounded writing → **independent fact-check** → bias review →
 cross-lingual QA → schema validation → human review → post-publish audit), with a capped
-revision loop. Topic-agnostic, multi-workspace, bilingual (ID → EN).
+revision loop. Topic-agnostic, multi-workspace, bilingual (EN → ID).
 
 ## Run it
 

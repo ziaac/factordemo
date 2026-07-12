@@ -49,32 +49,31 @@
         "chunk_id": ""
       }
     ],
-    "draft_id": "# Cara Kerja Fluoride Mencegah Karies\n\n## Apa itu fluoride dan bagaimana ia melindungi email\n\nFluoride adalah mineral yang berperan penting dalam mencegah gigi berlubang. Fluoride topikal mendorong remineralisasi lesi email tahap awal dengan menarik kembali ion kalsium dan fosfat ke dalam email yang terdemineralisasi, membentuk fluorapatit yang lebih tahan terhadap asam dibanding email aslinya. [[chunk:c-fl-01]]\n\n## Cara fluoride melemahkan bakteri karies\n\nFluoride yang ada di plak dan air liur menghambat demineralisasi di permukaan kristal email sekaligus mengganggu kerja enzim bakteri, sehingga menurunkan produksi asam oleh bakteri kariogenik seperti Streptococcus mutans. [[chunk:c-fl-02]]\n\n## Bukti manfaatnya\n\nPada tingkat populasi, fluoridasi air minum komunitas dikaitkan dengan penurunan karies gigi sekitar 25% pada populasi yang diteliti dibanding komunitas tanpa fluoridasi. [[chunk:c-fl-03]] Untuk penggunaan sehari-hari, pasta gigi dengan kandungan 1000-1500 ppm fluoride memberikan efek pencegahan karies yang bermakna secara klinis, baik pada anak maupun dewasa. [[chunk:c-fl-04]]\n\n## Kesimpulan\n\nFluoride bekerja melalui dua jalur yang saling melengkapi: memperkuat email lewat remineralisasi dan menekan aktivitas bakteri penyebab asam. Menyikat gigi dua kali sehari dengan pasta berfluoride adalah cara paling praktis untuk memanfaatkannya.",
     "claims": [
       {
         "id": "cl1",
-        "text": "Fluoride topikal mendorong remineralisasi email menjadi fluorapatit yang lebih tahan asam.",
+        "text": "Topical fluoride drives enamel remineralisation into more acid-resistant fluorapatite.",
         "chunk_id": "c-fl-01",
         "verdict": "supported",
         "note": "Claim matches the source statement closely."
       },
       {
         "id": "cl2",
-        "text": "Fluoride menghambat demineralisasi dan menurunkan produksi asam bakteri.",
+        "text": "Fluoride inhibits demineralisation and lowers bacterial acid production.",
         "chunk_id": "c-fl-02",
         "verdict": "supported",
         "note": "Mechanism and organism (S. mutans) both grounded."
       },
       {
         "id": "cl3",
-        "text": "Fluoridasi air dikaitkan dengan penurunan karies sekitar 25%.",
+        "text": "Water fluoridation is associated with roughly a 25% reduction in caries.",
         "chunk_id": "c-fl-03",
         "verdict": "supported",
         "note": "Figure and framing ('populations studied') preserved."
       },
       {
         "id": "cl4",
-        "text": "Pasta gigi 1000-1500 ppm fluoride efektif secara klinis mencegah karies.",
+        "text": "Toothpaste with 1000-1500 ppm fluoride is clinically effective at preventing caries.",
         "chunk_id": "c-fl-04",
         "verdict": "supported",
         "note": "Concentration range and effect preserved."
@@ -90,7 +89,6 @@
         "Readability appropriate for general public."
       ]
     },
-    "translation_en": "# How Fluoride Prevents Cavities\n\n## What fluoride is and how it protects enamel\n\nFluoride is a mineral that plays a key role in preventing tooth decay. Topical fluoride promotes remineralization of early enamel lesions by drawing calcium and phosphate ions back into demineralized enamel, forming fluorapatite, which is more acid-resistant than the original enamel. [[chunk:c-fl-01]]\n\n## How fluoride weakens cavity-causing bacteria\n\nFluoride present in plaque and saliva inhibits demineralization at the enamel crystal surface and interferes with bacterial enzyme activity, reducing acid production by cariogenic bacteria such as Streptococcus mutans. [[chunk:c-fl-02]]\n\n## The evidence\n\nAt the population level, community water fluoridation is associated with roughly a 25% reduction in dental caries in the populations studied compared with non-fluoridated communities. [[chunk:c-fl-03]] For everyday use, toothpaste containing 1000-1500 ppm fluoride provides a clinically meaningful caries-preventive effect in both children and adults. [[chunk:c-fl-04]]\n\n## Conclusion\n\nFluoride works through two complementary routes: strengthening enamel via remineralization and suppressing the activity of acid-producing bacteria. Brushing twice a day with a fluoride toothpaste is the most practical way to benefit from it.",
     "qa": {
       "status": "pass",
       "notes": "No meaning drift between ID and EN; all four citation markers preserved; no facts added or dropped."
@@ -127,7 +125,9 @@
       "alt_en": "Illustration of a tooth with a protective fluoride mineral layer."
     },
     "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan konsultasi dengan dokter gigi. Konsultasikan kondisi Anda ke tenaga profesional.",
-    "disclaimer_en": "This article is informational and does not replace consultation with a dentist. Please consult a professional about your condition."
+    "disclaimer_en": "This article is informational and does not replace consultation with a dentist. Please consult a professional about your condition.",
+    "draft_en": "# How Fluoride Prevents Cavities\n\n## What fluoride is and how it protects enamel\n\nFluoride is a mineral that plays a key role in preventing tooth decay. Topical fluoride promotes remineralization of early enamel lesions by drawing calcium and phosphate ions back into demineralized enamel, forming fluorapatite, which is more acid-resistant than the original enamel. [[chunk:c-fl-01]]\n\n## How fluoride weakens cavity-causing bacteria\n\nFluoride present in plaque and saliva inhibits demineralization at the enamel crystal surface and interferes with bacterial enzyme activity, reducing acid production by cariogenic bacteria such as Streptococcus mutans. [[chunk:c-fl-02]]\n\n## The evidence\n\nAt the population level, community water fluoridation is associated with roughly a 25% reduction in dental caries in the populations studied compared with non-fluoridated communities. [[chunk:c-fl-03]] For everyday use, toothpaste containing 1000-1500 ppm fluoride provides a clinically meaningful caries-preventive effect in both children and adults. [[chunk:c-fl-04]]\n\n## Conclusion\n\nFluoride works through two complementary routes: strengthening enamel via remineralization and suppressing the activity of acid-producing bacteria. Brushing twice a day with a fluoride toothpaste is the most practical way to benefit from it.",
+    "translation_id": "# Cara Kerja Fluoride Mencegah Karies\n\n## Apa itu fluoride dan bagaimana ia melindungi email\n\nFluoride adalah mineral yang berperan penting dalam mencegah gigi berlubang. Fluoride topikal mendorong remineralisasi lesi email tahap awal dengan menarik kembali ion kalsium dan fosfat ke dalam email yang terdemineralisasi, membentuk fluorapatit yang lebih tahan terhadap asam dibanding email aslinya. [[chunk:c-fl-01]]\n\n## Cara fluoride melemahkan bakteri karies\n\nFluoride yang ada di plak dan air liur menghambat demineralisasi di permukaan kristal email sekaligus mengganggu kerja enzim bakteri, sehingga menurunkan produksi asam oleh bakteri kariogenik seperti Streptococcus mutans. [[chunk:c-fl-02]]\n\n## Bukti manfaatnya\n\nPada tingkat populasi, fluoridasi air minum komunitas dikaitkan dengan penurunan karies gigi sekitar 25% pada populasi yang diteliti dibanding komunitas tanpa fluoridasi. [[chunk:c-fl-03]] Untuk penggunaan sehari-hari, pasta gigi dengan kandungan 1000-1500 ppm fluoride memberikan efek pencegahan karies yang bermakna secara klinis, baik pada anak maupun dewasa. [[chunk:c-fl-04]]\n\n## Kesimpulan\n\nFluoride bekerja melalui dua jalur yang saling melengkapi: memperkuat email lewat remineralisasi dan menekan aktivitas bakteri penyebab asam. Menyikat gigi dua kali sehari dengan pasta berfluoride adalah cara paling praktis untuk memanfaatkannya."
   },
   "t-rootcanal": {
     "research_pack": [
@@ -179,64 +179,62 @@
         "chunk_id": "c-rc-04"
       }
     ],
-    "draft_id_v1": "# Perawatan Saluran Akar: Kapan Diperlukan\n\n## Kapan perawatan saluran akar diperlukan\n\nPerawatan saluran akar diindikasikan ketika pulpa gigi mengalami peradangan yang tidak dapat pulih kembali (pulpitis ireversibel) atau telah mati (nekrosis), biasanya ditandai nyeri berkepanjangan terhadap rangsang panas/dingin atau nyeri spontan. [[chunk:c-rc-01]]\n\n## Seberapa besar tingkat keberhasilannya\n\nPerawatan saluran akar adalah prosedur yang sangat andal; tingkat keberhasilannya mencapai hampir 100% sehingga gigi praktis dijamin bertahan seumur hidup. [[chunk:c-rc-02]]\n\n## Apakah menyakitkan?\n\nProsedur ini dilakukan dengan bius lokal, dan sebagian besar pasien melaporkan tingkat nyeri saat perawatan setara dengan penambalan gigi rutin, meski rasa tidak nyaman selama beberapa hari sesudahnya sering terjadi. [[chunk:c-rc-03]]\n\n## Alternatif bila gigi tidak bisa dipertahankan\n\nBila gigi tidak dapat direstorasi atau prognosisnya buruk, pencabutan yang diikuti penggantian prostetik (implan atau jembatan) menjadi alternatif dari perawatan saluran akar. [[chunk:c-rc-04]]",
     "claims_v1": [
       {
         "id": "cl1",
-        "text": "Diindikasikan saat pulpitis ireversibel atau nekrosis.",
+        "text": "Indicated in irreversible pulpitis or necrosis.",
         "chunk_id": "c-rc-01",
         "verdict": "supported",
         "note": "Indication matches the guideline."
       },
       {
         "id": "cl2",
-        "text": "Tingkat keberhasilan mencapai hampir 100% dan gigi dijamin bertahan seumur hidup.",
+        "text": "Success rate reaches nearly 100% and the tooth is guaranteed to last a lifetime.",
         "chunk_id": "c-rc-02",
         "verdict": "contradicted",
         "note": "Source reports 83-93% success, NOT ~100%, and makes no lifetime guarantee. Overclaim contradicts the cited chunk."
       },
       {
         "id": "cl3",
-        "text": "Dilakukan dengan bius lokal; nyeri setara tambalan rutin.",
+        "text": "Performed under local anaesthesia; pain comparable to a routine filling.",
         "chunk_id": "c-rc-03",
         "verdict": "supported",
         "note": "Accurately reflects the source, including post-op discomfort."
       },
       {
         "id": "cl4",
-        "text": "Pencabutan + prostetik adalah alternatif bila gigi tak bisa dipertahankan.",
+        "text": "Extraction + prosthetic replacement is the alternative when a tooth cannot be saved.",
         "chunk_id": "c-rc-04",
         "verdict": "supported",
         "note": "Alternative correctly grounded."
       }
     ],
     "verdict_v1": "revise",
-    "draft_id": "# Perawatan Saluran Akar: Kapan Diperlukan\n\n## Kapan perawatan saluran akar diperlukan\n\nPerawatan saluran akar diindikasikan ketika pulpa gigi mengalami peradangan yang tidak dapat pulih kembali (pulpitis ireversibel) atau telah mati (nekrosis), biasanya ditandai nyeri berkepanjangan terhadap rangsang panas/dingin atau nyeri spontan. [[chunk:c-rc-01]]\n\n## Seberapa besar tingkat keberhasilannya\n\nTinjauan sistematik melaporkan tingkat keberhasilan perawatan saluran akar primer berkisar sekitar 83-93%, bergantung pada kondisi awal gigi dan lama pemantauan. [[chunk:c-rc-02]]\n\n## Apakah menyakitkan?\n\nProsedur ini dilakukan dengan bius lokal, dan sebagian besar pasien melaporkan tingkat nyeri saat perawatan setara dengan penambalan gigi rutin, meski rasa tidak nyaman selama beberapa hari sesudahnya sering terjadi. [[chunk:c-rc-03]]\n\n## Alternatif bila gigi tidak bisa dipertahankan\n\nBila gigi tidak dapat direstorasi atau prognosisnya buruk, pencabutan yang diikuti penggantian prostetik (implan atau jembatan) menjadi alternatif dari perawatan saluran akar. [[chunk:c-rc-04]]",
     "claims": [
       {
         "id": "cl1",
-        "text": "Diindikasikan saat pulpitis ireversibel atau nekrosis.",
+        "text": "Indicated in irreversible pulpitis or necrosis.",
         "chunk_id": "c-rc-01",
         "verdict": "supported",
         "note": "Indication matches the guideline."
       },
       {
         "id": "cl2",
-        "text": "Tingkat keberhasilan dilaporkan sekitar 83-93% tergantung kondisi awal.",
+        "text": "Success rate is reported at roughly 83-93% depending on the preoperative condition.",
         "chunk_id": "c-rc-02",
         "verdict": "supported",
         "note": "Now matches the cited range; overclaim removed."
       },
       {
         "id": "cl3",
-        "text": "Dilakukan dengan bius lokal; nyeri setara tambalan rutin.",
+        "text": "Performed under local anaesthesia; pain comparable to a routine filling.",
         "chunk_id": "c-rc-03",
         "verdict": "supported",
         "note": "Accurately reflects the source."
       },
       {
         "id": "cl4",
-        "text": "Pencabutan + prostetik adalah alternatif bila gigi tak bisa dipertahankan.",
+        "text": "Extraction + prosthetic replacement is the alternative when a tooth cannot be saved.",
         "chunk_id": "c-rc-04",
         "verdict": "supported",
         "note": "Alternative correctly grounded."
@@ -245,8 +243,8 @@
     "verdict": "pass",
     "diff": {
       "reason": "Gate 3 flagged claim cl2 as CONTRADICTED: the draft said the success rate is 'nearly 100%' with a lifetime guarantee, but source c-rc-02 reports 83-93% and makes no such guarantee.",
-      "v1_claim": "Tingkat keberhasilannya mencapai hampir 100% sehingga gigi praktis dijamin bertahan seumur hidup.",
-      "v2_claim": "Tinjauan sistematik melaporkan tingkat keberhasilan berkisar sekitar 83-93%, bergantung pada kondisi awal gigi dan lama pemantauan."
+      "v1_claim": "The success rate reaches nearly 100%, so the tooth is practically guaranteed to last a lifetime.",
+      "v2_claim": "Systematic reviews report success rates of roughly 83-93%, depending on the tooth's preoperative condition and length of follow-up."
     },
     "bias": {
       "score": 4.5,
@@ -256,7 +254,6 @@
         "Encourages professional consultation."
       ]
     },
-    "translation_en": "# Root Canal Treatment: When It Is Needed\n\n## When a root canal is needed\n\nRoot canal treatment is indicated when the dental pulp is irreversibly inflamed (irreversible pulpitis) or has died (necrosis), usually signalled by lingering pain to hot/cold stimuli or spontaneous pain. [[chunk:c-rc-01]]\n\n## How successful is it\n\nSystematic reviews report success rates for primary root canal treatment of roughly 83-93%, depending on the tooth's preoperative condition and the length of follow-up. [[chunk:c-rc-02]]\n\n## Does it hurt?\n\nThe procedure is performed under local anaesthesia, and most patients report pain during treatment comparable to a routine filling, although some discomfort for a few days afterwards is common. [[chunk:c-rc-03]]\n\n## Alternatives when a tooth cannot be saved\n\nWhen a tooth is unrestorable or has a poor prognosis, extraction followed by prosthetic replacement (an implant or bridge) is the alternative to root canal treatment. [[chunk:c-rc-04]]",
     "qa": {
       "status": "pass",
       "notes": "Corrected success-rate figure carried over faithfully to EN; no drift; four markers preserved."
@@ -293,7 +290,10 @@
       "alt_en": "Illustration of a molar cross-section with a treated root canal."
     },
     "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan konsultasi dengan dokter gigi. Konsultasikan kondisi Anda ke tenaga profesional.",
-    "disclaimer_en": "This article is informational and does not replace consultation with a dentist. Please consult a professional about your condition."
+    "disclaimer_en": "This article is informational and does not replace consultation with a dentist. Please consult a professional about your condition.",
+    "draft_en": "# Root Canal Treatment: When It Is Needed\n\n## When a root canal is needed\n\nRoot canal treatment is indicated when the dental pulp is irreversibly inflamed (irreversible pulpitis) or has died (necrosis), usually signalled by lingering pain to hot/cold stimuli or spontaneous pain. [[chunk:c-rc-01]]\n\n## How successful is it\n\nSystematic reviews report success rates for primary root canal treatment of roughly 83-93%, depending on the tooth's preoperative condition and the length of follow-up. [[chunk:c-rc-02]]\n\n## Does it hurt?\n\nThe procedure is performed under local anaesthesia, and most patients report pain during treatment comparable to a routine filling, although some discomfort for a few days afterwards is common. [[chunk:c-rc-03]]\n\n## Alternatives when a tooth cannot be saved\n\nWhen a tooth is unrestorable or has a poor prognosis, extraction followed by prosthetic replacement (an implant or bridge) is the alternative to root canal treatment. [[chunk:c-rc-04]]",
+    "translation_id": "# Perawatan Saluran Akar: Kapan Diperlukan\n\n## Kapan perawatan saluran akar diperlukan\n\nPerawatan saluran akar diindikasikan ketika pulpa gigi mengalami peradangan yang tidak dapat pulih kembali (pulpitis ireversibel) atau telah mati (nekrosis), biasanya ditandai nyeri berkepanjangan terhadap rangsang panas/dingin atau nyeri spontan. [[chunk:c-rc-01]]\n\n## Seberapa besar tingkat keberhasilannya\n\nTinjauan sistematik melaporkan tingkat keberhasilan perawatan saluran akar primer berkisar sekitar 83-93%, bergantung pada kondisi awal gigi dan lama pemantauan. [[chunk:c-rc-02]]\n\n## Apakah menyakitkan?\n\nProsedur ini dilakukan dengan bius lokal, dan sebagian besar pasien melaporkan tingkat nyeri saat perawatan setara dengan penambalan gigi rutin, meski rasa tidak nyaman selama beberapa hari sesudahnya sering terjadi. [[chunk:c-rc-03]]\n\n## Alternatif bila gigi tidak bisa dipertahankan\n\nBila gigi tidak dapat direstorasi atau prognosisnya buruk, pencabutan yang diikuti penggantian prostetik (implan atau jembatan) menjadi alternatif dari perawatan saluran akar. [[chunk:c-rc-04]]",
+    "draft_en_v1": "# Root Canal Treatment: When It Is Needed\n\n## When a root canal is needed\n\nRoot canal treatment is indicated when the dental pulp is irreversibly inflamed (irreversible pulpitis) or has died (necrosis), usually signalled by lingering pain to hot/cold stimuli or spontaneous pain. [[chunk:c-rc-01]]\n\n## How successful is it\n\nRoot canal treatment is an extremely reliable procedure; its success rate reaches nearly 100%, so the tooth is practically guaranteed to last a lifetime. [[chunk:c-rc-02]]\n\n## Does it hurt?\n\nThe procedure is performed under local anaesthesia, and most patients report pain during treatment comparable to a routine filling, although some discomfort for a few days afterwards is common. [[chunk:c-rc-03]]\n\n## Alternatives when a tooth cannot be saved\n\nWhen a tooth is unrestorable or has a poor prognosis, extraction followed by prosthetic replacement (an implant or bridge) is the alternative to root canal treatment. [[chunk:c-rc-04]]"
   },
   "t-sealant": {
     "research_pack": [
@@ -345,32 +345,31 @@
         "chunk_id": "c-ds-04"
       }
     ],
-    "draft_id": "# Manfaat Dental Sealant untuk Anak\n\n## Apa itu dental sealant\n\nDental sealant adalah lapisan pelindung tipis yang dioleskan pada permukaan kunyah gigi. Sealant resin pada pit dan fissure terbukti mengurangi kejadian karies oklusal pada gigi geraham permanen anak dan remaja dibandingkan tanpa sealant, dengan efek pencegahan bertahan beberapa tahun selama sealant masih utuh. [[chunk:c-ds-01]]\n\n## Apakah pemasangannya menyakitkan\n\nPemasangan sealant adalah prosedur non-invasif yang tidak memerlukan pengurangan struktur gigi; permukaan gigi cukup dibersihkan, di-etsa, lalu resin diaplikasikan dan disinari agar mengeras. [[chunk:c-ds-03]]\n\n## Perawatan setelah pemasangan\n\nRetensi sealant adalah penentu utama efektivitasnya; pemeriksaan klinis berkala dianjurkan untuk mendeteksi dan memperbaiki sealant yang lepas, terutama pada tahun pertama setelah pemasangan. [[chunk:c-ds-02]]\n\n## Untuk siapa paling bermanfaat\n\nAnalisis biaya-manfaat menunjukkan sealant paling bermanfaat untuk gigi dan kelompok anak dengan risiko karies tinggi. [[chunk:c-ds-04]]",
     "claims": [
       {
         "id": "cl1",
-        "text": "Sealant resin mengurangi karies oklusal pada molar permanen anak.",
+        "text": "Resin sealants reduce occlusal caries on children's permanent molars.",
         "chunk_id": "c-ds-01",
         "verdict": "supported",
         "note": "Effect and population match the systematic review."
       },
       {
         "id": "cl2",
-        "text": "Pemasangan non-invasif tanpa mengurangi struktur gigi.",
+        "text": "Non-invasive placement without removing tooth structure.",
         "chunk_id": "c-ds-03",
         "verdict": "supported",
         "note": "Technique correctly described."
       },
       {
         "id": "cl3",
-        "text": "Retensi menentukan efektivitas; pemeriksaan berkala dianjurkan.",
+        "text": "Retention determines effectiveness; periodic checks are recommended.",
         "chunk_id": "c-ds-02",
         "verdict": "supported",
         "note": "Maintenance guidance grounded."
       },
       {
         "id": "cl4",
-        "text": "Sealant paling bermanfaat untuk anak berisiko karies tinggi.",
+        "text": "Sealants benefit high-caries-risk children the most.",
         "chunk_id": "c-ds-04",
         "verdict": "partial",
         "note": "Source supports risk-based benefit; 'anak' is a reasonable specialization of 'populations at elevated risk' but slightly narrows scope."
@@ -385,7 +384,6 @@
         "Reassuring but accurate about the procedure."
       ]
     },
-    "translation_en": "# The Benefits of Dental Sealants for Children\n\n## What a dental sealant is\n\nA dental sealant is a thin protective coating applied to the chewing surfaces of teeth. Resin pit-and-fissure sealants have been shown to reduce the occurrence of occlusal caries in the permanent molars of children and adolescents compared with no sealant, with the preventive effect lasting several years while the sealant stays intact. [[chunk:c-ds-01]]\n\n## Does placement hurt?\n\nSealant placement is a non-invasive procedure that does not require removing tooth structure; the surface is simply cleaned, etched, and the resin is applied and light-cured to harden. [[chunk:c-ds-03]]\n\n## Care after placement\n\nSealant retention is the main determinant of effectiveness; periodic clinical review is recommended to detect and repair lost sealant, especially in the first year after placement. [[chunk:c-ds-02]]\n\n## Who benefits most\n\nCost-effectiveness analyses show sealants are most beneficial for teeth and groups of children at elevated caries risk. [[chunk:c-ds-04]]",
     "qa": {
       "status": "pass",
       "notes": "All four markers preserved; the 'partial' claim's nuance retained in EN."
@@ -422,7 +420,9 @@
       "alt_en": "Illustration of a child's molar with a protective sealant coating."
     },
     "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan konsultasi dengan dokter gigi. Konsultasikan kondisi Anda ke tenaga profesional.",
-    "disclaimer_en": "This article is informational and does not replace consultation with a dentist. Please consult a professional about your condition."
+    "disclaimer_en": "This article is informational and does not replace consultation with a dentist. Please consult a professional about your condition.",
+    "draft_en": "# The Benefits of Dental Sealants for Children\n\n## What a dental sealant is\n\nA dental sealant is a thin protective coating applied to the chewing surfaces of teeth. Resin pit-and-fissure sealants have been shown to reduce the occurrence of occlusal caries in the permanent molars of children and adolescents compared with no sealant, with the preventive effect lasting several years while the sealant stays intact. [[chunk:c-ds-01]]\n\n## Does placement hurt?\n\nSealant placement is a non-invasive procedure that does not require removing tooth structure; the surface is simply cleaned, etched, and the resin is applied and light-cured to harden. [[chunk:c-ds-03]]\n\n## Care after placement\n\nSealant retention is the main determinant of effectiveness; periodic clinical review is recommended to detect and repair lost sealant, especially in the first year after placement. [[chunk:c-ds-02]]\n\n## Who benefits most\n\nCost-effectiveness analyses show sealants are most beneficial for teeth and groups of children at elevated caries risk. [[chunk:c-ds-04]]",
+    "translation_id": "# Manfaat Dental Sealant untuk Anak\n\n## Apa itu dental sealant\n\nDental sealant adalah lapisan pelindung tipis yang dioleskan pada permukaan kunyah gigi. Sealant resin pada pit dan fissure terbukti mengurangi kejadian karies oklusal pada gigi geraham permanen anak dan remaja dibandingkan tanpa sealant, dengan efek pencegahan bertahan beberapa tahun selama sealant masih utuh. [[chunk:c-ds-01]]\n\n## Apakah pemasangannya menyakitkan\n\nPemasangan sealant adalah prosedur non-invasif yang tidak memerlukan pengurangan struktur gigi; permukaan gigi cukup dibersihkan, di-etsa, lalu resin diaplikasikan dan disinari agar mengeras. [[chunk:c-ds-03]]\n\n## Perawatan setelah pemasangan\n\nRetensi sealant adalah penentu utama efektivitasnya; pemeriksaan klinis berkala dianjurkan untuk mendeteksi dan memperbaiki sealant yang lepas, terutama pada tahun pertama setelah pemasangan. [[chunk:c-ds-02]]\n\n## Untuk siapa paling bermanfaat\n\nAnalisis biaya-manfaat menunjukkan sealant paling bermanfaat untuk gigi dan kelompok anak dengan risiko karies tinggi. [[chunk:c-ds-04]]"
   },
   "t-gamifikasi": {
     "research_pack": [
@@ -474,32 +474,31 @@
         "chunk_id": "c-gm-04"
       }
     ],
-    "draft_id": "# Efektivitas Gamifikasi terhadap Motivasi Belajar\n\n## Apa kata bukti\n\nGamifikasi kerap dipromosikan sebagai cara menaikkan semangat belajar. Meta-analisis gamifikasi dalam pendidikan menemukan efek positif kecil hingga sedang terhadap keterlibatan dan motivasi siswa, meski besar efeknya sangat bervariasi menurut desain dan konteks. [[chunk:c-gm-01]]\n\n## Elemen permainan yang umum\n\nElemen seperti poin, lencana, dan papan peringkat dapat meningkatkan partisipasi, tetapi pengaruhnya terhadap hasil belajar yang mendalam tidak konsisten dan dapat memudar seiring waktu ketika efek kebaruannya hilang. [[chunk:c-gm-02]]\n\n## Merancang gamifikasi yang sehat\n\nPenghargaan ekstrinsik yang dirancang buruk justru dapat menurunkan motivasi intrinsik (efek over-justifikasi); gamifikasi yang efektif mendukung otonomi dan kompetensi siswa, bukan sekadar memberi hadiah atas aktivitas. [[chunk:c-gm-03]]\n\n## Contoh pada matematika\n\nDalam pembelajaran matematika, pendekatan berbasis permainan dikaitkan dengan peningkatan capaian dan penurunan kecemasan dibandingkan pembelajaran konvensional pada beberapa studi terkontrol. [[chunk:c-gm-04]]\n\n## Kesimpulan\n\nGamifikasi bukan solusi ajaib: manfaatnya nyata namun bergantung pada desain. Prioritaskan mekanik yang mendukung otonomi dan pemahaman, bukan sekadar kompetisi poin.",
     "claims": [
       {
         "id": "cl1",
-        "text": "Meta-analisis menemukan efek positif kecil-sedang gamifikasi terhadap motivasi/keterlibatan.",
+        "text": "Meta-analyses find a small-to-moderate positive effect of gamification on motivation/engagement.",
         "chunk_id": "c-gm-01",
         "verdict": "supported",
         "note": "Effect direction and magnitude preserved, including variability caveat."
       },
       {
         "id": "cl2",
-        "text": "Poin/lencana/papan peringkat meningkatkan partisipasi tetapi efeknya tidak konsisten dan bisa memudar.",
+        "text": "Points/badges/leaderboards raise participation but effects are inconsistent and can fade.",
         "chunk_id": "c-gm-02",
         "verdict": "supported",
         "note": "Novelty-effect nuance retained."
       },
       {
         "id": "cl3",
-        "text": "Reward ekstrinsik buruk dapat menurunkan motivasi intrinsik; dukung otonomi & kompetensi.",
+        "text": "Poorly designed extrinsic rewards can undermine intrinsic motivation; support autonomy & competence.",
         "chunk_id": "c-gm-03",
         "verdict": "supported",
         "note": "Over-justification framing correct."
       },
       {
         "id": "cl4",
-        "text": "Pada matematika, game-based learning meningkatkan capaian & menurunkan kecemasan.",
+        "text": "In mathematics, game-based learning improves achievement and lowers anxiety.",
         "chunk_id": "c-gm-04",
         "verdict": "partial",
         "note": "Source says 'several controlled studies' — reasonable but not universal; kept as partial."
@@ -514,7 +513,6 @@
         "Netral terhadap produk/vendor tertentu."
       ]
     },
-    "translation_en": "# Effectiveness of Gamification on Learning Motivation\n\n## What the evidence says\n\nGamification is often promoted as a way to boost motivation. A meta-analysis of gamification in education found small-to-moderate positive effects on student engagement and motivation, though the size of the effect varies widely with design and context. [[chunk:c-gm-01]]\n\n## Common game elements\n\nElements such as points, badges, and leaderboards can increase participation, but their effect on deep learning outcomes is inconsistent and can fade over time as the novelty wears off. [[chunk:c-gm-02]]\n\n## Designing healthy gamification\n\nPoorly designed extrinsic rewards can actually undermine intrinsic motivation (the over-justification effect); effective gamification supports learners' autonomy and competence rather than merely rewarding activity. [[chunk:c-gm-03]]\n\n## An example in mathematics\n\nIn mathematics learning, game-based approaches have been associated with improved achievement and reduced anxiety compared with conventional instruction across several controlled studies. [[chunk:c-gm-04]]\n\n## Conclusion\n\nGamification is no magic bullet: its benefits are real but depend on design. Prioritize mechanics that support autonomy and understanding over mere points competition.",
     "qa": {
       "status": "pass",
       "notes": "All four markers preserved; the 'partial' nuance retained in EN; no claim drift."
@@ -551,7 +549,9 @@
       "alt_en": "Illustration of learning gamification: a badge and a rising motivation graph."
     },
     "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan penilaian pendidik profesional. Sesuaikan penerapan dengan konteks kelas Anda.",
-    "disclaimer_en": "This article is informational and does not replace professional educator judgment. Adapt any application to your own classroom context."
+    "disclaimer_en": "This article is informational and does not replace professional educator judgment. Adapt any application to your own classroom context.",
+    "draft_en": "# Effectiveness of Gamification on Learning Motivation\n\n## What the evidence says\n\nGamification is often promoted as a way to boost motivation. A meta-analysis of gamification in education found small-to-moderate positive effects on student engagement and motivation, though the size of the effect varies widely with design and context. [[chunk:c-gm-01]]\n\n## Common game elements\n\nElements such as points, badges, and leaderboards can increase participation, but their effect on deep learning outcomes is inconsistent and can fade over time as the novelty wears off. [[chunk:c-gm-02]]\n\n## Designing healthy gamification\n\nPoorly designed extrinsic rewards can actually undermine intrinsic motivation (the over-justification effect); effective gamification supports learners' autonomy and competence rather than merely rewarding activity. [[chunk:c-gm-03]]\n\n## An example in mathematics\n\nIn mathematics learning, game-based approaches have been associated with improved achievement and reduced anxiety compared with conventional instruction across several controlled studies. [[chunk:c-gm-04]]\n\n## Conclusion\n\nGamification is no magic bullet: its benefits are real but depend on design. Prioritize mechanics that support autonomy and understanding over mere points competition.",
+    "translation_id": "# Efektivitas Gamifikasi terhadap Motivasi Belajar\n\n## Apa kata bukti\n\nGamifikasi kerap dipromosikan sebagai cara menaikkan semangat belajar. Meta-analisis gamifikasi dalam pendidikan menemukan efek positif kecil hingga sedang terhadap keterlibatan dan motivasi siswa, meski besar efeknya sangat bervariasi menurut desain dan konteks. [[chunk:c-gm-01]]\n\n## Elemen permainan yang umum\n\nElemen seperti poin, lencana, dan papan peringkat dapat meningkatkan partisipasi, tetapi pengaruhnya terhadap hasil belajar yang mendalam tidak konsisten dan dapat memudar seiring waktu ketika efek kebaruannya hilang. [[chunk:c-gm-02]]\n\n## Merancang gamifikasi yang sehat\n\nPenghargaan ekstrinsik yang dirancang buruk justru dapat menurunkan motivasi intrinsik (efek over-justifikasi); gamifikasi yang efektif mendukung otonomi dan kompetensi siswa, bukan sekadar memberi hadiah atas aktivitas. [[chunk:c-gm-03]]\n\n## Contoh pada matematika\n\nDalam pembelajaran matematika, pendekatan berbasis permainan dikaitkan dengan peningkatan capaian dan penurunan kecemasan dibandingkan pembelajaran konvensional pada beberapa studi terkontrol. [[chunk:c-gm-04]]\n\n## Kesimpulan\n\nGamifikasi bukan solusi ajaib: manfaatnya nyata namun bergantung pada desain. Prioritaskan mekanik yang mendukung otonomi dan pemahaman, bukan sekadar kompetisi poin."
   },
   "t-ai-grading": {
     "research_pack": [
@@ -603,64 +603,62 @@
         "chunk_id": "c-ag-04"
       }
     ],
-    "draft_id_v1": "# AI untuk Penilaian Esai Otomatis\n\n## Seberapa akurat penilaian AI\n\nPenilaian esai otomatis berkembang pesat. Sistem penilaian esai otomatis kini menilai seakurat manusia dan dapat sepenuhnya menggantikan penilaian guru pada semua jenis tugas menulis. [[chunk:c-ag-01]]\n\n## Keterbatasannya\n\nModel penilaian otomatis mengandalkan fitur permukaan dan dapat 'dikelabui' oleh teks yang terstruktur rapi namun kosong makna; sistem ini tidak benar-benar memahami arti tulisan. [[chunk:c-ag-02]]\n\n## Isu keadilan (bias)\n\nPenilaian otomatis dapat menunjukkan bias antar kelompok demografis dan ragam bahasa; audit keadilan dan pengawasan manusia dianjurkan sebelum digunakan untuk taruhan tinggi. [[chunk:c-ag-03]]\n\n## Praktik terbaik\n\nPraktik terbaik memposisikan penilaian otomatis sebagai alat bantu: manusia meninjau esai yang ditandai atau berada di ambang batas. [[chunk:c-ag-04]]",
     "claims_v1": [
       {
         "id": "cl1",
-        "text": "AES menilai seakurat manusia dan dapat sepenuhnya menggantikan guru pada semua tugas menulis.",
+        "text": "AES scores as accurately as humans and can fully replace teachers on all writing tasks.",
         "chunk_id": "c-ag-01",
         "verdict": "contradicted",
         "note": "Source states agreement kappa ~0.7-0.8 ONLY on well-defined prompts, and makes no claim of replacing teachers on all tasks. Overclaim contradicts the chunk."
       },
       {
         "id": "cl2",
-        "text": "AES menilai fitur permukaan dan bisa dikelabui teks kosong makna.",
+        "text": "AES scores surface features and can be gamed by well-structured but vacuous text.",
         "chunk_id": "c-ag-02",
         "verdict": "supported",
         "note": "Accurately reflects the source."
       },
       {
         "id": "cl3",
-        "text": "Penilaian otomatis dapat bias; perlu audit & pengawasan manusia.",
+        "text": "Automated scoring can be biased; audits and human oversight are needed.",
         "chunk_id": "c-ag-03",
         "verdict": "supported",
         "note": "Fairness concern grounded."
       },
       {
         "id": "cl4",
-        "text": "Praktik terbaik: manusia meninjau esai bermasalah (human-in-the-loop).",
+        "text": "Best practice: a human reviews problematic essays (human-in-the-loop).",
         "chunk_id": "c-ag-04",
         "verdict": "supported",
         "note": "Correct."
       }
     ],
     "verdict_v1": "revise",
-    "draft_id": "# AI untuk Penilaian Esai Otomatis\n\n## Seberapa akurat penilaian AI\n\nPenilaian esai otomatis berkembang pesat. Pada prompt yang terdefinisi baik, sistem penilaian esai otomatis dapat mencapai kesepakatan dengan penilai manusia yang setara dengan kesepakatan antar-manusia, dengan quadratic weighted kappa sekitar 0,7 hingga 0,8. [[chunk:c-ag-01]]\n\n## Keterbatasannya\n\nModel penilaian otomatis mengandalkan fitur permukaan dan dapat 'dikelabui' oleh teks yang terstruktur rapi namun kosong makna; sistem ini tidak benar-benar memahami arti tulisan. [[chunk:c-ag-02]]\n\n## Isu keadilan (bias)\n\nPenilaian otomatis dapat menunjukkan bias antar kelompok demografis dan ragam bahasa; audit keadilan dan pengawasan manusia dianjurkan sebelum digunakan untuk taruhan tinggi. [[chunk:c-ag-03]]\n\n## Praktik terbaik\n\nPraktik terbaik memposisikan penilaian otomatis sebagai alat bantu: manusia meninjau esai yang ditandai atau berada di ambang batas. [[chunk:c-ag-04]]",
     "claims": [
       {
         "id": "cl1",
-        "text": "Pada prompt terdefinisi baik, kesepakatan AES dengan penilai manusia setara antar-manusia (kappa ~0,7-0,8).",
+        "text": "On well-defined prompts, AES agreement with human raters matches inter-human agreement (kappa ~0.7-0.8).",
         "chunk_id": "c-ag-01",
         "verdict": "supported",
         "note": "Now matches the cited figures and scope; overclaim removed."
       },
       {
         "id": "cl2",
-        "text": "AES menilai fitur permukaan dan bisa dikelabui teks kosong makna.",
+        "text": "AES scores surface features and can be gamed by well-structured but vacuous text.",
         "chunk_id": "c-ag-02",
         "verdict": "supported",
         "note": "Accurately reflects the source."
       },
       {
         "id": "cl3",
-        "text": "Penilaian otomatis dapat bias; perlu audit & pengawasan manusia.",
+        "text": "Automated scoring can be biased; audits and human oversight are needed.",
         "chunk_id": "c-ag-03",
         "verdict": "supported",
         "note": "Fairness concern grounded."
       },
       {
         "id": "cl4",
-        "text": "Praktik terbaik: manusia meninjau esai bermasalah (human-in-the-loop).",
+        "text": "Best practice: a human reviews problematic essays (human-in-the-loop).",
         "chunk_id": "c-ag-04",
         "verdict": "supported",
         "note": "Correct."
@@ -669,8 +667,8 @@
     "verdict": "pass",
     "diff": {
       "reason": "Gate 3 flagged claim cl1 as CONTRADICTED: the draft claimed AES scores 'as accurately as humans' and can 'fully replace teachers on all writing tasks', but source c-ag-01 reports kappa ~0.7-0.8 only on well-defined prompts and makes no replacement claim.",
-      "v1_claim": "Sistem penilaian esai otomatis kini menilai seakurat manusia dan dapat sepenuhnya menggantikan penilaian guru pada semua jenis tugas menulis.",
-      "v2_claim": "Pada prompt yang terdefinisi baik, sistem AES dapat mencapai kesepakatan dengan penilai manusia setara antar-manusia (kappa ~0,7-0,8)."
+      "v1_claim": "Automated essay scoring systems now score as accurately as humans and can fully replace teacher grading on all writing tasks.",
+      "v2_claim": "On well-defined prompts, AES systems can reach agreement with human raters comparable to inter-human agreement (kappa ~0.7-0.8)."
     },
     "bias": {
       "score": 4.5,
@@ -680,7 +678,6 @@
         "Menganjurkan pengawasan manusia (human-in-the-loop)."
       ]
     },
-    "translation_en": "# AI for Automated Essay Scoring\n\n## How accurate is AI scoring\n\nAutomated essay scoring has advanced quickly. On well-defined prompts, automated essay scoring systems can reach agreement with human raters comparable to inter-human agreement, with a quadratic weighted kappa of roughly 0.7 to 0.8. [[chunk:c-ag-01]]\n\n## Its limitations\n\nAutomated scoring models rely on surface features and can be gamed by well-structured but vacuous text; they do not truly understand meaning. [[chunk:c-ag-02]]\n\n## Fairness (bias) concerns\n\nAutomated scoring can show bias across demographic groups and language varieties; fairness audits and human oversight are recommended before any high-stakes use. [[chunk:c-ag-03]]\n\n## Best practice\n\nBest practice positions automated scoring as assistive: a human reviews flagged or borderline essays. [[chunk:c-ag-04]]",
     "qa": {
       "status": "pass",
       "notes": "Corrected accuracy figure carried faithfully to EN; four markers preserved."
@@ -717,7 +714,10 @@
       "alt_en": "Illustration of automated essay scoring with a human reviewer."
     },
     "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan penilaian pendidik profesional. Sesuaikan penerapan dengan konteks kelas Anda.",
-    "disclaimer_en": "This article is informational and does not replace professional educator judgment. Adapt any application to your own classroom context."
+    "disclaimer_en": "This article is informational and does not replace professional educator judgment. Adapt any application to your own classroom context.",
+    "draft_en": "# AI for Automated Essay Scoring\n\n## How accurate is AI scoring\n\nAutomated essay scoring has advanced quickly. On well-defined prompts, automated essay scoring systems can reach agreement with human raters comparable to inter-human agreement, with a quadratic weighted kappa of roughly 0.7 to 0.8. [[chunk:c-ag-01]]\n\n## Its limitations\n\nAutomated scoring models rely on surface features and can be gamed by well-structured but vacuous text; they do not truly understand meaning. [[chunk:c-ag-02]]\n\n## Fairness (bias) concerns\n\nAutomated scoring can show bias across demographic groups and language varieties; fairness audits and human oversight are recommended before any high-stakes use. [[chunk:c-ag-03]]\n\n## Best practice\n\nBest practice positions automated scoring as assistive: a human reviews flagged or borderline essays. [[chunk:c-ag-04]]",
+    "translation_id": "# AI untuk Penilaian Esai Otomatis\n\n## Seberapa akurat penilaian AI\n\nPenilaian esai otomatis berkembang pesat. Pada prompt yang terdefinisi baik, sistem penilaian esai otomatis dapat mencapai kesepakatan dengan penilai manusia yang setara dengan kesepakatan antar-manusia, dengan quadratic weighted kappa sekitar 0,7 hingga 0,8. [[chunk:c-ag-01]]\n\n## Keterbatasannya\n\nModel penilaian otomatis mengandalkan fitur permukaan dan dapat 'dikelabui' oleh teks yang terstruktur rapi namun kosong makna; sistem ini tidak benar-benar memahami arti tulisan. [[chunk:c-ag-02]]\n\n## Isu keadilan (bias)\n\nPenilaian otomatis dapat menunjukkan bias antar kelompok demografis dan ragam bahasa; audit keadilan dan pengawasan manusia dianjurkan sebelum digunakan untuk taruhan tinggi. [[chunk:c-ag-03]]\n\n## Praktik terbaik\n\nPraktik terbaik memposisikan penilaian otomatis sebagai alat bantu: manusia meninjau esai yang ditandai atau berada di ambang batas. [[chunk:c-ag-04]]",
+    "draft_en_v1": "# AI for Automated Essay Scoring\n\n## How accurate is AI scoring\n\nAutomated essay scoring has advanced quickly. Automated essay scoring systems now score as accurately as humans and can fully replace teacher grading on all types of writing tasks. [[chunk:c-ag-01]]\n\n## Its limitations\n\nAutomated scoring models rely on surface features and can be gamed by well-structured but vacuous text; they do not truly understand meaning. [[chunk:c-ag-02]]\n\n## Fairness (bias) concerns\n\nAutomated scoring can show bias across demographic groups and language varieties; fairness audits and human oversight are recommended before any high-stakes use. [[chunk:c-ag-03]]\n\n## Best practice\n\nBest practice positions automated scoring as assistive: a human reviews flagged or borderline essays. [[chunk:c-ag-04]]"
   },
   "d-024": {
     "research_pack": [
@@ -769,32 +769,31 @@
         "chunk_id": "c-pg-05"
       }
     ],
-    "draft_id": "# Peran Plak dalam Penyakit Gusi dan Cara Mencegahnya\n\n## Apa itu plak dan bagaimana memicu radang gusi\n\nPlak gigi adalah biofilm bakteri yang menempel di permukaan gigi; produk yang dilepaskan bakteri di dalamnya memicu peradangan gusi yang menjadi awal penyakit gusi. [[chunk:c-pg-01]]\n\n## Dari gingivitis ke periodontitis\n\nBila plak tidak dibersihkan, gingivitis dapat berkembang menjadi periodontitis, yaitu ketika respons peradangan merusak ligamen periodontal dan tulang alveolar yang menyangga gigi. [[chunk:c-pg-02]]\n\n## Cara mencegah dan mengendalikan\n\nKontrol plak mekanis setiap hari - menyikat gigi dipadukan dengan pembersihan sela gigi - adalah dasar pencegahan radang gusi. [[chunk:c-pg-03]] Pada kasus yang sudah lanjut, skeling dan root planing profesional membersihkan plak dan karang di bawah garis gusi serta menurunkan kedalaman poket dan perdarahan. [[chunk:c-pg-04]]\n\n## Faktor risiko dan tanda awal\n\nMerokok adalah faktor risiko utama yang memperparah periodontitis dan menghambat respons perawatan. [[chunk:c-pg-05]] Gusi yang berdarah saat menyikat adalah tanda awal peradangan dan sebaiknya tidak dianggap normal. [[chunk:c-pg-06]]",
     "claims": [
       {
         "id": "cl1",
-        "text": "Plak adalah biofilm bakteri yang memicu peradangan gusi.",
+        "text": "Plaque is a bacterial biofilm that triggers gum inflammation.",
         "chunk_id": "c-pg-01",
         "verdict": "supported",
         "note": "Definition and role grounded."
       },
       {
         "id": "cl2",
-        "text": "Gingivitis dapat berkembang menjadi periodontitis dengan kerusakan tulang.",
+        "text": "Gingivitis can progress to periodontitis with bone loss.",
         "chunk_id": "c-pg-02",
         "verdict": "supported",
         "note": "Progression preserved."
       },
       {
         "id": "cl3",
-        "text": "Kontrol plak harian adalah dasar pencegahan.",
+        "text": "Daily plaque control is the foundation of prevention.",
         "chunk_id": "c-pg-03",
         "verdict": "supported",
         "note": "Matches guideline."
       },
       {
         "id": "cl4",
-        "text": "Merokok memperparah periodontitis.",
+        "text": "Smoking worsens periodontitis.",
         "chunk_id": "c-pg-05",
         "verdict": "supported",
         "note": "Risk factor grounded."
@@ -810,7 +809,6 @@
         "Readable for general public."
       ]
     },
-    "translation_en": "# The Role of Plaque in Gum Disease and How to Prevent It\n\n## What plaque is and how it triggers gum inflammation\n\nDental plaque is a bacterial biofilm attached to tooth surfaces; the products its bacteria release trigger the gum inflammation that starts gum disease. [[chunk:c-pg-01]]\n\n## From gingivitis to periodontitis\n\nIf plaque is not removed, gingivitis can progress to periodontitis, where the inflammatory response destroys the periodontal ligament and alveolar bone that support the teeth. [[chunk:c-pg-02]]\n\n## How to prevent and control it\n\nDaily mechanical plaque control - toothbrushing combined with interdental cleaning - is the foundation of preventing gum inflammation. [[chunk:c-pg-03]] In advanced cases, professional scaling and root planing removes plaque and calculus below the gumline and lowers pocket depth and bleeding. [[chunk:c-pg-04]]\n\n## Risk factors and early signs\n\nSmoking is a major risk factor that worsens periodontitis and impairs treatment response. [[chunk:c-pg-05]] Gums that bleed on brushing are an early sign of inflammation and should not be treated as normal. [[chunk:c-pg-06]]",
     "qa": {
       "status": "pass",
       "notes": "No meaning drift ID<->EN; all citation markers preserved."
@@ -847,7 +845,9 @@
       "alt_en": "Illustration of healthy gums versus inflamed gums caused by plaque."
     },
     "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan konsultasi dengan dokter gigi.",
-    "disclaimer_en": "This article is informational and does not replace consultation with a dentist."
+    "disclaimer_en": "This article is informational and does not replace consultation with a dentist.",
+    "draft_en": "# The Role of Plaque in Gum Disease and How to Prevent It\n\n## What plaque is and how it triggers gum inflammation\n\nDental plaque is a bacterial biofilm attached to tooth surfaces; the products its bacteria release trigger the gum inflammation that starts gum disease. [[chunk:c-pg-01]]\n\n## From gingivitis to periodontitis\n\nIf plaque is not removed, gingivitis can progress to periodontitis, where the inflammatory response destroys the periodontal ligament and alveolar bone that support the teeth. [[chunk:c-pg-02]]\n\n## How to prevent and control it\n\nDaily mechanical plaque control - toothbrushing combined with interdental cleaning - is the foundation of preventing gum inflammation. [[chunk:c-pg-03]] In advanced cases, professional scaling and root planing removes plaque and calculus below the gumline and lowers pocket depth and bleeding. [[chunk:c-pg-04]]\n\n## Risk factors and early signs\n\nSmoking is a major risk factor that worsens periodontitis and impairs treatment response. [[chunk:c-pg-05]] Gums that bleed on brushing are an early sign of inflammation and should not be treated as normal. [[chunk:c-pg-06]]",
+    "translation_id": "# Peran Plak dalam Penyakit Gusi dan Cara Mencegahnya\n\n## Apa itu plak dan bagaimana memicu radang gusi\n\nPlak gigi adalah biofilm bakteri yang menempel di permukaan gigi; produk yang dilepaskan bakteri di dalamnya memicu peradangan gusi yang menjadi awal penyakit gusi. [[chunk:c-pg-01]]\n\n## Dari gingivitis ke periodontitis\n\nBila plak tidak dibersihkan, gingivitis dapat berkembang menjadi periodontitis, yaitu ketika respons peradangan merusak ligamen periodontal dan tulang alveolar yang menyangga gigi. [[chunk:c-pg-02]]\n\n## Cara mencegah dan mengendalikan\n\nKontrol plak mekanis setiap hari - menyikat gigi dipadukan dengan pembersihan sela gigi - adalah dasar pencegahan radang gusi. [[chunk:c-pg-03]] Pada kasus yang sudah lanjut, skeling dan root planing profesional membersihkan plak dan karang di bawah garis gusi serta menurunkan kedalaman poket dan perdarahan. [[chunk:c-pg-04]]\n\n## Faktor risiko dan tanda awal\n\nMerokok adalah faktor risiko utama yang memperparah periodontitis dan menghambat respons perawatan. [[chunk:c-pg-05]] Gusi yang berdarah saat menyikat adalah tanda awal peradangan dan sebaiknya tidak dianggap normal. [[chunk:c-pg-06]]"
   },
   "d-071": {
     "research_pack": [
@@ -899,32 +899,31 @@
         "chunk_id": "c-sn-06"
       }
     ],
-    "draft_id": "# Gigi Sensitif: Penyebab dan Cara Mengatasinya\n\n## Apa itu gigi sensitif\n\nGigi sensitif (hipersensitivitas dentin) adalah nyeri tajam dan singkat yang muncul dari dentin yang terbuka sebagai respons terhadap rangsangan seperti dingin, panas, atau manis, dan tidak disebabkan oleh kelainan gigi lain. [[chunk:c-sn-01]]\n\n## Mengapa bisa terjadi\n\nSensitivitas terjadi ketika hilangnya email atau resesi gusi membuka tubulus dentin, sehingga pergerakan cairan di dalamnya merangsang saraf di pulpa. [[chunk:c-sn-02]] Menyikat gigi terlalu keras dengan sikat kasar dan pasta abrasif dapat mengikis email dan memperparahnya. [[chunk:c-sn-03]]\n\n## Cara mengatasi\n\nPasta gigi desensitisasi yang mengandung kalium nitrat atau stannous fluoride terbukti menurunkan sensitivitas dibanding kontrol pada uji klinis. [[chunk:c-sn-04]] Mengurangi makanan dan minuman asam serta tidak langsung menyikat gigi setelah paparan asam membantu membatasi erosi dan sensitivitas. [[chunk:c-sn-05]]\n\n## Kapan ke dokter gigi\n\nSensitivitas yang menetap atau berat dapat menandakan gigi retak, karies, atau tambalan yang bermasalah dan perlu diperiksa oleh dokter gigi. [[chunk:c-sn-06]]",
     "claims": [
       {
         "id": "cl1",
-        "text": "Gigi sensitif adalah nyeri tajam singkat dari dentin terbuka.",
+        "text": "Tooth sensitivity is a short, sharp pain from exposed dentine.",
         "chunk_id": "c-sn-01",
         "verdict": "supported",
         "note": "Definition preserved."
       },
       {
         "id": "cl2",
-        "text": "Tubulus dentin terbuka merangsang saraf (teori hidrodinamik).",
+        "text": "Open dentine tubules stimulate the nerve (hydrodynamic theory).",
         "chunk_id": "c-sn-02",
         "verdict": "supported",
         "note": "Mechanism grounded."
       },
       {
         "id": "cl3",
-        "text": "Pasta desensitisasi menurunkan sensitivitas pada uji klinis.",
+        "text": "Desensitising toothpaste reduces sensitivity in clinical trials.",
         "chunk_id": "c-sn-04",
         "verdict": "supported",
         "note": "Treatment effect grounded."
       },
       {
         "id": "cl4",
-        "text": "Sensitivitas menetap perlu diperiksa dokter gigi.",
+        "text": "Persistent sensitivity should be examined by a dentist.",
         "chunk_id": "c-sn-06",
         "verdict": "supported",
         "note": "Referral advice grounded."
@@ -940,7 +939,6 @@
         "Readable for general public."
       ]
     },
-    "translation_en": "# Tooth Sensitivity: Causes and How to Manage It\n\n## What tooth sensitivity is\n\nTooth sensitivity (dentin hypersensitivity) is a short, sharp pain arising from exposed dentin in response to stimuli such as cold, heat or sweetness, and not caused by any other dental defect. [[chunk:c-sn-01]]\n\n## Why it happens\n\nSensitivity occurs when enamel loss or gum recession exposes dentinal tubules, so fluid movement within them stimulates nerves in the pulp. [[chunk:c-sn-02]] Brushing too hard with a stiff brush and abrasive pastes can wear enamel and make it worse. [[chunk:c-sn-03]]\n\n## How to manage it\n\nDesensitizing toothpastes containing potassium nitrate or stannous fluoride are shown to reduce sensitivity versus control in clinical trials. [[chunk:c-sn-04]] Cutting down on acidic foods and drinks and not brushing immediately after acid exposure helps limit erosion and sensitivity. [[chunk:c-sn-05]]\n\n## When to see a dentist\n\nPersistent or severe sensitivity can signal a cracked tooth, caries or a failing filling and should be checked by a dentist. [[chunk:c-sn-06]]",
     "qa": {
       "status": "pass",
       "notes": "No meaning drift; all six markers preserved."
@@ -977,7 +975,9 @@
       "alt_en": "Illustration of a tooth cross-section with exposed dentin tubules."
     },
     "disclaimer_id": "Artikel ini bersifat informatif dan tidak menggantikan konsultasi dengan dokter gigi.",
-    "disclaimer_en": "This article is informational and does not replace consultation with a dentist."
+    "disclaimer_en": "This article is informational and does not replace consultation with a dentist.",
+    "draft_en": "# Tooth Sensitivity: Causes and How to Manage It\n\n## What tooth sensitivity is\n\nTooth sensitivity (dentin hypersensitivity) is a short, sharp pain arising from exposed dentin in response to stimuli such as cold, heat or sweetness, and not caused by any other dental defect. [[chunk:c-sn-01]]\n\n## Why it happens\n\nSensitivity occurs when enamel loss or gum recession exposes dentinal tubules, so fluid movement within them stimulates nerves in the pulp. [[chunk:c-sn-02]] Brushing too hard with a stiff brush and abrasive pastes can wear enamel and make it worse. [[chunk:c-sn-03]]\n\n## How to manage it\n\nDesensitizing toothpastes containing potassium nitrate or stannous fluoride are shown to reduce sensitivity versus control in clinical trials. [[chunk:c-sn-04]] Cutting down on acidic foods and drinks and not brushing immediately after acid exposure helps limit erosion and sensitivity. [[chunk:c-sn-05]]\n\n## When to see a dentist\n\nPersistent or severe sensitivity can signal a cracked tooth, caries or a failing filling and should be checked by a dentist. [[chunk:c-sn-06]]",
+    "translation_id": "# Gigi Sensitif: Penyebab dan Cara Mengatasinya\n\n## Apa itu gigi sensitif\n\nGigi sensitif (hipersensitivitas dentin) adalah nyeri tajam dan singkat yang muncul dari dentin yang terbuka sebagai respons terhadap rangsangan seperti dingin, panas, atau manis, dan tidak disebabkan oleh kelainan gigi lain. [[chunk:c-sn-01]]\n\n## Mengapa bisa terjadi\n\nSensitivitas terjadi ketika hilangnya email atau resesi gusi membuka tubulus dentin, sehingga pergerakan cairan di dalamnya merangsang saraf di pulpa. [[chunk:c-sn-02]] Menyikat gigi terlalu keras dengan sikat kasar dan pasta abrasif dapat mengikis email dan memperparahnya. [[chunk:c-sn-03]]\n\n## Cara mengatasi\n\nPasta gigi desensitisasi yang mengandung kalium nitrat atau stannous fluoride terbukti menurunkan sensitivitas dibanding kontrol pada uji klinis. [[chunk:c-sn-04]] Mengurangi makanan dan minuman asam serta tidak langsung menyikat gigi setelah paparan asam membantu membatasi erosi dan sensitivitas. [[chunk:c-sn-05]]\n\n## Kapan ke dokter gigi\n\nSensitivitas yang menetap atau berat dapat menandakan gigi retak, karies, atau tambalan yang bermasalah dan perlu diperiksa oleh dokter gigi. [[chunk:c-sn-06]]"
   },
   "e-005": {
     "research_pack": [
@@ -1029,32 +1029,31 @@
         "chunk_id": "c-fc-06"
       }
     ],
-    "draft_id": "# Flipped Classroom: Apakah Meningkatkan Hasil Belajar?\n\n## Apa itu flipped classroom\n\nDalam flipped classroom, instruksi langsung diberikan sebelum kelas (sering lewat video) sehingga waktu di kelas dapat digunakan untuk pemecahan masalah yang aktif dan kolaboratif. [[chunk:c-fc-01]]\n\n## Bukti terhadap hasil belajar\n\nMeta-analisis melaporkan efek positif kecil hingga sedang dari flipped classroom terhadap prestasi siswa dibanding perkuliahan tradisional. [[chunk:c-fc-02]] Desain ini meningkatkan porsi waktu kelas untuk pembelajaran aktif dan interaksi antara siswa dan pengajar. [[chunk:c-fc-03]]\n\n## Syarat keberhasilan\n\nManfaatnya bergantung pada siswa yang menyelesaikan persiapan pra-kelas; mekanisme akuntabilitas seperti kuis singkat memperbaiki hasil. [[chunk:c-fc-04]] Besar efeknya bervariasi menurut kualitas implementasi, bidang studi, dan jenjang pendidikan. [[chunk:c-fc-05]]\n\n## Keterlibatan siswa\n\nSiswa kerap melaporkan keterlibatan dan kepuasan yang lebih tinggi pada kelas flipped yang dirancang baik. [[chunk:c-fc-06]]",
     "claims": [
       {
         "id": "cl1",
-        "text": "Instruksi langsung dipindah ke sebelum kelas; waktu kelas untuk pembelajaran aktif.",
+        "text": "Direct instruction moves to before class; class time is for active learning.",
         "chunk_id": "c-fc-01",
         "verdict": "supported",
         "note": "Definition grounded."
       },
       {
         "id": "cl2",
-        "text": "Meta-analisis menunjukkan efek positif kecil-sedang pada prestasi.",
+        "text": "Meta-analyses show a small-to-moderate positive effect on achievement.",
         "chunk_id": "c-fc-02",
         "verdict": "supported",
         "note": "Effect size framing preserved."
       },
       {
         "id": "cl3",
-        "text": "Manfaat bergantung pada persiapan pra-kelas.",
+        "text": "Benefits depend on pre-class preparation.",
         "chunk_id": "c-fc-04",
         "verdict": "supported",
         "note": "Precondition grounded."
       },
       {
         "id": "cl4",
-        "text": "Besar efek bervariasi menurut implementasi.",
+        "text": "Effect sizes vary by implementation.",
         "chunk_id": "c-fc-05",
         "verdict": "supported",
         "note": "Moderators grounded."
@@ -1070,7 +1069,6 @@
         "Balanced framing."
       ]
     },
-    "translation_en": "# The Flipped Classroom: Does It Improve Learning Outcomes?\n\n## What a flipped classroom is\n\nIn a flipped classroom, direct instruction is delivered before class (often via video) so that class time can be used for active, collaborative problem-solving. [[chunk:c-fc-01]]\n\n## Evidence on learning outcomes\n\nMeta-analyses report a small-to-moderate positive effect of flipped classrooms on student achievement compared with traditional lecturing. [[chunk:c-fc-02]] The design increases the share of class time spent on active learning and student-instructor interaction. [[chunk:c-fc-03]]\n\n## Conditions for success\n\nThe benefits depend on students completing pre-class preparation; accountability mechanisms such as short quizzes improve outcomes. [[chunk:c-fc-04]] Effect sizes vary with implementation quality, subject area and education level. [[chunk:c-fc-05]]\n\n## Student engagement\n\nStudents often report higher engagement and satisfaction in well-designed flipped courses. [[chunk:c-fc-06]]",
     "qa": {
       "status": "pass",
       "notes": "No meaning drift; markers preserved; effect framed cautiously in both languages."
@@ -1107,7 +1105,9 @@
       "alt_en": "Illustration of a student watching a video at home and a group activity in class."
     },
     "disclaimer_id": "Ringkasan berbasis bukti pendidikan; hasil dapat berbeda menurut konteks penerapan.",
-    "disclaimer_en": "An evidence-based summary; outcomes can vary by implementation context."
+    "disclaimer_en": "An evidence-based summary; outcomes can vary by implementation context.",
+    "draft_en": "# The Flipped Classroom: Does It Improve Learning Outcomes?\n\n## What a flipped classroom is\n\nIn a flipped classroom, direct instruction is delivered before class (often via video) so that class time can be used for active, collaborative problem-solving. [[chunk:c-fc-01]]\n\n## Evidence on learning outcomes\n\nMeta-analyses report a small-to-moderate positive effect of flipped classrooms on student achievement compared with traditional lecturing. [[chunk:c-fc-02]] The design increases the share of class time spent on active learning and student-instructor interaction. [[chunk:c-fc-03]]\n\n## Conditions for success\n\nThe benefits depend on students completing pre-class preparation; accountability mechanisms such as short quizzes improve outcomes. [[chunk:c-fc-04]] Effect sizes vary with implementation quality, subject area and education level. [[chunk:c-fc-05]]\n\n## Student engagement\n\nStudents often report higher engagement and satisfaction in well-designed flipped courses. [[chunk:c-fc-06]]",
+    "translation_id": "# Flipped Classroom: Apakah Meningkatkan Hasil Belajar?\n\n## Apa itu flipped classroom\n\nDalam flipped classroom, instruksi langsung diberikan sebelum kelas (sering lewat video) sehingga waktu di kelas dapat digunakan untuk pemecahan masalah yang aktif dan kolaboratif. [[chunk:c-fc-01]]\n\n## Bukti terhadap hasil belajar\n\nMeta-analisis melaporkan efek positif kecil hingga sedang dari flipped classroom terhadap prestasi siswa dibanding perkuliahan tradisional. [[chunk:c-fc-02]] Desain ini meningkatkan porsi waktu kelas untuk pembelajaran aktif dan interaksi antara siswa dan pengajar. [[chunk:c-fc-03]]\n\n## Syarat keberhasilan\n\nManfaatnya bergantung pada siswa yang menyelesaikan persiapan pra-kelas; mekanisme akuntabilitas seperti kuis singkat memperbaiki hasil. [[chunk:c-fc-04]] Besar efeknya bervariasi menurut kualitas implementasi, bidang studi, dan jenjang pendidikan. [[chunk:c-fc-05]]\n\n## Keterlibatan siswa\n\nSiswa kerap melaporkan keterlibatan dan kepuasan yang lebih tinggi pada kelas flipped yang dirancang baik. [[chunk:c-fc-06]]"
   },
   "t-spaced": {
     "research_pack": [
@@ -1159,32 +1159,31 @@
         "chunk_id": "c-sr-05"
       }
     ],
-    "draft_id": "# Spaced Repetition: Belajar Sedikit tapi Sering untuk Ingatan Jangka Panjang\n\n## Efek spacing\n\nEfek spacing menunjukkan bahwa membagi belajar ke beberapa sesi menghasilkan retensi jangka panjang yang lebih baik daripada belajar menumpuk dalam jumlah waktu yang sama. [[chunk:c-sr-01]]\n\n## Kekuatan retrieval practice\n\nLatihan mengingat (retrieval practice) - secara aktif memanggil kembali informasi - memperkuat memori lebih baik daripada sekadar membaca ulang, yang dikenal sebagai testing effect. [[chunk:c-sr-02]]\n\n## Cara menjadwalkan\n\nJarak optimal antar sesi belajar membesar seiring interval retensi yang diinginkan: makin lama ingin diingat, makin panjang jaraknya. [[chunk:c-sr-03]] Perangkat lunak spaced repetition menjadwalkan pengulangan dengan algoritma (misalnya sistem Leitner atau SM-2) yang memperpanjang interval untuk materi yang sudah dikuasai. [[chunk:c-sr-04]]\n\n## Berlaku lintas bidang\n\nManfaat spacing dan retrieval practice berlaku lintas usia, mata pelajaran, dan materi. [[chunk:c-sr-05]] Menyelang-nyeling (interleaving) berbagai jenis soal saat berlatih semakin meningkatkan transfer pada pemecahan masalah. [[chunk:c-sr-06]]",
     "claims": [
       {
         "id": "cl1",
-        "text": "Belajar terdistribusi mengalahkan belajar menumpuk untuk retensi.",
+        "text": "Distributed practice beats massed practice for retention.",
         "chunk_id": "c-sr-01",
         "verdict": "supported",
         "note": "Spacing effect grounded."
       },
       {
         "id": "cl2",
-        "text": "Retrieval practice memperkuat memori lebih dari membaca ulang.",
+        "text": "Retrieval practice strengthens memory more than re-reading.",
         "chunk_id": "c-sr-02",
         "verdict": "supported",
         "note": "Testing effect grounded."
       },
       {
         "id": "cl3",
-        "text": "Jarak sesi menyesuaikan interval retensi.",
+        "text": "Spacing sessions matches the retention interval.",
         "chunk_id": "c-sr-03",
         "verdict": "supported",
         "note": "Scheduling grounded."
       },
       {
         "id": "cl4",
-        "text": "Manfaatnya berlaku lintas usia dan bidang.",
+        "text": "Benefits hold across ages and subjects.",
         "chunk_id": "c-sr-05",
         "verdict": "supported",
         "note": "Generalization grounded."
@@ -1200,7 +1199,6 @@
         "Practical and balanced."
       ]
     },
-    "translation_en": "# Spaced Repetition: Study a Little, Often, for Long-Term Memory\n\n## The spacing effect\n\nThe spacing effect shows that dividing study across several sessions produces better long-term retention than massing the same amount of study time. [[chunk:c-sr-01]]\n\n## The power of retrieval practice\n\nRetrieval practice - actively recalling information - strengthens memory more than simply rereading, an effect known as the testing effect. [[chunk:c-sr-02]]\n\n## How to schedule it\n\nThe optimal gap between study sessions grows with the desired retention interval: the longer you want to remember, the longer the gap. [[chunk:c-sr-03]] Spaced-repetition software schedules reviews with algorithms (such as the Leitner system or SM-2) that lengthen intervals for well-learned material. [[chunk:c-sr-04]]\n\n## It applies across domains\n\nThe benefits of spacing and retrieval practice hold across ages, subjects and materials. [[chunk:c-sr-05]] Interleaving different problem types during practice further improves transfer in problem-solving. [[chunk:c-sr-06]]",
     "qa": {
       "status": "pass",
       "notes": "No meaning drift; all markers preserved."
@@ -1237,6 +1235,8 @@
       "alt_en": "Illustration of a memory-retention curve strengthened by spaced reviews."
     },
     "disclaimer_id": "Ringkasan berbasis riset kognitif; strategi dapat disesuaikan dengan kebutuhan belajar.",
-    "disclaimer_en": "A summary based on cognitive-science research; strategies can be adapted to your needs."
+    "disclaimer_en": "A summary based on cognitive-science research; strategies can be adapted to your needs.",
+    "draft_en": "# Spaced Repetition: Study a Little, Often, for Long-Term Memory\n\n## The spacing effect\n\nThe spacing effect shows that dividing study across several sessions produces better long-term retention than massing the same amount of study time. [[chunk:c-sr-01]]\n\n## The power of retrieval practice\n\nRetrieval practice - actively recalling information - strengthens memory more than simply rereading, an effect known as the testing effect. [[chunk:c-sr-02]]\n\n## How to schedule it\n\nThe optimal gap between study sessions grows with the desired retention interval: the longer you want to remember, the longer the gap. [[chunk:c-sr-03]] Spaced-repetition software schedules reviews with algorithms (such as the Leitner system or SM-2) that lengthen intervals for well-learned material. [[chunk:c-sr-04]]\n\n## It applies across domains\n\nThe benefits of spacing and retrieval practice hold across ages, subjects and materials. [[chunk:c-sr-05]] Interleaving different problem types during practice further improves transfer in problem-solving. [[chunk:c-sr-06]]",
+    "translation_id": "# Spaced Repetition: Belajar Sedikit tapi Sering untuk Ingatan Jangka Panjang\n\n## Efek spacing\n\nEfek spacing menunjukkan bahwa membagi belajar ke beberapa sesi menghasilkan retensi jangka panjang yang lebih baik daripada belajar menumpuk dalam jumlah waktu yang sama. [[chunk:c-sr-01]]\n\n## Kekuatan retrieval practice\n\nLatihan mengingat (retrieval practice) - secara aktif memanggil kembali informasi - memperkuat memori lebih baik daripada sekadar membaca ulang, yang dikenal sebagai testing effect. [[chunk:c-sr-02]]\n\n## Cara menjadwalkan\n\nJarak optimal antar sesi belajar membesar seiring interval retensi yang diinginkan: makin lama ingin diingat, makin panjang jaraknya. [[chunk:c-sr-03]] Perangkat lunak spaced repetition menjadwalkan pengulangan dengan algoritma (misalnya sistem Leitner atau SM-2) yang memperpanjang interval untuk materi yang sudah dikuasai. [[chunk:c-sr-04]]\n\n## Berlaku lintas bidang\n\nManfaat spacing dan retrieval practice berlaku lintas usia, mata pelajaran, dan materi. [[chunk:c-sr-05]] Menyelang-nyeling (interleaving) berbagai jenis soal saat berlatih semakin meningkatkan transfer pada pemecahan masalah. [[chunk:c-sr-06]]"
   }
 }

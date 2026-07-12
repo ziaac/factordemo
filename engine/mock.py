@@ -182,10 +182,10 @@ def iter_pipeline(
 
     # --- DRAFTING --------------------------------------------------------- #
     run.state = "DRAFTING"
-    draft = canned.get("draft_id", "")
-    is_revision = "draft_id_v1" in canned
+    draft = canned.get("draft_en", "")
+    is_revision = "draft_en_v1" in canned
     if is_revision:
-        draft = canned.get("draft_id_v1", draft)  # first pass uses v1
+        draft = canned.get("draft_en_v1", draft)  # first pass uses v1
 
     if live_writer is not None:
         try:
@@ -229,7 +229,7 @@ def iter_pipeline(
         # REVISING
         run.state = "REVISING"
         run.revision_count += 1
-        run.artifacts["draft"] = canned.get("draft_id", "")
+        run.artifacts["draft"] = canned.get("draft_en", "")
         run.artifacts["draft_version"] = 2
         run.artifacts["diff"] = canned.get("diff", {})
         run.events.append(
@@ -268,24 +268,20 @@ def iter_pipeline(
     )
     yield run
 
-    # --- TRANSLATING ------------------------------------------------------ #
+    # --- TRANSLATING (EN -> ID) ------------------------------------------ #
     run.state = "TRANSLATING"
-    trans = canned.get("translation_en", "")
+    trans = canned.get("translation_id", "")
     live_draft = run.artifacts.get("draft", "")
-    note = "Transcreated to EN, preserving citation markers."
-    if trans == "SAME_AS_SOURCE":
-        # English-only workspace: translator is a no-op — mirror the (live) draft.
-        trans = live_draft or canned.get("draft_id", "")
-        run.artifacts["translation_note"] = "Workspace is English-only; translator is a no-op."
-    elif live_translator is not None and live_draft:
-        # Translate the ACTUAL live draft so EN stays consistent with the ID source.
+    note = "Transcreated to ID, preserving citation markers."
+    if live_translator is not None and live_draft:
+        # Translate the ACTUAL (English) draft so ID stays consistent with the source.
         try:
             trans = live_translator(live_draft)
             run.artifacts.setdefault("live_used", []).append("Translator")
         except Exception as exc:
             run.artifacts.setdefault("live_warnings", []).append(
                 f"Translator LIVE failed ({exc}); used seed translation.")
-    run.artifacts["translation_en"] = trans
+    run.artifacts["translation_id"] = trans
     run.events.append(_mk_event("TRANSLATING", "ok", note))
     yield run
 

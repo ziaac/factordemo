@@ -1058,11 +1058,11 @@ def _render_step_expanders(run, ws):
             for n in a["bias"].get("notes", []):
                 st.markdown(f"— {n}")
 
-    if "translation_en" in a:
+    if "translation_id" in a:
         with st.expander("⑥ Translator + QA (Gate 5)"):
             if a.get("translation_note"):
                 st.caption(a["translation_note"])
-            render_body(a["translation_en"])
+            render_body(a["translation_id"])
             qa = a.get("qa", {})
             if qa:
                 st.caption(f"QA: {qa.get('status','')} — {qa.get('notes','')}")
@@ -1156,7 +1156,7 @@ def _md_to_article_html(body: str, by_id: dict, ordered_ids: list[str]) -> tuple
 
 def _cms_preview_html(run, ws, loc: str, seed: dict) -> str:
     a = run.artifacts
-    body = a["draft"] if loc == "id" else a.get("translation_en", a["draft"])
+    body = a["draft"] if loc == "en" else a.get("translation_id", a["draft"])
     meta = a.get("meta", {}).get(loc, {})
     by_id = seed["chunks_by_id"]
     ordered = cited_ids(body)
@@ -1283,7 +1283,7 @@ def page_article():
     published = [h for h in st.session_state.history if h["run"].outcome == "published"]
     page_header(
         "Step 3 · Output", "Article",
-        "The final <b>bilingual</b> article (Indonesian source + English translation), with inline "
+        "The final <b>bilingual</b> article (English source + Indonesian translation), with inline "
         "citations, references, featured image and CMS-ready SEO metadata — exactly what gets "
         "injected into your CMS.")
 
@@ -1328,7 +1328,7 @@ def page_article():
 
     for tab, loc in zip(tabs, locales):
         with tab:
-            body = a["draft"] if loc == "id" else a.get("translation_en", a["draft"])
+            body = a["draft"] if loc == "en" else a.get("translation_id", a["draft"])
             meta = a.get("meta", {}).get(loc, {})
             st.markdown("---")
             render_body(body)
@@ -1467,7 +1467,7 @@ def page_landing():
     for col, num, label, desc in [
         (c1, "10", "Agents", "Planner → Researcher → Outliner → Writer → Fact-checker → Bias → Translator → SEO → Image → Publisher."),
         (c2, "8", "Gates", "From source-sufficiency to independent fact-check to post-publish audit — fail a gate, never ship half-baked."),
-        (c3, "2", "Languages", "Writes Indonesian, transcreates to English — facts validated once, inherited across locales."),
+        (c3, "2", "Languages", "Writes English, transcreates to Indonesian — facts validated once, inherited across locales."),
     ]:
         col.markdown(
             f"""<div style="border-top:1px solid {LINE};padding-top:.5rem;min-height:150px">
@@ -1579,14 +1579,14 @@ def page_landing():
             <div class="swiss-kicker" style="color:{MUTE}">Example workspace A</div>
             <div style="font-size:1.05rem;font-weight:900;color:{INK}">Dental &amp; Oral Health</div>
             <div style="font-size:.84rem;color:{MUTE};line-height:1.45">100 sample topics · YMYL medical grounding
-            (kariologi, periodonsia, endodonsia, ortodonti, pedodonti …). ID → EN.</div>
+            (kariologi, periodonsia, endodonsia, ortodonti, pedodonti …). EN → ID.</div>
         </div>""", unsafe_allow_html=True)
     w2.markdown(
         f"""<div style="border-top:1px solid {LINE};padding-top:.5rem;min-height:120px">
             <div class="swiss-kicker" style="color:{MUTE}">Example workspace B</div>
             <div style="font-size:1.05rem;font-weight:900;color:{INK}">IT in Education</div>
             <div style="font-size:.84rem;color:{MUTE};line-height:1.45">100 sample topics · EdTech
-            (e-learning, LMS, gamifikasi, AI dalam pendidikan, asesmen digital …). ID → EN.</div>
+            (e-learning, LMS, gamifikasi, AI dalam pendidikan, asesmen digital …). EN → ID.</div>
         </div>""", unsafe_allow_html=True)
     st.markdown(
         f'<div style="margin-top:.9rem;border-left:3px solid {ACCENT};padding-left:.9rem;font-size:.88rem;color:{MUTE}">'

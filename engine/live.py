@@ -206,12 +206,11 @@ def _pack_chunks(seed: dict[str, Any], canned: dict[str, Any],
 def _writer_prompt(topic, workspace, seed, canned, pack=None) -> tuple[str, str]:
     chunks = _pack_chunks(seed, canned, pack)
     corpus = "\n".join(f"[[chunk:{c['chunk_id']}]] {c['content']}" for c in chunks)
-    lang = "Bahasa Indonesia" if workspace.id == "parakita" else "English"
     system = (
         "You are FACTOR's Writer agent. Write ONLY from the provided source chunks. "
         "Every factual claim MUST end with an inline citation marker of the exact form "
         "[[chunk:ID]] using an ID that appears in the sources. Never invent facts or IDs. "
-        f"Write in {lang}. Use Markdown with ## headings. Keep it under 350 words."
+        "Write in English. Use Markdown with ## headings. Keep it under 350 words."
     )
     user = (f"Topic: {topic.title_en}\nGenre: {topic.genre}\n\nSOURCE CHUNKS:\n{corpus}\n\n"
             "Write the article now.")
@@ -234,8 +233,8 @@ def _factchecker_prompt(topic, workspace, seed, canned, draft: str, pack=None) -
 
 def _translator_prompt(draft: str) -> tuple[str, str]:
     system = (
-        "You are FACTOR's Translator agent. Translate the article below from Indonesian "
-        "into natural, fluent English. PRESERVE every inline citation marker of the exact "
+        "You are FACTOR's Translator agent. Translate the article below from English "
+        "into natural, fluent Indonesian. PRESERVE every inline citation marker of the exact "
         "form [[chunk:ID]] unchanged and in the same place, and keep the Markdown structure "
         "(## headings, lists). Output ONLY the translated article — no notes, no preamble."
     )
