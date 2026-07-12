@@ -2,7 +2,7 @@
 
 **A self-hosted, multi-agent AI pipeline that produces hallucination-free, fully-cited
 content — powered by Google Gemma 3 running live on an
-[AMD Radeon PRO W7900](https://www.amd.com/en/products/professional-graphics/amd-radeon-pro-w7900.html)
+[AMD Radeon PRO W7900](https://www.amd.com/en/products/graphics/workstations/radeon-pro/w7900.html)
 (RDNA 3 · ROCm), with the whole stack also proven on an AMD Instinct MI300X.**
 
 > AMD Developer Hackathon (ACT II) · Track 3 — Unicorn / Open Innovation.
